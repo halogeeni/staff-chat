@@ -1,32 +1,35 @@
 package Sports;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Player {
-    private final String firstName;
-    private final String lastName;
+    private final String firstname;
+    private final String lastname;
 
     public Player() {
-        this.firstName = "";
-        this.lastName = "";
+        this.firstname = "";
+        this.lastname = "";
         
     }
     
     public Player(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstName;
+        this.lastname = lastName;
 
     }
     
     // setters & getters
 
-    public String getFirstName() {
-        return firstName;
+    @XmlElement
+    public String getFirstname() {
+        return firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    @XmlElement
+    public String getLastname() {
+        return lastname;
     }
     
 }

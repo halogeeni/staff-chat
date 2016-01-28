@@ -6,8 +6,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("teams")
+@Path("/teams")
 public class TeamsResource {
 
     private final SportsWorld world;
@@ -15,7 +16,29 @@ public class TeamsResource {
     public TeamsResource() {
         this.world = SportsWorld.getInstance();
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getTeamsXML() {
+        return Response.ok().entity(world.getTeams()).build();
+    }
 
+    @Path("/{teamid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getTeamXML(@PathParam("teamid") int teamid) {
+        return Response.ok().entity(world.getTeams().get(teamid)).build();
+    }
+    
+    @Path("/{teamid}/{playerid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getTeamPlayerXML(@PathParam("teamid") int teamid, @PathParam("playerid") int playerid) {
+        return Response.ok().entity(world.getTeams().get(teamid).getPlayers().get(playerid)).build();
+    }
+    
+    /*
+    
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public String getTeamsXML() {
@@ -26,9 +49,9 @@ public class TeamsResource {
         }
         result += "</teams>";
         return result;
-        
     }
 
+    
     @Path("/{teamid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -46,6 +69,8 @@ public class TeamsResource {
         result += "</team>";
         return result;
     }
+
+    
     
     @Path("/{teamid}/{playerid}")
     @GET
@@ -64,4 +89,6 @@ public class TeamsResource {
         return result;
    
     }
+
+    */
 }

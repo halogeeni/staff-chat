@@ -6,8 +6,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("leagues")
+@Path("/leagues")
 public class LeaguesResource {
 
     private final SportsWorld world;
@@ -16,6 +17,20 @@ public class LeaguesResource {
         this.world = SportsWorld.getInstance();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getLeaguesXML() {
+        return Response.ok().entity(world.getLeagues()).build();
+    }
+    
+    @Path("/{leagueid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getLeagueXML(@PathParam("leagueid") int leagueid) {
+        return Response.ok().entity(world.getLeagues().get(leagueid)).build();
+    }
+
+    /*
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public String getLeaguesXML() {
@@ -45,4 +60,6 @@ public class LeaguesResource {
         result += "</league>";
         return result;
     }
+
+    */
 }
