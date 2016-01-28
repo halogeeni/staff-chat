@@ -22,7 +22,7 @@ public class TeamsResource {
         String result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         result += "<teams>";
         for (int i = 0; i < world.getTeams().size(); i++) {
-            result += "\n\t<team>" + i + "</team>";
+            result += "\n\t<teamid>" + i + "</teamid>";
         }
         result += "</teams>";
         return result;
@@ -34,9 +34,16 @@ public class TeamsResource {
     @Produces(MediaType.APPLICATION_XML)
     public String getTeamXML(@PathParam("teamid") int teamid) {
         String result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-        result += "<league>";
+        result += "<team>";
+        result += "<name>";
         result += world.getTeams().get(teamid).getName();
-        result += "</league>";
+        result += "</name>";
+        result += "<players>";
+        for(int i = 0; i < world.getTeams().get(teamid).getPlayers().size(); i++) {
+            result += "<playerid>" + i + "</playerid>";
+        }
+        result += "</players>";
+        result += "</team>";
         return result;
     }
     

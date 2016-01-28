@@ -22,7 +22,7 @@ public class LeaguesResource {
         String result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
         result += "<leagues>";
         for (int i = 0; i < world.getLeagues().size(); i++) {
-            result += "<league>" + i + "</league>";
+            result += "<leagueid>" + i + "</leagueid>";
         }
         result += "</leagues>";
         return result;
@@ -34,7 +34,14 @@ public class LeaguesResource {
     public String getLeagueXML(@PathParam("leagueid") int leagueid) {
         String result = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
         result += "<league>";
+        result += "<name>";
         result += world.getLeagues().get(leagueid).getName();
+        result += "</name>";
+        result += "<teams>";
+        for (int i = 0; i < world.getLeagues().get(leagueid).getTeams().size(); i++) {
+            result += "<teamid>" + i + "</teamid>";
+        }
+        result += "</teams>";
         result += "</league>";
         return result;
     }

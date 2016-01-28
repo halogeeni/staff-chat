@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(APIResources.LeaguesResource.class);
+        resources.add(APIResources.PlayersResource.class);
         resources.add(APIResources.TeamsResource.class);
     }
     
