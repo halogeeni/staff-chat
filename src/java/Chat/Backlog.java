@@ -97,4 +97,8 @@ public class Backlog {
         return backlog;
     }
     
+    public List<Observer> getObservers() {
+        return observers;
+    }
+    
 }

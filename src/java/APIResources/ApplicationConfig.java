@@ -27,9 +27,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(APIResources.LeaguesResource.class);
-        resources.add(APIResources.PlayersResource.class);
-        resources.add(APIResources.TeamsResource.class);
+        resources.add(APIResources.UserResource.class);
     }
     
 }

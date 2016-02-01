@@ -23,6 +23,18 @@
  */
 package Chat;
 
+import Chat.Backlog;
+import Chat.Backlog;
+import Chat.Channel;
+import Chat.Channel;
+import Chat.Group;
+import Chat.Group;
+import Chat.Message;
+import Chat.Message;
+import Chat.MessageBody;
+import Chat.MessageBody;
+import Chat.User;
+import Chat.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +56,14 @@ public class TestChat {
         return chat;
     }
     
+    private final Backlog backlog;
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+    
     public TestChat() {
-        Backlog backlog = Backlog.getInstance();
+        backlog = Backlog.getInstance();
     
         Group admins = new Group("Administrators");
         Group standard = new Group("Standard users");
