@@ -24,11 +24,14 @@
 package Chat;
 
 import java.awt.Image;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author aleksirasio
  */
+@XmlRootElement
 public class MessageBody {
     
     // text and images only so far
@@ -45,12 +48,7 @@ public class MessageBody {
         this.image = image;
     }
     
-    /* is it necessary to have text and image data in a single message?
-    
-    public MessageBody(String text, Image image) {
-        
-    }
-    */
+    // getters
     
     public boolean hasText() {
         return text != null;
@@ -58,6 +56,16 @@ public class MessageBody {
     
     public boolean hasImage() {
         return image != null;
+    }
+
+    @XmlElement
+    public String getText() {
+        return text;
+    }
+    
+    @XmlElement
+    public Image getImage() {
+        return image;
     }
     
 }

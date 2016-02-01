@@ -52,6 +52,12 @@ public class User implements Observer {
     // user message backlog
     private final List<Message> userBacklog;
     
+    public User() {
+        this.userId = idCounter++;
+        this.groups = null;
+        this.userBacklog = new ArrayList<>();
+    }
+    
     public User(String firstname, String lastname, String username, List<Group> groups) {
         this.userId = idCounter++;
         this.groups = groups;
@@ -61,22 +67,15 @@ public class User implements Observer {
     // message received
     @Override
     public void update(Message msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("DEBUG: Message received.");
     }
     
     // server message received
     @Override
     public void update(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("DEBUG - SERVER MESSAGE: " + msg);
     }
 
-    /*
-    @Override
-    public void setSubject(Subject sub) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    */
-    
     // setters & getters
 
     @XmlElement

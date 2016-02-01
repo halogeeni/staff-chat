@@ -70,7 +70,6 @@ public class Group {
         return name;
     }
 
-    @XmlElement
     public void setName(String name) {
         this.name = name;
     }

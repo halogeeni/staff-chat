@@ -23,18 +23,6 @@
  */
 package Chat;
 
-import Chat.Backlog;
-import Chat.Backlog;
-import Chat.Channel;
-import Chat.Channel;
-import Chat.Group;
-import Chat.Group;
-import Chat.Message;
-import Chat.Message;
-import Chat.MessageBody;
-import Chat.MessageBody;
-import Chat.User;
-import Chat.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +32,6 @@ import java.util.List;
  */
 public class TestChat {
 
-    private final List<Group> grouplist;
-    private final List<User> userlist;
     private static TestChat chat;
 
     public static TestChat getInstance() {
@@ -69,23 +55,19 @@ public class TestChat {
         Group standard = new Group("Standard users");
         Group staff = new Group("Staff");
 
-        grouplist = new ArrayList<>();
-        userlist = new ArrayList<>();
+        List<Group> adminGroupList = new ArrayList<>();
+        List<Group> standardGroupList = new ArrayList<>();
+        List<Group> staffGroupList = new ArrayList<>();
         
-        grouplist.add(admins);
-        grouplist.add(standard);
-        grouplist.add(staff);
-        
-        User user1 = new User("Aleksi", "Rasio", "halogeeni", (List<Group>) admins);
-        User user2 = new User("Joona", "Vainikka", "empurdia", (List<Group>) standard);
-        User user3 = new User("Oskar", "Gusgård", "tunkio", (List<Group>) staff);
-        User user4 = new User("Joel", "Vainikka", "pulla", (List<Group>) standard);
-    
-        userlist.add(user1);
-        userlist.add(user2);
-        userlist.add(user3);
-        userlist.add(user4);
-        
+        adminGroupList.add(admins);
+        standardGroupList.add(standard);
+        staffGroupList.add(staff);
+       
+        User user1 = new User("Aleksi", "Rasio", "halogeeni", adminGroupList);
+        User user2 = new User("Joona", "Vainikka", "empurdia", standardGroupList);
+        User user3 = new User("Oskar", "Gusgård", "tunkio", staffGroupList);
+        User user4 = new User("Joel", "Vainikka", "pulla", standardGroupList);
+
         backlog.register(user1);
         backlog.register(user2);
         backlog.register(user3);
@@ -97,7 +79,7 @@ public class TestChat {
         backlog.addMessage(message1);
         
         Message message2 = 
-                new Message(user2, Channel.CHANNEL_GROUP, null, (List<Group>) standard, 
+                new Message(user2, Channel.CHANNEL_GROUP, null, standardGroupList, 
                         new MessageBody("Lissu hei! Tuo kahvia T: MARTTA"));
         backlog.addMessage(message2);
         

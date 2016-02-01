@@ -46,14 +46,14 @@ public class UserResource {
     
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Response getPlayersXML() {
+    public Response getUsersXML() {
         return Response.ok().entity(tc.getBacklog().getObservers()).build();
     }
     
     @Path("/{userid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Response getPlayerXML(@PathParam("userid") int userid) {
+    public Response getUserXML(@PathParam("userid") int userid) {
         return Response.ok().entity(tc.getBacklog().getObservers().get(userid)).build();
     }
     
