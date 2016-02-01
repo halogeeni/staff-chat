@@ -44,16 +44,17 @@ public class GroupResource {
         this.tc = TestChat.getInstance();
     }
     
+    // TODO WIP !!!
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Response getPlayersXML() {
+    public Response getGroupsXML() {
         return Response.ok().entity(tc.getBacklog().getObservers()).build();
     }
     
     @Path("/{groupid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Response getPlayerXML(@PathParam("groupid") int groupid) {
+    public Response getGroupXML(@PathParam("groupid") int groupid) {
         return Response.ok().entity(tc.getBacklog().getObservers().get(groupid)).build();
     }
     
