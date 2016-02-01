@@ -25,11 +25,14 @@ package Chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author aleksirasio
  */
+@XmlRootElement
 public class Group {
     
     private static int idCounter;
@@ -52,18 +55,22 @@ public class Group {
 
     // setters & getters
     
+    @XmlElement
     public int getGroupId() {
         return groupId;
     }
     
+    @XmlElement
     public List<User> getUsers() {
         return users;
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }

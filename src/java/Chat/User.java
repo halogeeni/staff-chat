@@ -25,11 +25,14 @@ package Chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author aleksirasio
  */
+@XmlRootElement
 public class User implements Observer {
 
     private static int idCounter = 0;
@@ -76,6 +79,7 @@ public class User implements Observer {
     
     // setters & getters
 
+    @XmlElement
     public String getFirstname() {
         return firstname;
     }
@@ -84,6 +88,7 @@ public class User implements Observer {
         this.firstname = firstname;
     }
 
+    @XmlElement
     public String getLastname() {
         return lastname;
     }
@@ -92,6 +97,7 @@ public class User implements Observer {
         this.lastname = lastname;
     }
 
+    @XmlElement
     public String getUsername() {
         return username;
     }
@@ -100,6 +106,7 @@ public class User implements Observer {
         this.username = username;
     }
 
+    @XmlElement
     public List<Message> getUserBacklog() {
         return userBacklog;
     }

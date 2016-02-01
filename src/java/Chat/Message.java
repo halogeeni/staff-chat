@@ -25,11 +25,14 @@ package Chat;
 
 import java.util.Date;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author aleksirasio
  */
+@XmlRootElement
 public class Message {
     // global message id counter
     private static int idCounter = 0;
@@ -85,30 +88,37 @@ public class Message {
     
     // getters
 
+    @XmlElement
     public int getMessageID() {
         return messageID;
     }
 
+    @XmlElement
     public long getTimestamp() {
         return timestamp;
     }
 
+    @XmlElement
     public Channel getChannel() {
         return channel;
     }
 
+    @XmlElement
     public User getFromUser() {
         return fromUser;
     }
-
+    
+    @XmlElement
     public User getToUser() {
         return toUser;
     }
 
+    @XmlElement
     public List<Group> getToGroups() {
         return toGroups;
     }
 
+    @XmlElement
     public MessageBody getBody() {
         return body;
     }

@@ -30,8 +30,10 @@ package Chat;
 public enum Channel {
     
     // private means private user-to-user communication
+    // toGroup is null
     CHANNEL_PRIVATE,
     // group means user-to-group communication
+    // toUser is null
     CHANNEL_GROUP,
     // broadcast means user-to-all broadcasting
     // meaning that messages appear in the "main" chat room,
