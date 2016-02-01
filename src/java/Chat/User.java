@@ -23,6 +23,7 @@
  */
 package Chat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,19 +46,62 @@ public class User implements Observer {
     // can be null
     private final List<Group> groups;
     
+    // user message backlog
+    private final List<Message> userBacklog;
+    
     public User(String firstname, String lastname, String username, List<Group> groups) {
         this.userId = idCounter++;
         this.groups = groups;
+        this.userBacklog = new ArrayList<>();
     }
     
+    // message received
     @Override
-    public void update() {
+    public void update(Message msg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    // server message received
+    @Override
+    public void update(String msg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*
     @Override
     public void setSubject(Subject sub) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    */
     
+    // setters & getters
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Message> getUserBacklog() {
+        return userBacklog;
+    }
+ 
 }

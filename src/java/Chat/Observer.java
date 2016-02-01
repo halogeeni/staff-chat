@@ -30,9 +30,12 @@ package Chat;
 public interface Observer {
     
     // method to update the observer, used by subject
-    public void update();
-     
+    public void update(Message msg);
+    // method to update the observer on server events
+    public void update(String serverMessage);
+    /*
     // attach with subject to observe
     public void setSubject(Subject subject);
+    */
     
 }

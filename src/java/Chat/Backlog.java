@@ -49,19 +49,19 @@ public class Backlog {
     // observer pattern is utilized to notify connected users on new entries 
     // and server messages
     // synchronized is used to enforce thread safety
-    public synchronized void registerObserver(Observer observer) {
+    public synchronized void register(Observer observer) {
         // notify observers on user login
         for (Observer o : observers) {
-            o.notifyServerMessage(observer.toString() + " has joined.");
+            o.update(observer.toString() + " has joined.");
         }
         observers.add(observer);
     }
 
     // synchronized is used to enforce thread safety
-    public synchronized void deregisterObserver(Observer observer) {
+    public synchronized void unregister(Observer observer) {
         // notify observers on user logout
         for (Observer o : observers) {
-            o.notifyServerMessage(observer.toString() + " has left.");
+            o.update(observer.toString() + " has left.");
         }
         observers.remove(observer);
     }
@@ -70,27 +70,31 @@ public class Backlog {
         // add entry to history
         backlog.add(msg);
         // notify observers about a new entry
-        for (Observer observer : observers) {
-            observer.notifyNewMessage(e);
+        switch(msg.getChannel()) {
+            case CHANNEL_PRIVATE:
+                msg.getToUser().update(msg);
+                break;
+            case CHANNEL_GROUP:
+                // first get all groups from the message "header"
+                for(Group group : msg.getToGroups()) {
+                    // then get all users from the group list
+                    for(User user : group.getUsers()) {
+                        // notify respective users
+                        user.update(msg);
+                    }
+                }
+                break;
+            default:
+                for (Observer o : observers) {
+                    o.update(msg);
+                }
+                break;
         }
     }
 
-    @Override
-    public String toString() {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(System.lineSeparator());
-        builder.append("Complete server backlog: ");
-        builder.append(System.lineSeparator());
-        builder.append(System.lineSeparator());
-
-        for (Message msg : backlog) {
-            builder.append(msg.getDetailedEntry());
-            builder.append(System.lineSeparator());
-        }
-
-        return builder.toString();
+    // complete server backlog
+    public List<Message> getFullBacklog() {
+        return backlog;
     }
-
+    
 }

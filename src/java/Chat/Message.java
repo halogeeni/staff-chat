@@ -42,7 +42,7 @@ public class Message {
     private final Channel channel;
     private final User fromUser, toUser;
     private final List<Group> toGroups;
-    private Date date;
+    private final Date date;
     
     // message body
     private final MessageBody body;
@@ -83,6 +83,34 @@ public class Message {
         this.messageID = idCounter++;
     }
     
-    
+    // getters
+
+    public int getMessageID() {
+        return messageID;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public User getToUser() {
+        return toUser;
+    }
+
+    public List<Group> getToGroups() {
+        return toGroups;
+    }
+
+    public MessageBody getBody() {
+        return body;
+    }
     
 }
