@@ -100,5 +100,13 @@ public class Backlog {
     public List<Observer> getObservers() {
         return observers;
     }
-    
+    public Message getSingleMessage(int id){
+        
+        for(Message m: backlog){
+            if(m.getMessageID()==id){
+                return m;
+            }
+        }
+    return null;
+    }
 }
