@@ -26,7 +26,9 @@ package APIResources;
 import Chat.Message;
 import Chat.TestChat;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,17 +43,17 @@ import javax.ws.rs.core.Response;
 @Path("/messages")
 public class MessageResource {
     
-    private final TestChat tc;
+    private final TestChat thischat;
     
     public MessageResource() {
-        this.tc = TestChat.getInstance();
+        this.thischat = TestChat.getInstance();
     }
 
     //return all messages in the history
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesXML() {
-        List<Message> messages = tc.getBacklog().getFullBacklog();
+        List<Message> messages = thischat.getBacklog().getFullBacklog();
         GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {};
         return Response.ok(list).build();
     }
@@ -61,7 +63,13 @@ public class MessageResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessageXML(@PathParam("messageid") int messageid) {
-        return Response.ok().entity(tc.getBacklog().getSingleMessage(messageid)).build();
+        return Response.ok().entity(thischat.getBacklog().getSingleMessage(messageid)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public void postMessageXML(Message msg) {
+        thischat.getBacklog().addMessage(msg);
     }
     
 }

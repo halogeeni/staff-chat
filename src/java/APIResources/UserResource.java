@@ -26,7 +26,9 @@ package APIResources;
 import Chat.TestChat;
 import Chat.User;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,18 +43,17 @@ import javax.ws.rs.core.Response;
 @Path("/users")
 public class UserResource {
     
-    private final TestChat tc;
+    private final TestChat thischat;
     
     public UserResource() {
-        this.tc = TestChat.getInstance();
+        this.thischat = TestChat.getInstance();
     }
     
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
-        List<User> users = tc.getBacklog().getUsers();
-        GenericEntity<List<User>> list = 
-                new GenericEntity<List<User>>(users) {};
+        List<User> users = thischat.getBacklog().getUsers();
+        GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {};
         return Response.ok(list).build();
     }
     
@@ -60,7 +61,14 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        return Response.ok().entity(tc.getBacklog().getUsers().get(userid)).build();
+        return Response.ok().entity(thischat.getBacklog().getUsers().get(userid)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public void postUserXML(User user) {
+        // Register observer?
+        thischat.getBacklog().getUsers().add(user);
     }
     
 }
