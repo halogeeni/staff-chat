@@ -72,8 +72,6 @@ public class TestChat {
         staffGroupList.add(staff);
 
         
-        
-        
         adminGroupList.add(backlog.getGroups().get(0));
         standardGroupList.add(backlog.getGroups().get(1));
         staffGroupList.add(backlog.getGroups().get(2));
