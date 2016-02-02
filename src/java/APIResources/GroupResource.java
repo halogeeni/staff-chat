@@ -55,7 +55,6 @@ public class GroupResource {
         GenericEntity<List<Group>> list = 
                 new GenericEntity<List<Group>>(groups) {};
         return Response.ok(list).build();
-        //return Response.ok().entity(tc.getBacklog().getGroups()).build();
     }
     
     @Path("/{groupid}")
