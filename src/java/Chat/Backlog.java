@@ -103,6 +103,15 @@ public class Backlog {
         return observers;
     }
     
+    public List<User> getUsers() {
+        List<User> users = new ArrayList<>();
+        for(int i = 0; i < observers.size(); i++) {
+            users.add((User)observers.get(i));
+        }
+        
+        return users;
+    }
+    
     public Message getSingleMessage(int id){
         for(Message m: backlog){
             if(m.getMessageID()==id){

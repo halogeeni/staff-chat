@@ -23,8 +23,6 @@
  */
 package APIResources;
 
-import Chat.Group;
-import Chat.Observer;
 import Chat.TestChat;
 import Chat.User;
 import java.util.List;
@@ -52,9 +50,9 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
-        List<Observer> users = tc.getBacklog().getObservers();
-        GenericEntity<List<Observer>> list = 
-                new GenericEntity<List<Observer>>(users) {};
+        List<User> users = tc.getBacklog().getUsers();
+        GenericEntity<List<User>> list = 
+                new GenericEntity<List<User>>(users) {};
         return Response.ok(list).build();
     }
     
@@ -62,7 +60,7 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        return Response.ok().entity(tc.getBacklog().getObservers().get(userid)).build();
+        return Response.ok().entity(tc.getBacklog().getUsers().get(userid)).build();
     }
     
 }
