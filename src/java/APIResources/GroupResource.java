@@ -24,10 +24,11 @@
 package APIResources;
 
 import Chat.Group;
-import Chat.Message;
 import Chat.TestChat;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,16 +43,16 @@ import javax.ws.rs.core.Response;
 @Path("/groups")
 public class GroupResource {
     
-    private final TestChat tc;
+    private final TestChat thischat;
     
     public GroupResource() {
-        this.tc = TestChat.getInstance();
+        this.thischat = TestChat.getInstance();
     }
     
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupsXML() {
-        List<Group> groups = tc.getBacklog().getGroups();
+        List<Group> groups = thischat.getBacklog().getGroups();
         GenericEntity<List<Group>> list = 
                 new GenericEntity<List<Group>>(groups) {};
         return Response.ok(list).build();
@@ -61,7 +62,13 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
-        return Response.ok().entity(tc.getBacklog().getGroups().get(groupid)).build();
+        return Response.ok().entity(thischat.getBacklog().getGroups().get(groupid)).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public void postGroupXML(Group group) {
+        thischat.getBacklog().getGroups().add(group);
     }
     
 }

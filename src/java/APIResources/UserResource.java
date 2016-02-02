@@ -43,16 +43,16 @@ import javax.ws.rs.core.Response;
 @Path("/users")
 public class UserResource {
     
-    private final TestChat tc;
+    private final TestChat thischat;
     
     public UserResource() {
-        this.tc = TestChat.getInstance();
+        this.thischat = TestChat.getInstance();
     }
     
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
-        List<User> users = tc.getBacklog().getUsers();
+        List<User> users = thischat.getBacklog().getUsers();
         GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {};
         return Response.ok(list).build();
     }
@@ -61,15 +61,14 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        return Response.ok().entity(tc.getBacklog().getUsers().get(userid)).build();
+        return Response.ok().entity(thischat.getBacklog().getUsers().get(userid)).build();
     }
     
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
         // Register observer?
-        tc.getBacklog().getUsers().add(user);
+        thischat.getBacklog().getUsers().add(user);
     }
-
     
 }
