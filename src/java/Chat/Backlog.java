@@ -36,6 +36,7 @@ public class Backlog {
     private static Backlog backlogInstance = new Backlog();
     private final List<Message> backlog;
     private final List<Observer> observers;
+    private final List<Group> groups;
 
     public static Backlog getInstance() {
         return backlogInstance;
@@ -44,6 +45,7 @@ public class Backlog {
     protected Backlog() {
         this.backlog = new ArrayList<>();
         this.observers = new ArrayList<>();
+        this.groups = new ArrayList<>();
     }
 
     // observer pattern is utilized to notify connected users on new entries 
@@ -109,4 +111,9 @@ public class Backlog {
         }
     return null;
     }
+    
+    public List<Group> getGroups() {
+        return groups;
+    }
+    
 }

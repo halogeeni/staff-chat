@@ -17,7 +17,6 @@ public class Player {
     public Player(String firstName, String lastName) {
         this.firstname = firstName;
         this.lastname = lastName;
-
     }
     
     // setters & getters
