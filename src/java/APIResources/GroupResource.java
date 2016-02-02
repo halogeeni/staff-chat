@@ -23,11 +23,15 @@
  */
 package APIResources;
 
+import Chat.Group;
+import Chat.Message;
 import Chat.TestChat;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -44,20 +48,21 @@ public class GroupResource {
         this.tc = TestChat.getInstance();
     }
     
-    // TODO WIP !!!
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupsXML() {
-        //return Response.ok().entity(tc.getBacklog().getObservers()).build();
-        return Response.ok().entity(tc.getBacklog().getObservers()).build();
+
+        List<Group> groups = tc.getBacklog().getGroups();
+        GenericEntity<List<Group>> list = 
+                new GenericEntity<List<Group>>(groups) {};
+        return Response.ok(list).build();
     }
     
     @Path("/{groupid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
-        //return Response.ok().entity(tc.getBacklog().getObservers().get(groupid)).build();
-        return Response.ok().entity(tc.getBacklog().getObservers().get(groupid)).build();
+        return Response.ok().entity(tc.getBacklog().getGroups().get(groupid)).build();
     }
     
 }
