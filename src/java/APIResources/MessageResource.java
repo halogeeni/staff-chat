@@ -58,18 +58,18 @@ public class MessageResource {
         return Response.ok(list).build();
     }
     
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public void postMessageXML(Message msg) {
+        thischat.getBacklog().addMessage(msg);
+    }
+    
     //gets only a single message that matches the id given
     @Path("/{messageid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessageXML(@PathParam("messageid") int messageid) {
         return Response.ok().entity(thischat.getBacklog().getSingleMessage(messageid)).build();
-    }
-    
-    @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    public void postMessageXML(Message msg) {
-        thischat.getBacklog().addMessage(msg);
     }
     
 }

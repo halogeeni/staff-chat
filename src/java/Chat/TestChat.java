@@ -66,8 +66,6 @@ public class TestChat {
         List<Group> standardGroupList = new ArrayList<>();
         List<Group> staffGroupList = new ArrayList<>();
         
-        
-        
         adminGroupList.add(backlog.getGroups().get(0));
         standardGroupList.add(backlog.getGroups().get(1));
         staffGroupList.add(backlog.getGroups().get(2));

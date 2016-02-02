@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Group {
     
-    private static int idCounter;
+    private static int idCounter = 0;
     
     private final int groupId;
     private String name;

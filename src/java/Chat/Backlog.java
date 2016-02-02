@@ -68,9 +68,12 @@ public class Backlog {
         observers.remove(observer);
     }
 
+    // synchronized is used to enforce thread safety
     public synchronized void addMessage(Message msg) {
         // add entry to history
         backlog.add(msg);
+        // add entry to user backlog
+        msg.getFromUser().getUserBacklog().add(msg);
         // notify observers about a new entry
         switch(msg.getChannel()) {
             case CHANNEL_PRIVATE:
