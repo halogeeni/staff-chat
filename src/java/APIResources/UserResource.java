@@ -26,7 +26,9 @@ package APIResources;
 import Chat.TestChat;
 import Chat.User;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -51,8 +53,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
         List<User> users = tc.getBacklog().getUsers();
-        GenericEntity<List<User>> list = 
-                new GenericEntity<List<User>>(users) {};
+        GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {};
         return Response.ok(list).build();
     }
     
@@ -62,5 +63,13 @@ public class UserResource {
     public Response getUserXML(@PathParam("userid") int userid) {
         return Response.ok().entity(tc.getBacklog().getUsers().get(userid)).build();
     }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_XML)
+    public void postUserXML(User user) {
+        // Register observer?
+        tc.getBacklog().getUsers().add(user);
+    }
+
     
 }
