@@ -48,6 +48,7 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupsXML() {
+        //return Response.ok().entity(tc.getBacklog().getObservers()).build();
         return Response.ok().entity(tc.getBacklog().getObservers()).build();
     }
     
@@ -55,6 +56,7 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
+        //return Response.ok().entity(tc.getBacklog().getObservers().get(groupid)).build();
         return Response.ok().entity(tc.getBacklog().getObservers().get(groupid)).build();
     }
     

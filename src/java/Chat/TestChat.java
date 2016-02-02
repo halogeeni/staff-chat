@@ -58,7 +58,7 @@ public class TestChat {
         List<Group> adminGroupList = new ArrayList<>();
         List<Group> standardGroupList = new ArrayList<>();
         List<Group> staffGroupList = new ArrayList<>();
-        
+       
         adminGroupList.add(admins);
         standardGroupList.add(standard);
         staffGroupList.add(staff);
