@@ -60,7 +60,6 @@ public class Group {
         return groupId;
     }
     
-    @XmlElement
     public List<User> getUsers() {
         return users;
     }

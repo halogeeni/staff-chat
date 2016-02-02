@@ -79,6 +79,11 @@ public class User implements Observer {
     // setters & getters
 
     @XmlElement
+    public int getUserId() {
+        return userId;
+    }
+    
+    @XmlElement
     public String getFirstname() {
         return firstname;
     }
@@ -105,7 +110,10 @@ public class User implements Observer {
         this.username = username;
     }
 
-    @XmlElement
+    public List<Group> getGroups() {
+        return groups;
+    }
+
     public List<Message> getUserBacklog() {
         return userBacklog;
     }

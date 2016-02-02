@@ -23,11 +23,14 @@
  */
 package APIResources;
 
+import Chat.Message;
 import Chat.TestChat;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -43,13 +46,14 @@ public class MessageResource {
     public MessageResource() {
         this.tc = TestChat.getInstance();
     }
-    
-    //Needs to be worked on!
+
     //return all messages in the history
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesXML() {
-        return Response.ok().entity(tc.getBacklog().getFullBacklog()).build();
+        List<Message> messages = tc.getBacklog().getFullBacklog();
+        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {};
+        return Response.ok(list).build();
     }
     
     //gets only a single message that matches the id given

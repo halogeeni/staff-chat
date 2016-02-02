@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author aleksirasio
  */
-@XmlRootElement
 public class MessageBody {
     
     // text and images only so far

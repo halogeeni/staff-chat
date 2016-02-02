@@ -45,13 +45,24 @@ public class Message {
     private final Channel channel;
     private final User fromUser, toUser;
     private final List<Group> toGroups;
-    private final Date date;
+    private final Date date = new Date();
     
     // message body
     private final MessageBody body;
     
+    // empty constructor for JAXB
+    // WE WON'T USE THIS!
+    public Message() {
+        this.messageID = idCounter++;
+        this.timestamp = date.getTime();
+        this.channel = Channel.CHANNEL_BROADCAST;
+        this.fromUser = null;
+        this.toUser = null;
+        this.toGroups = null;
+        this.body = null;
+    }
+    
     public Message(User fromUser, Channel channel, User toUser, List<Group> groups, MessageBody body) {
-        date = new Date();
         
         switch (channel) {
             case CHANNEL_GROUP:
@@ -113,7 +124,6 @@ public class Message {
         return toUser;
     }
 
-    @XmlElement
     public List<Group> getToGroups() {
         return toGroups;
     }
