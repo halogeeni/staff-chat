@@ -54,14 +54,21 @@ public class TestChat {
         Group admins = new Group("Administrators");
         Group standard = new Group("Standard users");
         Group staff = new Group("Staff");
+        
+        // 0
+        backlog.getGroups().add(admins);
+        // 1
+        backlog.getGroups().add(standard);
+        // 2
+        backlog.getGroups().add(staff);
 
         List<Group> adminGroupList = new ArrayList<>();
         List<Group> standardGroupList = new ArrayList<>();
         List<Group> staffGroupList = new ArrayList<>();
         
-        adminGroupList.add(admins);
-        standardGroupList.add(standard);
-        staffGroupList.add(staff);
+        adminGroupList.add(backlog.getGroups().get(0));
+        standardGroupList.add(backlog.getGroups().get(1));
+        staffGroupList.add(backlog.getGroups().get(2));
        
         User user1 = new User("Aleksi", "Rasio", "halogeeni", adminGroupList);
         User user2 = new User("Joona", "Vainikka", "empurdia", standardGroupList);

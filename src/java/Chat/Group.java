@@ -41,6 +41,11 @@ public class Group {
     private String name;
     private final List<User> users;
     
+    public Group() {
+        groupId = idCounter++;
+        users = new ArrayList<>();
+    }
+    
     public Group(String name) {
         this.name = name;
         this.users = new ArrayList<>();
