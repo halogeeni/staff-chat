@@ -64,6 +64,7 @@ public class MessageResource {
         thischat.getBacklog().addMessage(msg);
     }
     
+   
     //gets only a single message that matches the id given
     @Path("/{messageid}")
     @GET
@@ -71,5 +72,18 @@ public class MessageResource {
     public Response getMessageXML(@PathParam("messageid") int messageid) {
         return Response.ok().entity(thischat.getBacklog().getSingleMessage(messageid)).build();
     }
-    
+   
+    // WIP
+    //Works, but doesn't like the Path /messageid. Sends an error message "module not deployed etc." Needs a fix.
+    //Gets all messages sent by the user
+    /*
+    @Path("/{messageuser}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getMessageUserXML(@PathParam("messageuser") int userid) {
+        List<Message> messages = thischat.getBacklog().getMessagesByUserID(userid);
+        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {};
+        return Response.ok(list).build();
+    }
+    */
 }

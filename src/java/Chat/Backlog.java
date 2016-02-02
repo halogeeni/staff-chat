@@ -123,6 +123,15 @@ public class Backlog {
         }
     return null;
     }
+    public List<Message> getMessagesByUserID(int id){
+        for (int i = 0; i < observers.size(); i++){
+           User user=(User)observers.get(i);
+           if(user.getIntUserId()==id){
+               return user.getUserBacklog();
+           }
+        }
+        return null;
+    }
     
     public List<Group> getGroups() {
         return groups;

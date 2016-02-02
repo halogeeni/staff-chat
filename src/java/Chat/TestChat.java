@@ -107,6 +107,11 @@ public class TestChat {
                 new Message(user4, Channel.CHANNEL_BROADCAST, null, null, 
                         new MessageBody("Ostakaa joku kahvia, pliis."));
         backlog.addMessage(message4);
+        
+        Message message5 = 
+                new Message(user4, Channel.CHANNEL_BROADCAST, null, null, 
+                        new MessageBody("Missä se kahvi viipyy! Pitäs olla jo!"));
+        backlog.addMessage(message5);
     
     }
     
