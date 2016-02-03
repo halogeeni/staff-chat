@@ -28,30 +28,26 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author aleksirasio
- */
 @XmlRootElement
 public class Group {
-    
+
     private static int idCounter = 0;
-    
+
     private final int groupId;
     private String name;
     private final List<User> users;
-    
+
     public Group() {
         groupId = idCounter++;
         users = new ArrayList<>();
     }
-    
+
     public Group(String name) {
         this.name = name;
         this.users = new ArrayList<>();
         this.groupId = idCounter++;
     }
-    
+
     public Group(String name, List<User> users) {
         this.name = name;
         this.users = users;
@@ -59,12 +55,11 @@ public class Group {
     }
 
     // setters & getters
-    
     @XmlElement
     public int getGroupId() {
         return groupId;
     }
-    
+
     @XmlElement
     public List<User> getUsers() {
         return users;

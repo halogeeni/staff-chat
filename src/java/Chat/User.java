@@ -85,9 +85,6 @@ public class User implements Observer {
     public int getUserId() {
         return userId;
     }
-    public int getIntUserId() {
-        return userId;
-    }
     
     @XmlElement
     public String getFirstname() {

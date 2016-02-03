@@ -25,34 +25,28 @@ package Chat;
 
 import java.awt.Image;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author aleksirasio
- */
 public class MessageBody {
-    
+
     // text and images only so far
     private final String text;
     private final Image image;
-    
+
     public MessageBody(String text) {
         this.text = text;
         this.image = null;
     }
-    
+
     public MessageBody(Image image) {
         this.text = null;
         this.image = image;
     }
-    
+
     // getters
-    
     public boolean hasText() {
         return text != null;
     }
-    
+
     public boolean hasImage() {
         return image != null;
     }
@@ -61,10 +55,10 @@ public class MessageBody {
     public String getText() {
         return text;
     }
-    
+
     @XmlElement
     public Image getImage() {
         return image;
     }
-    
+
 }

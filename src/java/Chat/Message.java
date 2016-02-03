@@ -28,12 +28,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author aleksirasio
- */
 @XmlRootElement
 public class Message {
+
     // global message id counter
     private static int idCounter = 0;
     // unique message id
@@ -46,10 +43,10 @@ public class Message {
     private final User fromUser, toUser;
     private final List<Group> toGroups;
     private final Date date = new Date();
-    
+
     // message body
     private final MessageBody body;
-    
+
     // empty constructor for JAXB
     // WE WON'T USE THIS!
     public Message() {
@@ -61,9 +58,9 @@ public class Message {
         this.toGroups = null;
         this.body = null;
     }
-    
+
     public Message(User fromUser, Channel channel, User toUser, List<Group> groups, MessageBody body) {
-        
+
         switch (channel) {
             case CHANNEL_GROUP:
                 this.toGroups = groups;
@@ -79,26 +76,25 @@ public class Message {
                 this.toUser = toUser;
                 break;
         }
-        
+
         // message "publicity"
         this.channel = channel;
-        
+
         // sender
         this.fromUser = fromUser;
-        
+
         // the message data itself, text or image
         this.body = body;
-        
+
         // set timestamp
         this.timestamp = date.getTime();
-        
+
         // set unique message id and increment counter
         // TODO synchronization? could two messages get the same id now?
         this.messageID = idCounter++;
     }
-    
-    // getters
 
+    // getters
     @XmlElement
     public int getMessageID() {
         return messageID;
@@ -118,7 +114,7 @@ public class Message {
     public User getFromUser() {
         return fromUser;
     }
-    
+
     @XmlElement
     public User getToUser() {
         return toUser;
@@ -132,5 +128,5 @@ public class Message {
     public MessageBody getBody() {
         return body;
     }
-    
+
 }

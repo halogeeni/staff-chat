@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 EliteBook.
+ * Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,33 +42,34 @@ import javax.ws.rs.core.Response;
  */
 @Path("/users")
 public class UserResource {
-    
+
     private final TestChat thischat;
-    
+
     public UserResource() {
         this.thischat = TestChat.getInstance();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
         List<User> users = thischat.getBacklog().getUsers();
-        GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {};
+        GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {
+        };
         return Response.ok(list).build();
     }
-    
+
     @Path("/{userid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
         return Response.ok().entity(thischat.getBacklog().getUsers().get(userid)).build();
     }
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
         // Register observer?
         thischat.getBacklog().getUsers().add(user);
     }
-    
+
 }
