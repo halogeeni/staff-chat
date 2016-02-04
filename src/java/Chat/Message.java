@@ -23,6 +23,7 @@
  */
 package Chat;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,28 +36,24 @@ public class Message {
     private static int idCounter = 0;
     // unique message id
     // int datatype range ought to be enough!
-    private final int messageID;
+    private int messageID;
     private final long timestamp;
 
     // sender, recipient(s) & publicity information
-    private final Channel channel;
-    private final User fromUser, toUser;
-    private final List<Group> toGroups;
+    private Channel channel;
+    private User fromUser, toUser;
+    //private int fromUserId, toUserId;
+    private List<Group> toGroups;
+    private List<Integer> toGroupIds;
     private final Date date = new Date();
 
     // message body
-    private final MessageBody body;
+    private MessageBody body;
 
-    // empty constructor for JAXB
-    // WE WON'T USE THIS!
     public Message() {
-        this.messageID = -1;
         this.timestamp = date.getTime();
-        this.channel = Channel.CHANNEL_BROADCAST;
-        this.fromUser = null;
-        this.toUser = null;
-        this.toGroups = null;
-        this.body = null;
+        this.toGroups = new ArrayList<>();
+        this.toGroupIds = new ArrayList<>();
     }
 
     public Message(User fromUser, Channel channel, User toUser, List<Group> groups, MessageBody body) {
@@ -92,12 +89,26 @@ public class Message {
         // set unique message id and increment counter
         // TODO synchronization? could two messages get the same id now?
         this.messageID = idCounter++;
+        
+        this.toGroupIds = new ArrayList<>();
+        
+        if(!(groups == null) && !groups.isEmpty()) {
+            for(Group group : groups) {
+                this.toGroupIds.add(group.getGroupId());
+            }
+        }
+        
     }
 
     // getters
     @XmlElement
     public int getMessageID() {
         return messageID;
+    }
+
+    // dummy setter workaround for jersey
+    public void setMessageID(int messageID) {
+        this.messageID = idCounter++;
     }
 
     @XmlElement
@@ -110,6 +121,10 @@ public class Message {
         return channel;
     }
 
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
     @XmlElement
     public User getFromUser() {
         return fromUser;
@@ -120,6 +135,14 @@ public class Message {
         return toUser;
     }
 
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public void setToUser(User toUser) {
+        this.toUser = toUser;
+    }
+    
     public List<Group> getToGroups() {
         return toGroups;
     }
@@ -127,6 +150,19 @@ public class Message {
     @XmlElement
     public MessageBody getBody() {
         return body;
+    }
+    
+    public void setBody(MessageBody body) {
+        this.body = body;
+    }
+    
+    @XmlElement
+    public List<Integer> getToGroupIds() {
+        return toGroupIds;
+    }
+
+    public void setToGroupIds(List<Integer> toGroupIds) {
+        this.toGroupIds = toGroupIds;
     }
 
 }
