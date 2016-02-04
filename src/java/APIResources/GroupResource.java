@@ -36,10 +36,6 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- *
- * @author Joona
- */
 @Path("/groups")
 public class GroupResource {
 
