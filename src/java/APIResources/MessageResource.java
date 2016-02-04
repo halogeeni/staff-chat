@@ -56,6 +56,7 @@ public class MessageResource {
     }
 
     //create a new message
+    @Path("/add")
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postMessageXML(Message msg) {

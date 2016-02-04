@@ -65,6 +65,7 @@ public class UserResource {
         return Response.ok().entity(thischat.getBacklog().getSingleUser(userid)).build();
     }
 
+    @Path("/add")
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
