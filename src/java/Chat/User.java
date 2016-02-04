@@ -28,10 +28,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author aleksirasio
- */
 @XmlRootElement
 public class User implements Observer {
 
@@ -44,16 +40,17 @@ public class User implements Observer {
     private String firstname, lastname, username;
     
     // list of groups the user is involved in
+    // REDUNDANT
     private final List<Group> groups;
     
-    // List of groupID's the user is involced in
-    private final List<Integer> groupids;
+    // List of groupID's the user is involved in
+    private final List<Integer> groupIds;
     
     // User message backlog
     private final List<Message> userBacklog;
     
     public User() {
-        this.groupids = new ArrayList<>();
+        this.groupIds = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.userBacklog = new ArrayList<>();
     }
@@ -65,11 +62,11 @@ public class User implements Observer {
         this.userId = idCounter++;
         this.groups = groups;
         this.userBacklog = new ArrayList<>();
-        this.groupids = new ArrayList<>();
+        this.groupIds = new ArrayList<>();
         
         // Adds all groupIDs into array
         for (Group g : groups) {
-            groupids.add(g.getGroupId());
+            groupIds.add(g.getGroupId());
         }
     }
     
@@ -124,8 +121,8 @@ public class User implements Observer {
     }
     
     @XmlElement
-    public List<Integer> getGroupIDs() {
-        return groupids;
+    public List<Integer> getGroupIds() {
+        return groupIds;
     }
 
     public List<Message> getUserBacklog() {
