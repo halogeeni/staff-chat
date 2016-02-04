@@ -37,29 +37,24 @@ public class User implements Observer {
 
     private static int idCounter = 0;
     
-    // Unique user id
-    private final int userId;
+    // unique user id
+    private int userId;
     
     // Personal information
     private String firstname, lastname, username;
     
-    // TODO password information?
-    
-    // List of groups the user is involved in
-    // Can be null
+    // list of groups the user is involved in
     private final List<Group> groups;
     
     // List of groupID's the user is involced in
-    // Can be null
     private final List<Integer> groupids;
     
     // User message backlog
     private final List<Message> userBacklog;
     
     public User() {
-        this.userId = -1;
-        this.groups = null;
-        this.groupids = null;
+        this.groupids = new ArrayList<>();
+        this.groups = new ArrayList<>();
         this.userBacklog = new ArrayList<>();
     }
     
@@ -136,5 +131,11 @@ public class User implements Observer {
     public List<Message> getUserBacklog() {
         return userBacklog;
     }
- 
+
+    // dummy id parameter
+    // workaround because of zero-arg constructor
+    public void setUserId(int userId) {
+        this.userId = idCounter++;
+    }
+    
 }
