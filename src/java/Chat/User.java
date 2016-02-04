@@ -53,7 +53,7 @@ public class User implements Observer {
     private final List<Message> userBacklog;
     
     public User() {
-        this.userId = idCounter++;
+        this.userId = -1;
         this.groups = null;
         this.userBacklog = new ArrayList<>();
     }

@@ -50,7 +50,7 @@ public class Message {
     // empty constructor for JAXB
     // WE WON'T USE THIS!
     public Message() {
-        this.messageID = idCounter++;
+        this.messageID = -1;
         this.timestamp = date.getTime();
         this.channel = Channel.CHANNEL_BROADCAST;
         this.fromUser = null;
