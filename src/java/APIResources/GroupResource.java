@@ -63,6 +63,7 @@ public class GroupResource {
         return Response.ok().entity(thischat.getBacklog().getSingleGroup(groupid)).build();
     }
 
+    @Path("/add")
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postGroupXML(Group group) {
