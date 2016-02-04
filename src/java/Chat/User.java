@@ -37,24 +37,29 @@ public class User implements Observer {
 
     private static int idCounter = 0;
     
-    // unique user id
+    // Unique user id
     private final int userId;
     
-    // personal information
+    // Personal information
     private String firstname, lastname, username;
     
     // TODO password information?
     
-    // list of groups the user is involved in
-    // can be null
+    // List of groups the user is involved in
+    // Can be null
     private final List<Group> groups;
     
-    // user message backlog
+    // List of groupID's the user is involced in
+    // Can be null
+    private final List<Integer> groupids;
+    
+    // User message backlog
     private final List<Message> userBacklog;
     
     public User() {
         this.userId = -1;
         this.groups = null;
+        this.groupids = null;
         this.userBacklog = new ArrayList<>();
     }
     
@@ -65,21 +70,27 @@ public class User implements Observer {
         this.userId = idCounter++;
         this.groups = groups;
         this.userBacklog = new ArrayList<>();
+        this.groupids = new ArrayList<>();
+        
+        // Adds all groupIDs into array
+        for (Group g : groups) {
+            groupids.add(g.getGroupId());
+        }
     }
     
-    // message received
+    // Message received
     @Override
     public void update(Message msg) {
         System.out.println("DEBUG: Message received.");
     }
     
-    // server message received
+    // Server message received
     @Override
     public void update(String msg) {
         System.out.println("DEBUG - SERVER MESSAGE: " + msg);
     }
 
-    // setters & getters
+    // Setters & getters
 
     @XmlElement
     public int getUserId() {
@@ -115,6 +126,11 @@ public class User implements Observer {
 
     public List<Group> getGroups() {
         return groups;
+    }
+    
+    @XmlElement
+    public List<Integer> getGroupIDs() {
+        return groupids;
     }
 
     public List<Message> getUserBacklog() {
