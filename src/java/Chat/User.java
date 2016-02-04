@@ -38,7 +38,7 @@ public class User implements Observer {
     private static int idCounter = 0;
     
     // unique user id
-    private final int userId;
+    private int userId;
     
     // personal information
     private String firstname, lastname, username;
@@ -46,15 +46,13 @@ public class User implements Observer {
     // TODO password information?
     
     // list of groups the user is involved in
-    // can be null
     private final List<Group> groups;
     
     // user message backlog
     private final List<Message> userBacklog;
     
     public User() {
-        this.userId = -1;
-        this.groups = null;
+        this.groups = new ArrayList<>();
         this.userBacklog = new ArrayList<>();
     }
     
@@ -120,5 +118,11 @@ public class User implements Observer {
     public List<Message> getUserBacklog() {
         return userBacklog;
     }
- 
+
+    // dummy id parameter
+    // workaround because of zero-arg constructor
+    public void setUserId(int userId) {
+        this.userId = idCounter++;
+    }
+    
 }
