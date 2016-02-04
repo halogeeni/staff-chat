@@ -107,6 +107,10 @@ public class Backlog {
     public List<User> getUsers() {
         return users;
     }
+    
+    public List<Group> getGroups() {
+        return groups;
+    }
 
     public User getSingleUser(int id) {
         for (User u : users) {
@@ -143,10 +147,6 @@ public class Backlog {
             }
         }
         return null;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
     }
 
 }

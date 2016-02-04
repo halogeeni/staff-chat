@@ -28,10 +28,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author aleksirasio
- */
 @XmlRootElement
 public class User implements Observer {
 
@@ -40,18 +36,21 @@ public class User implements Observer {
     // unique user id
     private int userId;
     
-    // personal information
+    // Personal information
     private String firstname, lastname, username;
     
-    // TODO password information?
-    
     // list of groups the user is involved in
+    // REDUNDANT
     private final List<Group> groups;
     
-    // user message backlog
+    // List of groupID's the user is involved in
+    private final List<Integer> groupIds;
+    
+    // User message backlog
     private final List<Message> userBacklog;
     
     public User() {
+        this.groupIds = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.userBacklog = new ArrayList<>();
     }
@@ -63,21 +62,27 @@ public class User implements Observer {
         this.userId = idCounter++;
         this.groups = groups;
         this.userBacklog = new ArrayList<>();
+        this.groupIds = new ArrayList<>();
+        
+        // Adds all groupIDs into array
+        for (Group g : groups) {
+            groupIds.add(g.getGroupId());
+        }
     }
     
-    // message received
+    // Message received
     @Override
     public void update(Message msg) {
         System.out.println("DEBUG: Message received.");
     }
     
-    // server message received
+    // Server message received
     @Override
     public void update(String msg) {
         System.out.println("DEBUG - SERVER MESSAGE: " + msg);
     }
 
-    // setters & getters
+    // Setters & getters
 
     @XmlElement
     public int getUserId() {
@@ -113,6 +118,11 @@ public class User implements Observer {
 
     public List<Group> getGroups() {
         return groups;
+    }
+    
+    @XmlElement
+    public List<Integer> getGroupIds() {
+        return groupIds;
     }
 
     public List<Message> getUserBacklog() {
