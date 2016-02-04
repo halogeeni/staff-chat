@@ -119,6 +119,15 @@ public class Backlog {
         }
         return null;
     }
+    public Group getSingleGroup(int id){
+        for (Group g : groups) {
+            if (g.getGroupId()== id) {
+                return g;
+            }
+        }
+        return null;
+        
+    }
 
     public List<Message> getMessagesByUserID(int id) {
         for (int i = 0; i < observers.size(); i++) {
