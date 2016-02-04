@@ -163,6 +163,7 @@ public class Message {
 
     public void setToGroupIds(List<Integer> toGroupIds) {
         this.toGroupIds = toGroupIds;
+
     }
 
 }

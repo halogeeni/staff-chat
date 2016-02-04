@@ -48,6 +48,7 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupsXML() {
+
         List<Group> groups = thischat.getBacklog().getGroups();
         GenericEntity<List<Group>> list
                 = new GenericEntity<List<Group>>(groups) {
