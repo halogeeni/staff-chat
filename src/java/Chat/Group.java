@@ -38,7 +38,7 @@ public class Group {
     private final List<User> users;
 
     public Group() {
-        groupId = idCounter++;
+        groupId = -1;
         users = new ArrayList<>();
     }
 

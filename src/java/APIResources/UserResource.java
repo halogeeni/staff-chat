@@ -62,13 +62,12 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        return Response.ok().entity(thischat.getBacklog().getUsers().get(userid)).build();
+        return Response.ok().entity(thischat.getBacklog().getSingleUser(userid)).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
-        // Register observer?
         thischat.getBacklog().getUsers().add(user);
     }
 
