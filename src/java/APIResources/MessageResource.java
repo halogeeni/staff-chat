@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Oskar.
+ * Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,40 +36,49 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- *
- * @author Oskar
- */
 @Path("/messages")
 public class MessageResource {
-    
-    private final TestChat thischat;
-    
+
+    private final TestChat chatInstance;
+
     public MessageResource() {
-        this.thischat = TestChat.getInstance();
+        this.chatInstance = TestChat.getInstance();
     }
 
     //return all messages in the history
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesXML() {
-        List<Message> messages = thischat.getBacklog().getFullBacklog();
-        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {};
+        List<Message> messages = chatInstance.getBacklog().getFullBacklog();
+        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
+        };
         return Response.ok(list).build();
     }
-    
+
+    //create a new message
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postMessageXML(Message msg) {
-        thischat.getBacklog().addMessage(msg);
+        chatInstance.getBacklog().addMessage(msg);
     }
-    
+
     //gets only a single message that matches the id given
-    @Path("/{messageid}")
+    @Path("/messageid/{messageid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessageXML(@PathParam("messageid") int messageid) {
-        return Response.ok().entity(thischat.getBacklog().getSingleMessage(messageid)).build();
+        return Response.ok().entity(chatInstance.getBacklog().getSingleMessage(messageid)).build();
     }
-    
+
+    //Gets all messages sent by the user
+    @Path("/userid/{userid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getMessagesUserXML(@PathParam("userid") int userid) {
+        List<Message> messages = chatInstance.getBacklog().getMessagesByUserID(userid);
+        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
+        };
+        return Response.ok(list).build();
+    }
+
 }

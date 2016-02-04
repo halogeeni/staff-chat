@@ -26,12 +26,8 @@ package Chat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author aleksirasio
- */
 public class Backlog {
-    
+
     // singleton pattern
     private static Backlog backlogInstance = new Backlog();
     private final List<Message> backlog;
@@ -75,15 +71,15 @@ public class Backlog {
         // add entry to user backlog
         msg.getFromUser().getUserBacklog().add(msg);
         // notify observers about a new entry
-        switch(msg.getChannel()) {
+        switch (msg.getChannel()) {
             case CHANNEL_PRIVATE:
                 msg.getToUser().update(msg);
                 break;
             case CHANNEL_GROUP:
                 // first get all groups from the message "header"
-                for(Group group : msg.getToGroups()) {
+                for (Group group : msg.getToGroups()) {
                     // then get all users from the group list
-                    for(User user : group.getUsers()) {
+                    for (User user : group.getUsers()) {
                         // notify respective users
                         user.update(msg);
                     }
@@ -101,31 +97,41 @@ public class Backlog {
     public List<Message> getFullBacklog() {
         return backlog;
     }
-    
+
     public List<Observer> getObservers() {
         return observers;
     }
-    
+
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        for(int i = 0; i < observers.size(); i++) {
-            users.add((User)observers.get(i));
+        for (int i = 0; i < observers.size(); i++) {
+            users.add((User) observers.get(i));
         }
-        
+
         return users;
     }
-    
-    public Message getSingleMessage(int id){
-        for(Message m: backlog){
-            if(m.getMessageID()==id){
+
+    public Message getSingleMessage(int id) {
+        for (Message m : backlog) {
+            if (m.getMessageID() == id) {
                 return m;
             }
         }
-    return null;
+        return null;
     }
-    
+
+    public List<Message> getMessagesByUserID(int id) {
+        for (int i = 0; i < observers.size(); i++) {
+            User user = (User) observers.get(i);
+            if (user.getUserId() == id) {
+                return user.getUserBacklog();
+            }
+        }
+        return null;
+    }
+
     public List<Group> getGroups() {
         return groups;
     }
-    
+
 }

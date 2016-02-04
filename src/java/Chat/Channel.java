@@ -23,12 +23,8 @@
  */
 package Chat;
 
-/**
- *
- * @author aleksirasio
- */
 public enum Channel {
-    
+
     // private means private user-to-user communication
     // toGroup is null
     CHANNEL_PRIVATE,
@@ -39,5 +35,5 @@ public enum Channel {
     // meaning that messages appear in the "main" chat room,
     // where all logged in users are present
     CHANNEL_BROADCAST;
-   
+
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Joona.
+ * Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,34 +42,35 @@ import javax.ws.rs.core.Response;
  */
 @Path("/groups")
 public class GroupResource {
-    
+
     private final TestChat thischat;
-    
+
     public GroupResource() {
         this.thischat = TestChat.getInstance();
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupsXML() {
 
         List<Group> groups = thischat.getBacklog().getGroups();
-        GenericEntity<List<Group>> list = 
-                new GenericEntity<List<Group>>(groups) {};
+        GenericEntity<List<Group>> list
+                = new GenericEntity<List<Group>>(groups) {
+        };
         return Response.ok(list).build();
     }
-    
+
     @Path("/{groupid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
         return Response.ok().entity(thischat.getBacklog().getGroups().get(groupid)).build();
     }
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postGroupXML(Group group) {
         thischat.getBacklog().getGroups().add(group);
     }
-    
+
 }

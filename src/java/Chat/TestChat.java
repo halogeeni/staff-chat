@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 aleksirasio.
+ * Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,6 @@ package Chat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author aleksirasio
- */
 public class TestChat {
 
     private static TestChat chat;
@@ -38,23 +34,23 @@ public class TestChat {
         if (chat == null) {
             chat = new TestChat();
         }
-        
+
         return chat;
     }
-    
+
     private final Backlog backlog;
 
     public Backlog getBacklog() {
         return backlog;
     }
-    
+
     public TestChat() {
         backlog = Backlog.getInstance();
-    
+
         Group admins = new Group("Administrators");
         Group standard = new Group("Standard users");
         Group staff = new Group("Staff");
-        
+
         // 0
         backlog.getGroups().add(admins);
         // 1
@@ -66,17 +62,12 @@ public class TestChat {
         List<Group> standardGroupList = new ArrayList<>();
         List<Group> staffGroupList = new ArrayList<>();
 
-       
-        adminGroupList.add(admins);
-        standardGroupList.add(standard);
-        staffGroupList.add(staff);
 
-        
+  
         adminGroupList.add(backlog.getGroups().get(0));
         standardGroupList.add(backlog.getGroups().get(1));
         staffGroupList.add(backlog.getGroups().get(2));
 
-       
         // create users
         User user1 = new User("Aleksi", "Rasio", "halogeeni", adminGroupList);
         User user2 = new User("Joona", "Vainikka", "empurdia", standardGroupList);
@@ -88,33 +79,39 @@ public class TestChat {
         backlog.getGroups().get(1).getUsers().add(user2);
         backlog.getGroups().get(1).getUsers().add(user4);
         backlog.getGroups().get(2).getUsers().add(user3);
-        
+
         // register observers
         backlog.register(user1);
         backlog.register(user2);
         backlog.register(user3);
         backlog.register(user4);
-        
-        Message message1 = 
-                new Message(user1, Channel.CHANNEL_BROADCAST, null, null, 
+
+        // create messages
+        Message message1
+                = new Message(user1, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Hei kaikki! Hejsan!"));
         backlog.addMessage(message1);
-        
-        Message message2 = 
-                new Message(user2, Channel.CHANNEL_GROUP, null, standardGroupList, 
+
+        Message message2
+                = new Message(user2, Channel.CHANNEL_GROUP, null, standardGroupList,
                         new MessageBody("Lissu hei! Tuo kahvia T: MARTTA"));
         backlog.addMessage(message2);
-        
-        Message message3 = 
-                new Message(user3, Channel.CHANNEL_PRIVATE, user2, null, 
+
+        Message message3
+                = new Message(user3, Channel.CHANNEL_PRIVATE, user2, null,
                         new MessageBody("Martta! Kahvit loppu toista päivää -LISSU"));
         backlog.addMessage(message3);
-        
-        Message message4 = 
-                new Message(user4, Channel.CHANNEL_BROADCAST, null, null, 
+
+        Message message4
+                = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Ostakaa joku kahvia, pliis."));
         backlog.addMessage(message4);
-    
+
+        Message message5
+                = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
+                        new MessageBody("Missä se kahvi viipyy! Pitäs olla jo!"));
+        backlog.addMessage(message5);
+
     }
-    
+
 }

@@ -23,10 +23,6 @@
  */
 package Chat;
 
-/**
- *
- * @author aleksirasio
- */
 public interface Observer {
     
     // method to update the observer, used by subject
