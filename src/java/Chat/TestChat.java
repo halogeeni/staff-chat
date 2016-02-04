@@ -73,6 +73,12 @@ public class TestChat {
         User user3 = new User("Oskar", "Gusgård", "tunkio", staffGroupList);
         User user4 = new User("Joel", "Vainikka", "pulla", standardGroupList);
 
+        // add users to users-list (server side)
+        backlog.getUsers().add(user1);
+        backlog.getUsers().add(user2);
+        backlog.getUsers().add(user3);
+        backlog.getUsers().add(user4);
+        
         // add users to groups (server side)
         backlog.getGroups().get(0).getUsers().add(user1);
         backlog.getGroups().get(2).getUsers().add(user1);

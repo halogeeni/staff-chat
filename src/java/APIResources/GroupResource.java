@@ -59,7 +59,7 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
-        return Response.ok().entity(thischat.getBacklog().getGroups().get(groupid)).build();
+        return Response.ok().entity(thischat.getBacklog().getSingleGroup(groupid)).build();
     }
 
     @POST

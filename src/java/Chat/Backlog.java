@@ -33,6 +33,7 @@ public class Backlog {
     private final List<Message> backlog;
     private final List<Observer> observers;
     private final List<Group> groups;
+    private final List<User> users;
 
     public static Backlog getInstance() {
         return backlogInstance;
@@ -42,6 +43,7 @@ public class Backlog {
         this.backlog = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.groups = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
     // observer pattern is utilized to notify connected users on new entries 
@@ -103,14 +105,27 @@ public class Backlog {
     }
 
     public List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i < observers.size(); i++) {
-            users.add((User) observers.get(i));
-        }
-
         return users;
     }
 
+    public User getSingleUser(int id) {
+        for (User u : users) {
+            if (u.getUserId() == id) {
+                return u;
+            }
+        }
+        return null;
+    }
+    
+    public Group getSingleGroup(int id) {
+        for (Group g : groups) {
+            if (g.getGroupId() == id) {
+                return g;
+            }
+        }
+        return null;
+    }
+    
     public Message getSingleMessage(int id) {
         for (Message m : backlog) {
             if (m.getMessageID() == id) {
