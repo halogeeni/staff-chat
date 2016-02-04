@@ -33,12 +33,11 @@ public class Group {
 
     private static int idCounter = 0;
 
-    private final int groupId;
+    private int groupId;
     private String name;
     private final List<User> users;
 
     public Group() {
-        groupId = -1;
         users = new ArrayList<>();
     }
 
@@ -72,6 +71,9 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public void setGroupId(int groupid){
+        this.groupId=idCounter++;
     }
 
 }

@@ -35,7 +35,7 @@ public class Message {
     private static int idCounter = 0;
     // unique message id
     // int datatype range ought to be enough!
-    private final int messageID;
+    private int messageID;
     private final long timestamp;
 
     // sender, recipient(s) & publicity information
@@ -50,7 +50,6 @@ public class Message {
     // empty constructor for JAXB
     // WE WON'T USE THIS!
     public Message() {
-        this.messageID = -1;
         this.timestamp = date.getTime();
         this.channel = Channel.CHANNEL_BROADCAST;
         this.fromUser = null;
@@ -127,6 +126,9 @@ public class Message {
     @XmlElement
     public MessageBody getBody() {
         return body;
+    }
+    public void setMessageID(int id){
+        this.messageID=idCounter++;
     }
 
 }
