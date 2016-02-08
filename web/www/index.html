@@ -27,21 +27,39 @@ THE SOFTWARE.
         <title>Staff Chat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
+
+        <script type="text/javascript">
+            $("#groups-button").click(function () {
+                $("#contacts-button").removeClass("active");
+                $("#broadcastchat-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("groups.html").fadeIn('500');
+            });
+            
+            $("#contacts-button").click(function () {
+                $("#groups-button").removeClass("active");
+                $("#broadcastchat-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("contacts.html").fadeIn('500');
+            });
+            
+            $("#broadcastchat-button").click(function () {
+                $("#groups-button").removeClass("active");
+                $("#contacts-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("chat.html").fadeIn('500');
+            });
+        </script>
     </head>
     <body>
         <div>
             <ul>
-                <!--
-                <li><a href="index.html?groups=1" class="inactive">Groups</a></li>
-                <li><a href="index.html?groups=2" class="inactive">Contacts</a></li>
-                <li><a href="index.html?groups=3" class="active">All chat</a></li>
-                -->
-                <li><button type="button" class="inactive">Groups</button></li>
-                <li><button type="button" class="inactive">Contacts</button></li>
-                <li><button type="button" class="active">All Chat</button></li>
+                <li><button type="button" id="groups-button">Groups</button></li>
+                <li><button type="button" id="contacts-button">Contacts</button></li>
+                <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
             </ul>
         </div>
         <div id="container">

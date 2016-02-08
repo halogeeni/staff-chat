@@ -84,6 +84,7 @@ li button {
     padding: 14px 16px;
     text-decoration: none;
     border: none;
+    background-color: #333;
 }
 
 li button:hover {
@@ -93,11 +94,6 @@ li button:hover {
 .active {
     background-color: #686b6e;
 }
-
-.inactive {
-    background-color: #333;
-}
-
 
 /* Form */
 
