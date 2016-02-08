@@ -22,23 +22,35 @@
  * THE SOFTWARE.
  */
 
-$("#groups-button").click(function () {
-    $("#contacts-button").removeClass("active");
-    $("#broadcastchat-button").removeClass("active");
-    $(this).addClass("active");
-    $("#container").load("groups.html").fadeIn('500');
-});
+var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
-$("#contacts-button").click(function () {
-    $("#groups-button").removeClass("active");
-    $("#broadcastchat-button").removeClass("active");
-    $(this).addClass("active");
-    $("#container").load("contacts.html").fadeIn('500');
-});
+// menu button handlers
 
-$("#broadcastchat-button").click(function () {
-    $("#groups-button").removeClass("active");
-    $("#contacts-button").removeClass("active");
-    $(this).addClass("active");
-    $("#container").load("chat.html").fadeIn('500');
-});
+
+
+// Fix so that the user doesn't show in the contacts
+function listContacts(xml, status) {
+    console.log('In listContacts');
+    xmlString = (new XMLSerializer().serializeToString(xml));
+    var $xml = $(xml);
+    var $contactsContent = $('#contactsContent');
+
+    $contactsContent.append($('<table id="contactsTable">\n\
+                    </table>'));
+    var $contactsTable = $("#contactsTable");
+
+    $xml.find('user').each(function () {
+        $contactsTable.append('<tr><td><button>' + $(this).find('firstname').text()
+                + $(this).find('lastname').text() + '</button></td></tr>');
+    });
+}
+
+function getContacts() {
+    console.log('In getContact');
+    $.ajax({
+        url: baseURL + '/users',
+        method: 'GET',
+        dataType: 'xml',
+        success: listContacts
+    });
+}
