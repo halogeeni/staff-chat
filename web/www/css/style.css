@@ -37,29 +37,65 @@ body{
     height: 500px;
     clear: both;
     float: left;
-    background-color: #90C0FD;
+    overflow: scroll;
+    background-color: #fff;
 }
 
 /* My message will always show right side */
 .my-message{
-    max-width: 300px;
+    min-height: 20px;
+    width: 200px;
     clear: both;
     float: right;
     overflow: hidden;
-    background-color: green;
     margin-top: 5px;
     margin-right: 5px;
+    border: 1px solid #85FF5C;
+    border-radius: 10px;
+    background-color: #85FF5C;
+    
 }
 
 /* Other messages will show always left side */
 .others-message{
-    max-width: 300px;
+    min-height: 20px;
+    width: 200px;
     clear: both;
     float: left;
     overflow: hidden;
-    background-color: blue;
     margin-top: 5px;
     margin-left: 5px;
+    border: 1px solid #5CA3FF;
+    border-radius: 10px;
+    background-color: #5CA3FF;
+}
+
+.username{
+    height: 15px;
+    width: 195px;
+    float: left;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    text-align: right;
+}
+
+.message-body{
+    min-height: 20px;
+    margin: 0;
+    padding: 5px;
+    text-align: left;
+}
+
+.timestamp{
+    height: 15px;
+    width: 195px;
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 0px;
+    padding: 0;
+    font-size: 15px;
+    text-align: right;
 }
 
 /* Navigation */
