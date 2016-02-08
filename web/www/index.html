@@ -27,30 +27,22 @@ THE SOFTWARE.
         <title>Staff Chat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
+
+        
     </head>
     <body>
         <div>
             <ul>
-                <li><a href="">Groups</a></li>
-                <li><a href="">Contacts</a></li>
-                <li><a href="">All chat</a></li>
+                <li><button type="button" id="groups-button">Groups</button></li>
+                <li><button type="button" id="contacts-button">Contacts</button></li>
+                <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
             </ul>
         </div>
         <div id="container">
-            <h3>All Chat</h3>
-            <div id="messages">
-                <div class="others-message">message 1</div>
-                <div class="my-message">message 2</div>
-            </div>
-            <div id="send-message">
-                <form>
-                    <input name="message" type="text" />
-                    <input name="submit" type="submit" />
-                </form>
-            </div>
+            
         </div>
         <div id="placeholder">
             <h3>Groups</h3>
@@ -60,5 +52,29 @@ THE SOFTWARE.
                     <a href="" class="my-groups3">Muh third group name</a>
                 </div>
         </div>
+
+        
+        <script type="text/javascript">
+            $("#groups-button").click(function () {
+                $("#contacts-button").removeClass("active");
+                $("#broadcastchat-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("groups.html").fadeIn('500');
+            });
+            
+            $("#contacts-button").click(function () {
+                $("#groups-button").removeClass("active");
+                $("#broadcastchat-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("contacts.html").fadeIn('500');
+            });
+            
+            $("#broadcastchat-button").click(function () {
+                $("#groups-button").removeClass("active");
+                $("#contacts-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("chat.html").fadeIn('500');
+            });
+        </script>
     </body>
 </html>
