@@ -2,7 +2,7 @@
 <!--
 The MIT License
 
-Copyright 2016 Joona.
+Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,63 +22,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
-<html>
-    <head>
-        <title>Groups!</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script>
-            var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
-            $(document).ready(function () {
-                console.log('In document ready');
-                $('#fillGroups').click(function () {
-                    console.log('In document ready getGroups');
-                    getGroups();
-                });
-            });
+<div id="groupsContent"></div>
+<!--
+<div id="placeholder">
+    <div id="groups-background">Listing of groups
+        <a href="" class="my-groups1">Muh first group name</a>
+        <a href="" class="my-groups2">Muh second group name</a>
+        <a href="" class="my-groups3">Muh third group name</a>
+    </div>
+</div>
+-->
 
-            function getGroups() {
-                console.log('In getGroup');
-                $.ajax({
-                    url: baseURL + '/groups',
-                    method: 'GET',
-                    dataType: 'xml',
-                    success: listGroups
-                });
-            }
-
-            function listGroups(xml) {
-                console.log('In listGroups');
-                xmlString = (new XMLSerializer().serializeToString(xml));
-                var $xml = $(xml);
-                var $groupsContent = $('#groupsContent');
-
-                $groupsContent.append($('<table id="groupsTable">\n\
-                    </table>'));
-                var $groupsTable = $("#groupsTable");
-
-                $xml.find('group').each(function () {
-                    $groupsTable.append('<tr><td><button>' + $(this).find('name').text()) + '</button></td></tr>';
-                });
-            }
-        </script>
-
-    </head>
-    <body>
-        <div>Groups</div>
-        <button id="fillGroups">Find groups!</button>
-        <div id="groupsContent"></div>
-
-        <div id="placeholder">
-            <h3>Groups</h3>
-            <div id="groups-background">Listing of groups
-                <a href="" class="my-groups1">Muh first group name</a>
-                <a href="" class="my-groups2">Muh second group name</a>
-                <a href="" class="my-groups3">Muh third group name</a>
-            </div>
-        </div>
-    </body>
-</html>
+<script>
+    $(document).ready(function () {
+        getGroups();
+    });
+</script>
