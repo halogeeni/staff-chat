@@ -26,12 +26,64 @@ THE SOFTWARE.
     Author     : Joel Vainikka
 */
 
-ul {
-    list-style: none;
+body{
+    background-color: #386787;
 }
 
+/* Messages */
+
 #messages{
-    width: 200px;
+    width: 400px;
     height: 500px;
-    background-color: pink;
+    background-color: #90C0FD;
+}
+
+.my-message{
+    max-width: 300px;
+    clear: both;
+    float: right;
+    overflow: hidden;
+    background-color: green;
+}
+
+.others-message{
+    max-width: 300px;
+    clear: both;
+    float: left;
+    overflow: hidden;
+    background-color: blue;
+}
+
+/* Navigation */
+
+ul {
+    width: 400px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+/* Form */
+
+#send-message{
+    width: 400px;
+    background-color: #1C262D;
 }
