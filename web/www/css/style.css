@@ -1,7 +1,7 @@
 /*
 The MIT License
 
-Copyright 2016 EliteBook.
+Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ body{
     clear: both;
     float: left;
     overflow: scroll;
+    overflow-x: hidden;
     background-color: #fff;
 }
 
@@ -48,8 +49,7 @@ body{
     clear: both;
     float: right;
     overflow: hidden;
-    margin-top: 5px;
-    margin-right: 5px;
+    margin: 5px 5px 5px 0px; /* top, right, bottom, left */
     border: 1px solid #85FF5C;
     border-radius: 10px;
     background-color: #85FF5C;
@@ -63,8 +63,7 @@ body{
     clear: both;
     float: left;
     overflow: hidden;
-    margin-top: 5px;
-    margin-left: 5px;
+    margin: 5px 0px 5px 5px; /* top, right, bottom, left */
     border: 1px solid #5CA3FF;
     border-radius: 10px;
     background-color: #5CA3FF;
@@ -134,8 +133,31 @@ li button:hover {
 /* Form */
 
 #send-message{
-    width: 400px;
+    height: 30px;
+    width: 390px;
+    padding: 5px;
     background-color: #1C262D;
+    clear: both;
+    float: left;
+}
+
+form #message-field{
+    height: 20px;
+    width: 310px;
+    margin: 0;
+    padding: 5px;
+    float: left;
+    border-style: none;
+}
+
+form #send-button{
+    height: 30px;
+    width: 40px;
+    margin: 0;
+    margin: 0px 0px 0px 5px; /* top, right, bottom, left */
+    padding: 0;
+    float: left;
+    border-style: none;
 }
 
 /* Groups */
@@ -153,9 +175,12 @@ li button:hover {
     display: block;
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 80px;
     overflow: hidden;
-    background-color: #FFD700;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    background-color: ghostwhite;
 }
 
 .my-groups2{
@@ -164,9 +189,13 @@ li button:hover {
     display: block;
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 80px;
     overflow: hidden;
-    background-color: violet;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: greenyellow;
 }
 
 .my-groups3{
@@ -175,7 +204,11 @@ li button:hover {
     display: block;
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 80px;
     overflow: hidden;
-    background-color: red;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: turquoise;
 }

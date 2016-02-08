@@ -25,50 +25,18 @@ THE SOFTWARE.
 
 <div id="chat">
     <div id="messages">
-        <div class="others-message">
-            <p class="username">Martta Kukkahattu</p>
-            <p class="message-body">
-                This one is really really long message that will take lots of
-                space and make this div expand beyond reality, if you know what
-                I mean. ;)
-            </p>
-            <p class="timestamp">13:37</p>
-        </div>
-        <div class="my-message">
-            <p class="message-body">Sorry took so long to answer. :3 Blaze it.</p>
-            <p class="timestamp">4:20</p>
-        </div>
-                <div class="others-message">
-            <p class="username">Martta Kukkahattu</p>
-            <p class="message-body">
-                This one is really really long message that will take lots of
-                space and make this div expand beyond reality, if you know what
-                I mean. ;)
-            </p>
-            <p class="timestamp">13:37</p>
-        </div>
-        <div class="my-message">
-            <p class="message-body">Sorry took so long to answer. :3 Blaze it.</p>
-            <p class="timestamp">4:20</p>
-        </div>
-                <div class="others-message">
-            <p class="username">Martta Kukkahattu</p>
-            <p class="message-body">
-                This one is really really long message that will take lots of
-                space and make this div expand beyond reality, if you know what
-                I mean. ;)
-            </p>
-            <p class="timestamp">13:37</p>
-        </div>
-        <div class="my-message">
-            <p class="message-body">Sorry took so long to answer. :3 Blaze it.</p>
-            <p class="timestamp">4:20</p>
-        </div>
     </div>
     <div id="send-message">
         <form>
-            <input name="message" type="text" />
-            <input name="submit" type="submit" />
+            <input id="message-field" name="message" type="text" />
+            <input id="send-button" name="submit" type="submit" value="Send" />
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        getBroadcasts();
+    });
+</script>
+

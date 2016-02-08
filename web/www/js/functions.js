@@ -25,7 +25,7 @@
 var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
 // development login flag, so that we are "logged in" as a specific user
-var loggedUser = 1;
+var loggedUser = 0;
 
 // Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
@@ -54,13 +54,48 @@ function getContacts() {
     });
 }
 
-function getUserBacklog() {
-    console.log('In getMessages');
+function listMessages(xml, status) {
+    console.log('In listMessages');
+    xmlString = (new XMLSerializer().serializeToString(xml));
+    var $xml = $(xml);
+    var $messagesContainer = $('#messages');
+    
+    $xml.find('message').each(function () {
+        var $uid = $(this).find('userId').text();
+
+        if($uid == loggedUser) {
+            $messagesContainer.append('<div class="my-message">' + 
+                    '<p class="message-body">' + 
+                    $(this).find('text').text() + '</p>' + 
+                    '<p class="timestamp">' + 
+                    $(this).find('timestamp').text() + '</p>' + 
+                    '</div>'
+                    );
+        } else {
+            $messagesContainer.append('<div class="others-message">' + 
+                    '<p class="username">' + 
+                    $(this).find('firstname').text() + 
+                    $(this).find('lastname').text() + 
+                    '</p>' + 
+                    '<p class="message-body">' + 
+                    $(this).find('text').text() + 
+                    '</p>' + 
+                    '<p class="timestamp">' + 
+                    $(this).find('timestamp').text() + 
+                    '</p>' + 
+                    '</div>'
+                    );
+        }
+    });
+}
+
+function getBroadcasts() {
+    console.log('In getBroadcasts');
     $.ajax({
-        url: baseURL + '/messages',
+        url: baseURL + '/messages/broadcast',
         method: 'GET',
         dataType: 'xml',
-        success: listMessa
+        success: listMessages
     });
 }
 
