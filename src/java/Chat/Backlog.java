@@ -30,7 +30,9 @@ public class Backlog {
 
     // singleton pattern
     private static Backlog backlogInstance = new Backlog();
+    // full backlog - contains ALL messages, broadcast, group & private
     private final List<Message> backlog;
+    private final List<Message> broadcastBacklog;
     private final List<Observer> observers;
     private final List<Group> groups;
     private final List<User> users;
@@ -44,6 +46,10 @@ public class Backlog {
         this.observers = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.users = new ArrayList<>();
+        this.broadcastBacklog = new ArrayList<>();
+        
+        // create group 0 (=BROADCAST CHANNEL)
+        //groups.add(0, new Group("Broadcast"));
     }
 
     // observer pattern is utilized to notify connected users on new entries 
@@ -88,6 +94,10 @@ public class Backlog {
                 }
                 break;
             default:
+                // broadcast message
+                // add it broadcast backlog
+                broadcastBacklog.add(msg);
+                // update all observers
                 for (Observer o : observers) {
                     o.update(msg);
                 }
@@ -137,6 +147,10 @@ public class Backlog {
             }
         }
         return null;
+    }
+
+    public List<Message> getBroadcastBacklog() {
+        return broadcastBacklog;
     }
 
     public List<Message> getMessagesByUserID(int id) {

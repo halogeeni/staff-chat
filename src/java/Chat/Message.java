@@ -97,7 +97,6 @@ public class Message {
                 this.toGroupIds.add(group.getGroupId());
             }
         }
-        
     }
 
     // getters
@@ -163,7 +162,6 @@ public class Message {
 
     public void setToGroupIds(List<Integer> toGroupIds) {
         this.toGroupIds = toGroupIds;
-
     }
 
 }
