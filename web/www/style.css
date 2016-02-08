@@ -35,23 +35,31 @@ body{
 #messages{
     width: 400px;
     height: 500px;
+    clear: both;
+    float: left;
     background-color: #90C0FD;
 }
 
+/* My message will always show right side */
 .my-message{
     max-width: 300px;
     clear: both;
     float: right;
     overflow: hidden;
     background-color: green;
+    margin-top: 5px;
+    margin-right: 5px;
 }
 
+/* Other messages will show always left side */
 .others-message{
     max-width: 300px;
     clear: both;
     float: left;
     overflow: hidden;
     background-color: blue;
+    margin-top: 5px;
+    margin-left: 5px;
 }
 
 /* Navigation */
@@ -69,17 +77,27 @@ li {
     float: left;
 }
 
-li a {
+li button {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    border: none;
 }
 
-li a:hover {
+li button:hover {
     background-color: #111;
 }
+
+.active {
+    background-color: #686b6e;
+}
+
+.inactive {
+    background-color: #333;
+}
+
 
 /* Form */
 
