@@ -30,8 +30,6 @@ THE SOFTWARE.
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
-
-        
     </head>
     <body>
         <div>
@@ -41,19 +39,8 @@ THE SOFTWARE.
                 <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
             </ul>
         </div>
-        <div id="container">
-            
-        </div>
-        <div id="placeholder">
-            <h3>Groups</h3>
-                <div id="groups-background">Listing of groups
-                    <a href="" class="my-groups1">Muh first group name</a>
-                    <a href="" class="my-groups2">Muh second group name</a>
-                    <a href="" class="my-groups3">Muh third group name</a>
-                </div>
-        </div>
+        <div id="container"></div>
 
-        
         <script type="text/javascript">
             $("#groups-button").click(function () {
                 $("#contacts-button").removeClass("active");
@@ -61,14 +48,14 @@ THE SOFTWARE.
                 $(this).addClass("active");
                 $("#container").load("groups.html").fadeIn('500');
             });
-            
+
             $("#contacts-button").click(function () {
                 $("#groups-button").removeClass("active");
                 $("#broadcastchat-button").removeClass("active");
                 $(this).addClass("active");
                 $("#container").load("contacts.html").fadeIn('500');
             });
-            
+
             $("#broadcastchat-button").click(function () {
                 $("#groups-button").removeClass("active");
                 $("#contacts-button").removeClass("active");
