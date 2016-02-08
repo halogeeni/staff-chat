@@ -153,9 +153,12 @@ li button:hover {
     display: block;
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 80px;
     overflow: hidden;
-    background-color: #FFD700;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    background-color: ghostwhite;
 }
 
 .my-groups2{
@@ -164,9 +167,13 @@ li button:hover {
     display: block;
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 80px;
     overflow: hidden;
-    background-color: violet;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: greenyellow;
 }
 
 .my-groups3{
@@ -175,7 +182,11 @@ li button:hover {
     display: block;
     text-align: center;
     vertical-align: middle;
-    line-height: 100px;
+    line-height: 80px;
     overflow: hidden;
-    background-color: red;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: turquoise;
 }
