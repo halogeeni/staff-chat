@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<!--
+/*
 The MIT License
 
-Copyright 2016 aleksirasio.
+Copyright 2016 EliteBook.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +20,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
--->
-<html>
-    <head>
-        <title>Staff Chat</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <div>
-            <ul>
-                <li><a href="">Groups</a></li>
-                <li><a href="">Contacts</a></li>
-                <li><a href="">All chat</a></li>
-            </ul>
-        </div>
-        <div id="container">
-            <h3>All Chat</h3>
-            <div id="messages">
-                <div>message 1</div>
-                <div>message 2</div>
-            </div>
-            <div>
-                <form>
-                    <input name="message" type="text" />
-                    <input name="submit" type="submit" />
-                </form>
-            </div>
-        </div>
-    </body>
-</html>
+*/
+/* 
+    Created on : 08-Feb-2016, 10:04:08
+    Author     : Joel Vainikka
+*/
+
+#messages{
+    width: 200px;
+    height: 500px;
+    background-color: pink;
+}
