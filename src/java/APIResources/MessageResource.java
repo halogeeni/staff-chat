@@ -54,6 +54,18 @@ public class MessageResource {
         };
         return Response.ok(list).build();
     }
+    
+    //return broadcast messages in the history
+    @Path("/broadcast")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getBroadcastMessagesXML() {
+        List<Message> messages = chatInstance.getBacklog().getBroadcastBacklog();
+        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
+        };
+        return Response.ok(list).build();
+    }
+    
 
     //create a new message
     @Path("/add")

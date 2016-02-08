@@ -24,9 +24,8 @@
 
 var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
-// menu button handlers
-
-
+// development login flag, so that we are "logged in" as a specific user
+var loggedUser = 1;
 
 // Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
@@ -46,7 +45,7 @@ function listContacts(xml, status) {
 }
 
 function getContacts() {
-    console.log('In getContact');
+    console.log('In getContacts');
     $.ajax({
         url: baseURL + '/users',
         method: 'GET',
@@ -54,3 +53,14 @@ function getContacts() {
         success: listContacts
     });
 }
+
+function getUserBacklog() {
+    console.log('In getMessages');
+    $.ajax({
+        url: baseURL + '/messages',
+        method: 'GET',
+        dataType: 'xml',
+        success: listMessa
+    });
+}
+
