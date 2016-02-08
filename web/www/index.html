@@ -27,17 +27,39 @@ THE SOFTWARE.
         <title>Staff Chat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
         <script type="text/javascript" src="js/functions.js"></script>
-        
+
+        <script type="text/javascript">
+            $("#groups-button").click(function () {
+                $("#contacts-button").removeClass("active");
+                $("#broadcastchat-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("groups.html").fadeIn('500');
+            });
+            
+            $("#contacts-button").click(function () {
+                $("#groups-button").removeClass("active");
+                $("#broadcastchat-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("contacts.html").fadeIn('500');
+            });
+            
+            $("#broadcastchat-button").click(function () {
+                $("#groups-button").removeClass("active");
+                $("#contacts-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("chat.html").fadeIn('500');
+            });
+        </script>
     </head>
     <body>
         <div>
             <ul>
-                <li><a href="">Groups</a></li>
-                <li><a href="">Contacts</a></li>
-                <li><a href="">All chat</a></li>
+                <li><a id="groups-button" href="">Groups</a></li>
+                <li><a id="contacts-button" href="">Contacts</a></li>
+                <li><a id="broadcastchat-button" class="active" href="">All chat</a></li>
             </ul>
         </div>
         <div id="container">
@@ -53,8 +75,5 @@ THE SOFTWARE.
                 </form>
             </div>
         </div>
-        <script>
-            $( "#container" ).load( "private.html" );
-        </script>
     </body>
 </html>
