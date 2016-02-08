@@ -74,7 +74,7 @@ function listMessages(xml, status) {
         } else {
             $messagesContainer.append('<div class="others-message">' + 
                     '<p class="username">' + 
-                    $(this).find('firstname').text() + 
+                    $(this).find('firstname').text() + ' ' +
                     $(this).find('lastname').text() + 
                     '</p>' + 
                     '<p class="message-body">' + 
