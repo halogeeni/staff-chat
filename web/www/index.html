@@ -57,23 +57,29 @@ THE SOFTWARE.
     <body>
         <div>
             <ul>
-                <li><a id="groups-button" href="">Groups</a></li>
-                <li><a id="contacts-button" href="">Contacts</a></li>
-                <li><a id="broadcastchat-button" class="active" href="">All chat</a></li>
+                <li><button type="button" id="groups-button">Groups</button></li>
+                <li><button type="button" id="contacts-button">Contacts</button></li>
+                <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
             </ul>
         </div>
         <div id="container">
-            <h3>All Chat</h3>
-            <div id="messages">
-                <div class="others-message">message 1</div>
-                <div class="my-message">message 2</div>
+            <!--      
+                id="chat" will be imported from another file,
+                currently only for placeholder :)
+            -->
+            <div id="chat">
+                <div id="messages">
+                    <div class="others-message">message 1</div>
+                    <div class="my-message">message 2</div>
+                </div>
+                <div id="send-message">
+                    <form>
+                        <input name="message" type="text" />
+                        <input name="submit" type="submit" />
+                    </form>
+                </div>
             </div>
-            <div id="send-message">
-                <form>
-                    <input name="message" type="text" />
-                    <input name="submit" type="submit" />
-                </form>
-            </div>
+            <!-- Ending here -->
         </div>
     </body>
 </html>
