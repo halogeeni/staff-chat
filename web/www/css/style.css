@@ -137,3 +137,45 @@ li button:hover {
     width: 400px;
     background-color: #1C262D;
 }
+
+/* Groups */
+
+#groups-background{
+    width: 400px;
+    height: 500px;
+    text-align: center;
+    background-color: #F50057;
+}
+
+.my-groups1{
+    width: 400px;
+    height: 100px;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    overflow: hidden;
+    background-color: #FFD700;
+}
+
+.my-groups2{
+    width: 400px;
+    height: 100px;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    overflow: hidden;
+    background-color: violet;
+}
+
+.my-groups3{
+    width: 400px;
+    height: 100px;
+    display: block;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    overflow: hidden;
+    background-color: red;
+}
