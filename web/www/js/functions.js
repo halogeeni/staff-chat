@@ -22,4 +22,23 @@
  * THE SOFTWARE.
  */
 
+$("#groups-button").click(function () {
+    $("#contacts-button").removeClass("active");
+    $("#broadcastchat-button").removeClass("active");
+    $(this).addClass("active");
+    $("#container").load("groups.html").fadeIn('500');
+});
 
+$("#contacts-button").click(function () {
+    $("#groups-button").removeClass("active");
+    $("#broadcastchat-button").removeClass("active");
+    $(this).addClass("active");
+    $("#container").load("contacts.html").fadeIn('500');
+});
+
+$("#broadcastchat-button").click(function () {
+    $("#groups-button").removeClass("active");
+    $("#contacts-button").removeClass("active");
+    $(this).addClass("active");
+    $("#container").load("chat.html").fadeIn('500');
+});
