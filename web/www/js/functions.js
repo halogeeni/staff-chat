@@ -84,7 +84,7 @@ function getGroups() {
 }
 
 
-function listMessages(xml, status) {
+function listMessages(xml) {
     console.log('In listMessages');
     xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
@@ -118,6 +118,50 @@ function listMessages(xml, status) {
         }
     });
 }
+
+
+function sendMessage(message){
+    //populate fromUser with getuser by id
+    var message=message;
+    var fromUser=getUser(loggedUser); //doesn't have a return yet
+    console.log("message being readied for send: "+message)
+    console.log("fromUser: "+fromUser);
+    var messageXMLDoc=$.parseXML('<message><body><text></text></body><channel></channel><fromUser></fromUser></message>');
+    var $messageXML=$(messageXMLDoc);
+    
+    $messageXML.find('text').append(message);
+    
+    
+    xmlString=(new XMLSerializer()).serializeToString(messageXMLDoc);
+    console.log('messageXmlDoc selizalized: '+xmlString);
+    
+    $.ajax({
+        url: baseURL + "/messages/add",
+        data: messageXMLDoc,
+        processData:false,
+        type:'POST',
+        contentType: 'application/xml',
+        dataType: 'xml'
+    });
+
+}
+
+function getUser(user){
+    console.log("getUser user value to be fetched: "+user);
+    var user=user;
+    $.ajax({
+        url: baseURL + '/users/'+user,
+        method: 'GET',
+        dataType: 'xml',
+        success: function (data){
+            xmlUser=(new XMLSerializer()).serializeToString(data);
+            console.log("getUser() -> userXML to string:"+ xmlUser)
+            return xmlUser;
+        }
+    });
+    //needs to return something
+}
+
 
 function getBroadcasts() {
     console.log('In getBroadcasts');

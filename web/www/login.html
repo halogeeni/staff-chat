@@ -2,7 +2,7 @@
 <!--
 The MIT License
 
-Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
+Copyright 2016 Joel Vainikka.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
-
-<div id="chat">
-    <div id="messages">
-    </div>
-    <div id="send-message">
-        <form>
-            <input id="message-field" name="message" type="text" />
-            <input id="send-button" name="submit" type="button" value="Send" />
-        </form>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        getBroadcasts();
-    });
-    
-    $(document).ready(function () {
-        $('#send-button').click(function (){
-           sendMessage($('#message-field').val()); //?
-        });
-    });
-    
-</script>
-
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        <div id="loginWrapper">
+            <h4>staff-chat</h4>
+            <form>
+                <p><label for="username">Username</label><input type="text" name="username" id="username" /></p>
+                <p><label for="password">Password</label><input type="password" name="password" id="password" /></p>
+                <p><input type="submit" name="login"  value="Login" /></p>
+            </form>
+        </div>
+    </body>
+</html>
