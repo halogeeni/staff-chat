@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 body{
     background-color: #386787;
+    font-family: Arial;
 }
 
 /* Messages */
@@ -95,7 +96,7 @@ body{
 
 /* Navigation */
 
-ul {
+#navigation ul{
     width: 400px;
     list-style-type: none;
     margin: 0;
@@ -104,11 +105,11 @@ ul {
     background-color: #333;
 }
 
-li {
+#navigation li{
     float: left;
 }
 
-li button {
+#navigation li button{
     display: block;
     color: white;
     text-align: center;
@@ -118,11 +119,11 @@ li button {
     background-color: #333;
 }
 
-li button:hover {
+#navigation li button:hover{
     background-color: #111;
 }
 
-.active {
+.active{
     background-color: #686b6e;
 }
 
@@ -158,53 +159,60 @@ form #send-button{
 
 /* Groups */
 
-#groups-background{
+#groupsList{
     width: 400px;
-    height: 500px;
-    text-align: center;
-    background-color: #F50057;
+    margin: 0;
+    padding: 0;
+    background-color: #575757;
 }
 
-.my-groups1{
+#groupsList li{
     width: 400px;
-    height: 100px;
-    display: block;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 80px;
-    overflow: hidden;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 50px;
-    background-color: ghostwhite;
+    height: 60px;
 }
 
-.my-groups2{
+#groupsList li button{
     width: 400px;
-    height: 100px;
+    height: 60px;
     display: block;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 80px;
-    overflow: hidden;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: greenyellow;
+    color: white;
+    text-align: left;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: none;
+    background-color: #575757;
 }
 
-.my-groups3{
+#groupsList li button:hover{
+    background-color: #111;
+}
+
+/* Contacts */
+
+#contactsList{
     width: 400px;
-    height: 100px;
+    margin: 0;
+    padding: 0;
+    background-color: #575757;
+}
+
+#contactsList li{
+    width: 400px;
+    height: 60px;
+}
+
+#contactsList li button{
+    width: 400px;
+    height: 60px;
     display: block;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 80px;
-    overflow: hidden;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: turquoise;
+    color: white;
+    text-align: left;
+    padding: 14px 16px;
+    text-decoration: none;
+    border: none;
+    background-color: #575757;
+}
+
+#contactsList li button:hover{
+    background-color: #111;
 }
