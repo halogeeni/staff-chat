@@ -161,6 +161,7 @@ form #send-button{
 
 #groupsList{
     width: 400px;
+    height: 500px;
     margin: 0;
     padding: 0;
     background-color: #575757;
@@ -191,6 +192,7 @@ form #send-button{
 
 #contactsList{
     width: 400px;
+    height: 500px;
     margin: 0;
     padding: 0;
     background-color: #575757;
