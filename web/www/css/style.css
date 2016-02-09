@@ -218,3 +218,26 @@ form #send-button{
 #contactsList li button:hover{
     background-color: #111;
 }
+
+/* Login */
+
+#loginWrapper{
+    height: 170px;
+    width: 260px;
+    background-color: white;
+    float: left;
+    border-radius: 10px;
+}
+
+#loginWrapper input{
+    float: right;
+    margin-right: 10px;
+}
+
+#loginWrapper p{
+    padding-left: 10px;
+}
+
+#loginWrapper h4{
+    padding-left: 10px;
+}
