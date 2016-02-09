@@ -29,7 +29,7 @@ THE SOFTWARE.
     <div id="send-message">
         <form>
             <input id="message-field" name="message" type="text" />
-            <input id="send-button" name="submit" type="submit" value="Send" />
+            <input id="send-button" name="submit" type="button" value="Send" />
         </form>
     </div>
 </div>
@@ -38,5 +38,12 @@ THE SOFTWARE.
     $(document).ready(function () {
         getBroadcasts();
     });
+    
+    $(document).ready(function () {
+        $('#send-button').click(function (){
+           sendMessage($('#message-field').val()); //?
+        });
+    });
+    
 </script>
 
