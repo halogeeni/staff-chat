@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
+var baseURL = "http://localhost:8080/staff-chat/webresources";
 
 // development login flag, so that we are "logged in" as a specific user
 var loggedUser = 0;
