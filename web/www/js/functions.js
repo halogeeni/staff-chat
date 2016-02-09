@@ -124,7 +124,7 @@ function sendMessage(message){
     //populate fromUser with getuser by id
     var message=message;
     var fromUser=getUser(loggedUser); //doesn't have a return yet
-    console.log("message being readied for send: "+message)
+    console.log("message being readied for send: "+message);
     console.log("fromUser: "+fromUser);
     var messageXMLDoc=$.parseXML('<message><body><text></text></body><channel></channel><fromUser></fromUser></message>');
     var $messageXML=$(messageXMLDoc);
@@ -133,7 +133,7 @@ function sendMessage(message){
     
     
     xmlString=(new XMLSerializer()).serializeToString(messageXMLDoc);
-    console.log('messageXmlDoc selizalized: '+xmlString);
+    console.log('messageXmlDoc serialized: '+xmlString);
     
     $.ajax({
         url: baseURL + "/messages/add",
@@ -146,20 +146,25 @@ function sendMessage(message){
 
 }
 
-function getUser(user){
-    console.log("getUser user value to be fetched: "+user);
-    var user=user;
+
+
+
+function getUser(userid){
+    console.log("getUser user value to be fetched: "+userid);
+    var userid=userid;
+    var xmlUser=null;
     $.ajax({
-        url: baseURL + '/users/'+user,
+        url: baseURL + '/users/'+userid,
         method: 'GET',
         dataType: 'xml',
         success: function (data){
             xmlUser=(new XMLSerializer()).serializeToString(data);
-            console.log("getUser() -> userXML to string:"+ xmlUser)
+            console.log("getUser() -> userXML to string:"+ xmlUser);
             return xmlUser;
         }
     });
     //needs to return something
+    return xmlUser;
 }
 
 
