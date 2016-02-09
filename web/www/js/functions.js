@@ -26,6 +26,11 @@ var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 // development login flag, so that we are "logged in" as a specific user
 var loggedUser = 0;
 
+function toTime(s) {
+    var myDate = new Date(s * 1);
+    return myDate.toLocaleString();
+}
+
 // Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
     console.log('In listContacts');
@@ -93,7 +98,7 @@ function listMessages(xml, status) {
                     '<p class="message-body">' +
                     $(this).find('text').text() + '</p>' +
                     '<p class="timestamp">' +
-                    $(this).find('timestamp').text() + '</p>' +
+                    toTime($(this).find('timestamp').text()) + '</p>' +
                     '</div>'
                     );
         } else {
@@ -106,7 +111,7 @@ function listMessages(xml, status) {
                     $(this).find('text').text() +
                     '</p>' +
                     '<p class="timestamp">' +
-                    $(this).find('timestamp').text() +
+                    toTime($(this).find('timestamp').text()) +
                     '</p>' +
                     '</div>'
                     );
