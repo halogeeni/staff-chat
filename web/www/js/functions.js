@@ -33,13 +33,13 @@ function listContacts(xml, status) {
     var $xml = $(xml);
     var $contactsContent = $('#contactsContent');
 
-    $contactsContent.append($('<table id="contactsTable">\n\
-                    </table>'));
-    var $contactsTable = $("#contactsTable");
+    $contactsContent.append($('<ul id="contactsList">\n\
+                    </ul>'));
+    var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
-        $contactsTable.append('<tr><td><button>' + $(this).find('firstname').text()
-                + $(this).find('lastname').text() + '</button></td></tr>');
+        $contactsList.append('<li><button>' + $(this).find('firstname').text()+
+                " "+ $(this).find('lastname').text() + '</button></li>');
     });
 }
 
@@ -59,12 +59,12 @@ function listGroups(xml) {
     var $xml = $(xml);
     var $groupsContent = $('#groupsContent');
 
-    $groupsContent.append($('<table id="groupsTable">\n\
-                    </table>'));
-    var $groupsTable = $("#groupsTable");
+    $groupsContent.append($('<ul id="groupsList">\n\
+                    </ul>'));
+    var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
-        $groupsTable.append('<tr><td><button>' + $(this).find('name').text()) + '</button></td></tr>';
+        $groupsList.append('<li><button>' + $(this).find('name').text()) + '</button></li>';
     });
 }
 
