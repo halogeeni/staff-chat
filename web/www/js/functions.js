@@ -89,43 +89,69 @@ function getGroups() {
 
 
 function listMessages(xml) {
+
     console.log('In listMessages');
     //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $messagesContainer = $('#messages');
+    var firstname = '', lastname = '';
+
     // clear message container first
     $messagesContainer.empty();
 
     $xml.find('message').each(function () {
-        var $uid = $(this).find('userId').text();
 
-        if ($uid == loggedUser) {
-            $messagesContainer.append('<div class="my-message">' +
-                    '<p class="message-body">' +
-                    $(this).find('text').text() + '</p>' +
-                    '<p class="timestamp">' +
-                    toTime($(this).find('timestamp').text()) + '</p>' +
-                    '</div>'
-                    );
-        } else {
-            $messagesContainer.append('<div class="others-message">' +
-                    '<p class="username">' +
-                    $(this).find('firstname').text() + ' ' +
-                    $(this).find('lastname').text() +
-                    '</p>' +
-                    '<p class="message-body">' +
-                    $(this).find('text').text() +
-                    '</p>' +
-                    '<p class="timestamp">' +
-                    toTime($(this).find('timestamp').text()) +
-                    '</p>' +
-                    '</div>'
-                    );
-        }
+        var $messageData = $(this);
+        var $uid = $messageData.find('fromUserId').text();
+
+        $.ajax({
+            url: baseURL + '/users/' + $uid,
+            method: 'GET',
+            dataType: 'xml',
+            success: function (userXml) {
+                firstname = $(userXml).find('firstname').text();
+                lastname = $(userXml).find('lastname').text();
+            },
+            error: function () {
+                // just in case nothing is found...
+                firstname = 'unknown';
+                lastname = 'user';
+            },
+            complete: function () {
+                // message was sent by me, style it accordingly
+                if ($uid == loggedUser) {
+                    $messagesContainer.append('<div class="my-message">' +
+                            '<p class="message-body">' +
+                            $messageData.find('text').text() + '</p>' +
+                            '<p class="timestamp">' +
+                            toTime($messageData.find('timestamp').text()) + '</p>' +
+                            '</div>'
+                            );
+                    // message was sent by someone else
+                } else {
+                    $messagesContainer.append('<div class="others-message">' +
+                            '<p class="username">' +
+                            firstname + ' ' +
+                            lastname +
+                            '</p>' +
+                            '<p class="message-body">' +
+                            $messageData.find('text').text() +
+                            '</p>' +
+                            '<p class="timestamp">' +
+                            toTime($messageData.find('timestamp').text()) +
+                            '</p>' +
+                            '</div>'
+                            );
+                }
+            }
+        });
+
+
     });
 
-    // scroll message container to bottom
-    $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 1000);
+    // finally, scroll message container to bottom
+    $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
+
 }
 
 function sendMessage(message) {
@@ -142,11 +168,10 @@ function sendMessage(message) {
      var $xml = $(messageXMLDoc);
      */
 
-    var xml = "<message><body><text></text></body><channel></channel><fromUser></fromUser><messageID>9999999</messageID></message>";
+    var xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
     var xmlDoc = $.parseXML(xml);
     var $xml = $(xmlDoc);
 
-    // debugging stuff
     var serializer = new XMLSerializer();
 
     var debugXmlString = serializer.serializeToString($xml[0]);
@@ -158,12 +183,19 @@ function sendMessage(message) {
         method: 'GET',
         dataType: 'xml',
         success: function (xml) {
+
+            // THIS IS JUST A QUICK REWRITE FOR NOW
+            // we needlessly fetch the logged user's userid via ajax
+
             //console.log("xml received: " + serializer.serializeToString(xml));
-            var fromUserXML = $(xml).find('user').children().clone();
-            $xml.find('fromUser').append(fromUserXML);
+            var fromUserXML = $(xml).find('fromUserId').clone();
+            $xml.find('fromUserId').append(fromUserXML);
             //console.log("$xml after fromUser append: " + serializer.serializeToString($xml[0]));
 
             $xml.find('text').append(message);
+
+            // CHANNEL_xxx STRING COULD BE A FUNCTION PARAMETER
+            // it would enable us to use a single function for sending messages to all channels
             $xml.find('channel').append('CHANNEL_BROADCAST');
             //console.log("$xml after text and channel appends: " + serializer.serializeToString($xml[0]));
             xmlDoc = serializer.serializeToString($xml[0]);

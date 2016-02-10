@@ -77,11 +77,11 @@ public class Backlog {
         // add entry to history
         backlog.add(msg);
         // add entry to user backlog
-        msg.getFromUser().getUserBacklog().add(msg);
+        getSingleUser(msg.getFromUserId()).getUserBacklog().add(msg);
         // notify observers about a new entry
         switch (msg.getChannel()) {
             case CHANNEL_PRIVATE:
-                msg.getToUser().update(msg);
+                getSingleUser(msg.getToUserId()).update(msg);
                 break;
             case CHANNEL_GROUP:
                 // first get all groups from the message "header"
@@ -142,7 +142,7 @@ public class Backlog {
 
     public Message getSingleMessage(int id) {
         for (Message m : backlog) {
-            if (m.getMessageID() == id) {
+            if (m.getMessageId() == id) {
                 return m;
             }
         }
