@@ -43,8 +43,12 @@ function listContacts(xml, status) {
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
-        $contactsList.append('<li><button>' + $(this).find('firstname').text() +
+        if($(this).find('userId').text() != loggedUser) {
+            //console.log("UserID: " + $(this).find('userId').text());
+            $contactsList.append('<li><button>' + 
+                $(this).find('firstname').text() +
                 " " + $(this).find('lastname').text() + '</button></li>');
+        }
     });
 }
 
