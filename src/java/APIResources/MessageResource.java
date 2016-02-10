@@ -65,6 +65,17 @@ public class MessageResource {
         };
         return Response.ok(list).build();
     }
+    
+    //return group messages made by single group, by id
+    @Path("/group/{groupid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getGroupMessagesXML(@PathParam("groupid") int groupid) {
+        List<Message> messages = chatInstance.getBacklog().getGroupBacklog(groupid);
+        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
+        };
+        return Response.ok(list).build();
+    }
 
     //create a new message
     @Path("/add")

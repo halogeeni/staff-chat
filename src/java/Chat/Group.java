@@ -37,6 +37,7 @@ public class Group {
     private String name;
     private final List<User> users;
     private List<Integer> userIds;
+    private List<Message> backlog;
 
     public Group() {
         users = new ArrayList<>();
@@ -48,6 +49,7 @@ public class Group {
         this.users = new ArrayList<>();
         this.userIds = new ArrayList<>();
         this.groupId = idCounter++;
+        this.backlog=new ArrayList<>();
     }
 
     public Group(String name, List<User> users) {
@@ -90,6 +92,12 @@ public class Group {
 
     public void setUserIds(List<Integer> userIds) {
         this.userIds = userIds;
+    }
+    public List<Message> getGroupBacklog(){
+        return backlog;
+    }
+    public void addToGroupBacklog(Message msg){
+        backlog.add(msg);
     }
 
 }

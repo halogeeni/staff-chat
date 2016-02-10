@@ -117,6 +117,12 @@ public class TestChat {
                 = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Missä se kahvi viipyy! Pitäs olla jo!"));
         backlog.addMessage(message5);
+        
+        Message message6
+                = new Message(user1, Channel.CHANNEL_GROUP, null, staffGroupList,
+                        new MessageBody("Täällä on joku pappa maassa; tulkaapi nostamaan! T: MARTTA"));
+        backlog.addMessage(message6);
+        
 
     }
 

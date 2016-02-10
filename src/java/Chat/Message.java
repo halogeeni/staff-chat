@@ -119,6 +119,9 @@ public class Message {
     public Channel getChannel() {
         return channel;
     }
+    public Channel getCHANNEL(){
+        return channel;
+    }
 
     public void setChannel(Channel channel) {
         this.channel = channel;

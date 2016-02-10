@@ -73,7 +73,7 @@ function listGroups(xml) {
     var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
-        $groupsList.append('<li><button>' + $(this).find('name').text()) + '</button></li>';
+        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text()) + '</button></li>';
     });
 }
 
@@ -207,6 +207,16 @@ function getBroadcasts() {
     console.log('In getBroadcasts');
     $.ajax({
         url: baseURL + '/messages/broadcast',
+        method: 'GET',
+        dataType: 'xml',
+        success: listMessages
+    });
+}
+//Work in progress. Trying to get the group backlog and show it on chat window
+function getGroupMessages(groupid){
+    console.log('In getPrivate');
+    $.ajax({
+        url: baseURL + '/messages/'+groupid,
         method: 'GET',
         dataType: 'xml',
         success: listMessages

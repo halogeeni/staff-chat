@@ -67,6 +67,16 @@ THE SOFTWARE.
                 $(this).addClass("active");
                 $("#container").load("chat.html").fadeIn('500');
             });
+            
+            //still work in progress. Trying to access group chat window by clicking the group in group listing
+            $("#group-chat-button").click(function () {
+                console.log("group-chat-button clicked");
+                $("#groups-button").removeClass("active");
+                $("#contacts-button").removeClass("active");
+                $(this).addClass("active");
+                $("#container").load("chat.html").fadeIn('500');
+                console.log("group-chat-button clicked");
+            }); 
         </script>
     </body>
 </html>
