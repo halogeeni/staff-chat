@@ -45,7 +45,8 @@ public class MessageResource {
         this.chatInstance = TestChat.getInstance();
     }
 
-    //return all messages in the history
+    // return ALL messages in backlog
+    // this should be secured!
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesXML() {
@@ -55,7 +56,7 @@ public class MessageResource {
         return Response.ok(list).build();
     }
 
-    //return broadcast messages in the history
+    // return broadcast message backlog
     @Path("/broadcast")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -77,7 +78,7 @@ public class MessageResource {
         return Response.ok(list).build();
     }
 
-    //create a new message
+    // create a new message
     @Path("/add")
     @POST
     @Consumes(MediaType.APPLICATION_XML)
@@ -85,7 +86,7 @@ public class MessageResource {
         chatInstance.getBacklog().addMessage(msg);
     }
 
-    //gets only a single message that matches the id given
+    // get a single message that matches the id given
     @Path("/messageid/{messageid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
@@ -93,7 +94,7 @@ public class MessageResource {
         return Response.ok().entity(chatInstance.getBacklog().getSingleMessage(messageid)).build();
     }
 
-    //Gets all messages sent by the user
+    // get all messages sent by the user
     @Path("/userid/{userid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)

@@ -32,22 +32,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Message {
 
-    // global message id counter
+    // message id counter
     private static int idCounter = 0;
     // unique message id
     // int datatype range ought to be enough!
-    private int messageID;
+    private int messageId;
     private final long timestamp;
 
     // sender, recipient(s) & publicity information
     private Channel channel;
-    private User fromUser, toUser;
-    //private int fromUserId, toUserId;
+    //private User fromUser, toUser;
+    // Integer used instead of int, as broadcast & group messages have no userIds (=null)
+    private Integer fromUserId, toUserId;
     private List<Group> toGroups;
     private List<Integer> toGroupIds;
     private final Date date = new Date();
 
-    // message body
+    // message body (actual content: text, image ...)
     private MessageBody body;
 
     public Message() {
@@ -57,20 +58,22 @@ public class Message {
     }
 
     public Message(User fromUser, Channel channel, User toUser, List<Group> groups, MessageBody body) {
-
         switch (channel) {
             case CHANNEL_GROUP:
                 this.toGroups = groups;
-                this.toUser = null;
+                this.toUserId = null;
+                //this.toUser = null;
                 break;
             case CHANNEL_BROADCAST:
                 // should we get all groups available from a singleton server?
                 this.toGroups = null;
-                this.toUser = null;
+                this.toUserId = null;
+                //this.toUser = null;
                 break;
             default:
                 this.toGroups = null;
-                this.toUser = toUser;
+                //this.toUser = toUser;
+                this.toUserId = toUser.getUserId();
                 break;
         }
 
@@ -78,7 +81,8 @@ public class Message {
         this.channel = channel;
 
         // sender
-        this.fromUser = fromUser;
+        //this.fromUser = fromUser;
+        this.fromUserId = fromUser.getUserId();
 
         // the message data itself, text or image
         this.body = body;
@@ -88,7 +92,7 @@ public class Message {
 
         // set unique message id and increment counter
         // TODO synchronization? could two messages get the same id now?
-        this.messageID = idCounter++;
+        this.messageId = idCounter++;
 
         this.toGroupIds = new ArrayList<>();
 
@@ -99,15 +103,16 @@ public class Message {
         }
     }
 
-    // getters
+    // getters & setters
+    
     @XmlElement
-    public int getMessageID() {
-        return messageID;
+    public int getMessageId() {
+        return messageId;
     }
 
     // dummy setter workaround for jersey
-    public void setMessageID(int messageID) {
-        this.messageID = idCounter++;
+    public void setMessageId(int messageId) {
+        this.messageId = idCounter++;
     }
 
     @XmlElement
@@ -127,15 +132,40 @@ public class Message {
         this.channel = channel;
     }
 
-    @XmlElement
+    /*
+    
     public User getFromUser() {
         return fromUser;
     }
 
-    @XmlElement
+    
     public User getToUser() {
         return toUser;
     }
+    
+    */
+
+    @XmlElement
+    public Integer getFromUserId() {
+        return fromUserId;
+    }
+    
+    @XmlElement
+    public Integer getToUserId() {
+        return toUserId;
+    }
+
+    public void setFromUserId(Integer fromUserId) {
+        this.fromUserId = fromUserId;
+        //this.fromUser = Backlog.getInstance().getSingleUser(fromUserId);
+    }
+
+    public void setToUserId(Integer toUserId) {
+        this.toUserId = toUserId;
+        //this.toUser = Backlog.getInstance().getSingleUser(toUserId);
+    }
+
+    /*
 
     public void setFromUser(User fromUser) {
         this.fromUser = fromUser;
@@ -144,6 +174,8 @@ public class Message {
     public void setToUser(User toUser) {
         this.toUser = toUser;
     }
+
+    */
 
     public List<Group> getToGroups() {
         return toGroups;
