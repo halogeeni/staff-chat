@@ -29,8 +29,13 @@ import javax.xml.bind.annotation.XmlElement;
 public class MessageBody {
 
     // text and images only so far
-    private final String text;
-    private final Image image;
+    private String text;
+    private Image image;
+    
+    public MessageBody() {
+        this.text = null;
+        this.image = null;
+    }
 
     public MessageBody(String text) {
         this.text = text;
@@ -61,4 +66,12 @@ public class MessageBody {
         return image;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+    
 }

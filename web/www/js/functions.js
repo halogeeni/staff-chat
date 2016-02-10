@@ -34,7 +34,7 @@ function toTime(s) {
 // Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
     console.log('In listContacts');
-    xmlString = (new XMLSerializer().serializeToString(xml));
+    //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $contactsContent = $('#contactsContent');
 
@@ -43,8 +43,8 @@ function listContacts(xml, status) {
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
-        $contactsList.append('<li><button>' + $(this).find('firstname').text()+
-                " "+ $(this).find('lastname').text() + '</button></li>');
+        $contactsList.append('<li><button>' + $(this).find('firstname').text() +
+                " " + $(this).find('lastname').text() + '</button></li>');
     });
 }
 
@@ -60,7 +60,7 @@ function getContacts() {
 
 function listGroups(xml) {
     console.log('In listGroups');
-    xmlString = (new XMLSerializer().serializeToString(xml));
+    //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $groupsContent = $('#groupsContent');
 
@@ -86,9 +86,11 @@ function getGroups() {
 
 function listMessages(xml) {
     console.log('In listMessages');
-    xmlString = (new XMLSerializer().serializeToString(xml));
+    //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $messagesContainer = $('#messages');
+    // clear message container first
+    $messagesContainer.empty();
 
     $xml.find('message').each(function () {
         var $uid = $(this).find('userId').text();
@@ -117,49 +119,83 @@ function listMessages(xml) {
                     );
         }
     });
+    
+    // scroll message container to bottom
+    $messagesContainer.animate({ scrollTop: $messagesContainer[0].scrollHeight}, 1000);
 }
 
+function sendMessage(message) {
+    // populate fromUser with getuser by id
+    //var message = messageContent;
+    //var fromUser = getUserXml(loggedUser);
+    //console.log("message being readied for send: " + message);
+    //console.log("fromUser: " + fromUser);
+    /*
+     var messageXML =
+     $.parseXML('');
+     var messageXMLDoc = $.parseXML(messageXML);
+     console.log(messageXMLDoc);
+     var $xml = $(messageXMLDoc);
+    */
 
-function sendMessage(message){
-    //populate fromUser with getuser by id
-    var message=message;
-    var fromUser=getUser(loggedUser); //doesn't have a return yet
-    console.log("message being readied for send: "+message)
-    console.log("fromUser: "+fromUser);
-    var messageXMLDoc=$.parseXML('<message><body><text></text></body><channel></channel><fromUser></fromUser></message>');
-    var $messageXML=$(messageXMLDoc);
-    
-    $messageXML.find('text').append(message);
-    
-    
-    xmlString=(new XMLSerializer()).serializeToString(messageXMLDoc);
-    console.log('messageXmlDoc selizalized: '+xmlString);
+    var xml = "<message><body><text></text></body><channel></channel><fromUser></fromUser><messageID>9999999</messageID></message>";
+    var xmlDoc = $.parseXML(xml);
+    var $xml = $(xmlDoc);
+
+    // debugging stuff
+    var serializer = new XMLSerializer();
+
+    var debugXmlString = serializer.serializeToString($xml[0]);
+    console.log("message to append is: " + message);
+    console.log("debugXmlString is: " + debugXmlString);
     
     $.ajax({
-        url: baseURL + "/messages/add",
-        data: messageXMLDoc,
-        processData:false,
-        type:'POST',
-        contentType: 'application/xml',
+        url: baseURL + '/users/' + loggedUser,
+        method: 'GET',
+        dataType: 'xml',
+        success: function (xml) {
+            //console.log("xml received: " + serializer.serializeToString(xml));
+            var fromUserXML = $(xml).find('user').children().clone();
+            $xml.find('fromUser').append(fromUserXML);
+            //console.log("$xml after fromUser append: " + serializer.serializeToString($xml[0]));
+            
+            $xml.find('text').append(message);
+            $xml.find('channel').append('CHANNEL_BROADCAST');
+            //console.log("$xml after text and channel appends: " + serializer.serializeToString($xml[0]));
+            xmlDoc = serializer.serializeToString($xml[0]);
+        },
+        complete: function () {
+            $.ajax({
+                url: baseURL + "/messages/add",
+                data: xmlDoc,
+                processData: false,
+                type: 'POST',
+                contentType: 'application/xml',
+                //dataType: 'xml',
+                success: function () {
+                    // update messages on successful send
+                    getBroadcasts();
+                    // empty message-field
+                    $('#message-field').val('');
+                },
+                error: function () {
+                    alert('DEBUG: sendMessage AJAX error!');
+                }
+            });
+        }
+    });
+}
+
+function getUserXml(user) {
+    console.log("getUser user value to be fetched: " + user);
+    //var user = user;
+    var data = $.ajax({
+        url: baseURL + '/users/' + user,
+        method: 'GET',
         dataType: 'xml'
     });
 
-}
-
-function getUser(user){
-    console.log("getUser user value to be fetched: "+user);
-    var user=user;
-    $.ajax({
-        url: baseURL + '/users/'+user,
-        method: 'GET',
-        dataType: 'xml',
-        success: function (data){
-            xmlUser=(new XMLSerializer()).serializeToString(data);
-            console.log("getUser() -> userXML to string:"+ xmlUser)
-            return xmlUser;
-        }
-    });
-    //needs to return something
+    return data;
 }
 
 
