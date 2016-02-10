@@ -47,7 +47,7 @@ public class Backlog {
         this.groups = new ArrayList<>();
         this.users = new ArrayList<>();
         this.broadcastBacklog = new ArrayList<>();
-        
+
         // create group 0 (=BROADCAST CHANNEL)
         //groups.add(0, new Group("Broadcast"));
     }
@@ -117,7 +117,7 @@ public class Backlog {
     public List<User> getUsers() {
         return users;
     }
-    
+
     public List<Group> getGroups() {
         return groups;
     }
@@ -130,7 +130,7 @@ public class Backlog {
         }
         return null;
     }
-    
+
     public Group getSingleGroup(int id) {
         for (Group g : groups) {
             if (g.getGroupId() == id) {
@@ -139,7 +139,7 @@ public class Backlog {
         }
         return null;
     }
-    
+
     public Message getSingleMessage(int id) {
         for (Message m : backlog) {
             if (m.getMessageID() == id) {

@@ -54,7 +54,7 @@ public class MessageResource {
         };
         return Response.ok(list).build();
     }
-    
+
     //return broadcast messages in the history
     @Path("/broadcast")
     @GET
@@ -65,7 +65,6 @@ public class MessageResource {
         };
         return Response.ok(list).build();
     }
-    
 
     //create a new message
     @Path("/add")

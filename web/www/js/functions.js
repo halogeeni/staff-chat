@@ -43,11 +43,11 @@ function listContacts(xml, status) {
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
-        if($(this).find('userId').text() != loggedUser) {
+        if ($(this).find('userId').text() != loggedUser) {
             //console.log("UserID: " + $(this).find('userId').text());
-            $contactsList.append('<li><button>' + 
-                $(this).find('firstname').text() +
-                " " + $(this).find('lastname').text() + '</button></li>');
+            $contactsList.append('<li><button>' +
+                    $(this).find('firstname').text() +
+                    " " + $(this).find('lastname').text() + '</button></li>');
         }
     });
 }
@@ -123,9 +123,9 @@ function listMessages(xml) {
                     );
         }
     });
-    
+
     // scroll message container to bottom
-    $messagesContainer.animate({ scrollTop: $messagesContainer[0].scrollHeight}, 1000);
+    $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 1000);
 }
 
 function sendMessage(message) {
@@ -140,7 +140,7 @@ function sendMessage(message) {
      var messageXMLDoc = $.parseXML(messageXML);
      console.log(messageXMLDoc);
      var $xml = $(messageXMLDoc);
-    */
+     */
 
     var xml = "<message><body><text></text></body><channel></channel><fromUser></fromUser><messageID>9999999</messageID></message>";
     var xmlDoc = $.parseXML(xml);
@@ -162,7 +162,7 @@ function sendMessage(message) {
             var fromUserXML = $(xml).find('user').children().clone();
             $xml.find('fromUser').append(fromUserXML);
             //console.log("$xml after fromUser append: " + serializer.serializeToString($xml[0]));
-            
+
             $xml.find('text').append(message);
             $xml.find('channel').append('CHANNEL_BROADCAST');
             //console.log("$xml after text and channel appends: " + serializer.serializeToString($xml[0]));

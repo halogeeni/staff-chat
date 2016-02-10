@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package Chat;
 
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class TestChat {
         backlog.getUsers().add(user2);
         backlog.getUsers().add(user3);
         backlog.getUsers().add(user4);
-        
+
         // add users to groups (server side)
         backlog.getGroups().get(0).getUsers().add(user1);
         backlog.getGroups().get(2).getUsers().add(user1);

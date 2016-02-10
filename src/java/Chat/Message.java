@@ -89,11 +89,11 @@ public class Message {
         // set unique message id and increment counter
         // TODO synchronization? could two messages get the same id now?
         this.messageID = idCounter++;
-        
+
         this.toGroupIds = new ArrayList<>();
-        
-        if(!(groups == null) && !groups.isEmpty()) {
-            for(Group group : groups) {
+
+        if (!(groups == null) && !groups.isEmpty()) {
+            for (Group group : groups) {
                 this.toGroupIds.add(group.getGroupId());
             }
         }
@@ -141,7 +141,7 @@ public class Message {
     public void setToUser(User toUser) {
         this.toUser = toUser;
     }
-    
+
     public List<Group> getToGroups() {
         return toGroups;
     }
@@ -150,11 +150,11 @@ public class Message {
     public MessageBody getBody() {
         return body;
     }
-    
+
     public void setBody(MessageBody body) {
         this.body = body;
     }
-    
+
     @XmlElement
     public List<Integer> getToGroupIds() {
         return toGroupIds;

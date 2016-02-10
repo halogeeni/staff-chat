@@ -31,7 +31,7 @@ public class MessageBody {
     // text and images only so far
     private String text;
     private Image image;
-    
+
     public MessageBody() {
         this.text = null;
         this.image = null;
@@ -73,5 +73,5 @@ public class MessageBody {
     public void setImage(Image image) {
         this.image = image;
     }
-    
+
 }

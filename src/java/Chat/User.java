@@ -32,29 +32,29 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User implements Observer {
 
     private static int idCounter = 0;
-    
+
     // unique user id
     private int userId;
-    
+
     // Personal information
     private String firstname, lastname, username;
-    
+
     // list of groups the user is involved in
     // REDUNDANT
     private final List<Group> groups;
-    
+
     // List of groupID's the user is involved in
     private final List<Integer> groupIds;
-    
+
     // User message backlog
     private final List<Message> userBacklog;
-    
+
     public User() {
         this.groupIds = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.userBacklog = new ArrayList<>();
     }
-    
+
     public User(String firstname, String lastname, String username, List<Group> groups) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -63,19 +63,19 @@ public class User implements Observer {
         this.groups = groups;
         this.userBacklog = new ArrayList<>();
         this.groupIds = new ArrayList<>();
-        
+
         // Adds all groupIDs into array
         for (Group g : groups) {
             groupIds.add(g.getGroupId());
         }
     }
-    
+
     // Message received
     @Override
     public void update(Message msg) {
         System.out.println("DEBUG: Message received.");
     }
-    
+
     // Server message received
     @Override
     public void update(String msg) {
@@ -83,12 +83,11 @@ public class User implements Observer {
     }
 
     // Setters & getters
-
     @XmlElement
     public int getUserId() {
         return userId;
     }
-    
+
     @XmlElement
     public String getFirstname() {
         return firstname;
@@ -119,7 +118,7 @@ public class User implements Observer {
     public List<Group> getGroups() {
         return groups;
     }
-    
+
     @XmlElement
     public List<Integer> getGroupIds() {
         return groupIds;
@@ -134,5 +133,5 @@ public class User implements Observer {
     public void setUserId(int userId) {
         this.userId = idCounter++;
     }
-    
+
 }
