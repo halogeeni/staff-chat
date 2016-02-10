@@ -37,24 +37,23 @@ THE SOFTWARE.
 <script>
 
     $(document).ready(function () {
-
         // bind enter key event to submit
         $('#message-field').keypress(function (event) {
             if (event.which === 13) {
                 event.preventDefault();
+                if (validateInput($('#message-field').val())) {
+                    sendMessage($('#message-field').val());
+                }
+            }
+        });
+
+        $('#send-button').click(function () {
+            if (validateInput($('#message-field').val())) {
                 sendMessage($('#message-field').val());
             }
         });
 
         getBroadcasts();
-
-    });
-
-    $(document).ready(function () {
-        $('#send-button').click(function () {
-            sendMessage($('#message-field').val());
-        });
     });
 
 </script>
-

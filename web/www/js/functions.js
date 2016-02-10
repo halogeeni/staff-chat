@@ -244,3 +244,14 @@ function getBroadcasts() {
         success: listMessages
     });
 }
+
+function validateInput(input) {
+    // returns true for valid text content (no empty string or just whitespace)
+    var value = $.trim(input);
+
+    if (value.length > 0) {
+        return true;
+    }
+
+    return false;
+}
