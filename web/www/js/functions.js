@@ -148,7 +148,7 @@ function sendMessage(message) {
     var debugXmlString = serializer.serializeToString($xml[0]);
     console.log("message to append is: " + message);
     console.log("debugXmlString is: " + debugXmlString);
-    
+
     $.ajax({
         url: baseURL + '/users/' + loggedUser,
         method: 'GET',
@@ -186,6 +186,7 @@ function sendMessage(message) {
     });
 }
 
+// this is redundant now
 function getUserXml(user) {
     console.log("getUser user value to be fetched: " + user);
     //var user = user;
@@ -197,7 +198,6 @@ function getUserXml(user) {
 
     return data;
 }
-
 
 function getBroadcasts() {
     console.log('In getBroadcasts');
