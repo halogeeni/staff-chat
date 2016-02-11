@@ -28,13 +28,15 @@ THE SOFTWARE.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
+        <script type="text/javascript" src="js/functions.js"></script>
     </head>
     <body>
         <div id="loginWrapper">
             <h4>staff-chat</h4>
-            <form>
+            <form name="loginForm" method="POST" action="index.html" onClick="return loginValidate();">
                 <p><label for="username">Username</label><input type="text" name="username" id="username" /></p>
-                <p><label for="password">Password</label><input type="password" name="password" id="password" /></p>
+                <p><label for="password">Password</label><input type="text" name="password" id="password" /></p>
                 <p><input type="submit" name="login"  value="Login" /></p>
             </form>
         </div>

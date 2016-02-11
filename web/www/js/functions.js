@@ -31,6 +31,17 @@ function toTime(s) {
     return myDate.toLocaleString();
 }
 
+function loginValidate() {
+    var username = document.loginForm.username.value;
+    var password = document.loginForm.password.value;
+
+    if ((username == "user") && (password == "password")) {
+        return true;
+    } else {
+        alert("Username or password wrong. :c");
+        return false;
+    }
+}
 // Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
     console.log('In listContacts');
