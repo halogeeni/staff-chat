@@ -25,6 +25,8 @@ package Chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestChat {
 
@@ -97,33 +99,63 @@ public class TestChat {
                 = new Message(user1, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Hei kaikki! Hejsan!"));
         backlog.addMessage(message1);
+        
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Message message2
                 = new Message(user2, Channel.CHANNEL_GROUP, null, standardGroupList,
                         new MessageBody("Lissu hei! Tuo kahvia T: MARTTA"));
         backlog.addMessage(message2);
 
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Message message3
                 = new Message(user3, Channel.CHANNEL_PRIVATE, user2, null,
                         new MessageBody("Martta! Kahvit loppu toista päivää -LISSU"));
         backlog.addMessage(message3);
 
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Message message4
                 = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Ostakaa joku kahvia, pliis."));
         backlog.addMessage(message4);
 
+        
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Message message5
                 = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Missä se kahvi viipyy! Pitäs olla jo!"));
         backlog.addMessage(message5);
+        
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         Message message6
                 = new Message(user1, Channel.CHANNEL_GROUP, null, staffGroupList,
                         new MessageBody("Täällä on joku pappa maassa; tulkaapi nostamaan! T: MARTTA"));
         backlog.addMessage(message6);
         
-
     }
 
 }

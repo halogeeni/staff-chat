@@ -2,7 +2,7 @@
 <!--
 The MIT License
 
-Copyright 2016 Oskar.
+Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -41,18 +41,21 @@ THE SOFTWARE.
         $('#message-field').keypress(function (event) {
             if (event.which === 13) {
                 event.preventDefault();
+                if (validateInput($('#message-field').val())) {
+                    sendMessage($('#message-field').val());
+                }
+            }
+        });
+
+        $('#send-button').click(function () {
+            if (validateInput($('#message-field').val())) {
                 sendMessage($('#message-field').val());
             }
         });
 
         getBroadcasts();
+        //getGroupMessages(groupid);
 
-    });
-
-    $(document).ready(function () {
-        $('#send-button').click(function () {
-            sendMessage($('#message-field').val());
-        });
     });
 
 </script>

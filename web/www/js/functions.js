@@ -31,7 +31,6 @@ function toTime(s) {
     return myDate.toLocaleString();
 }
 
-// Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
     console.log('In listContacts');
     //var xmlString = (new XMLSerializer().serializeToString(xml));
@@ -43,7 +42,7 @@ function listContacts(xml, status) {
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
-        if ($(this).find('userId').text() != loggedUser) {
+        if (parseInt($(this).find('userId').text()) !== loggedUser) {
             //console.log("UserID: " + $(this).find('userId').text());
             $contactsList.append('<li><button>' +
                     $(this).find('firstname').text() +
@@ -87,86 +86,113 @@ function getGroups() {
     });
 }
 
-
 function listMessages(xml) {
-
     console.log('In listMessages');
     //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $messagesContainer = $('#messages');
-    var firstname = '', lastname = '';
+    var messageBuffer = [];
+    var promises = [];
 
-    // clear message container first
-    $messagesContainer.empty();
+    /*
+     var messageCount = $xml.find('message').size();
+     console.log('messagecount:' + messageCount);
+     */
 
     $xml.find('message').each(function () {
-
         var $messageData = $(this);
-        var $uid = $messageData.find('fromUserId').text();
+        var uid = parseInt($messageData.find('fromUserId').text());
+        var firstname = '', lastname = '';
 
-        $.ajax({
-            url: baseURL + '/users/' + $uid,
-            method: 'GET',
-            dataType: 'xml',
-            success: function (userXml) {
-                firstname = $(userXml).find('firstname').text();
-                lastname = $(userXml).find('lastname').text();
-            },
-            error: function () {
-                // just in case nothing is found...
-                firstname = 'unknown';
-                lastname = 'user';
-            },
-            complete: function () {
-                // message was sent by me, style it accordingly
-                if ($uid == loggedUser) {
-                    $messagesContainer.append('<div class="my-message">' +
-                            '<p class="message-body">' +
-                            $messageData.find('text').text() + '</p>' +
-                            '<p class="timestamp">' +
-                            toTime($messageData.find('timestamp').text()) + '</p>' +
-                            '</div>'
-                            );
-                    // message was sent by someone else
-                } else {
-                    $messagesContainer.append('<div class="others-message">' +
-                            '<p class="username">' +
-                            firstname + ' ' +
-                            lastname +
-                            '</p>' +
-                            '<p class="message-body">' +
-                            $messageData.find('text').text() +
-                            '</p>' +
-                            '<p class="timestamp">' +
-                            toTime($messageData.find('timestamp').text()) +
-                            '</p>' +
-                            '</div>'
-                            );
-                }
-            }
-        });
+        console.log('starting ajax call - promises size now: ' + promises.length);
 
+        // push promise to array
+        promises.push(
+                $.ajax({
+                    url: baseURL + '/users/' + uid,
+                    method: 'GET',
+                    dataType: 'xml',
+                    success: function (userXml) {
+                        firstname = $(userXml).find('firstname').text();
+                        lastname = $(userXml).find('lastname').text();
+                    },
+                    error: function () {
+                        // just in case nothing is found...
+                        firstname = 'unknown';
+                        lastname = 'user';
+                    },
+                    complete: function () {
+                        var messageHTML = '';
+                        var timestamp = 0;
+                        // message was sent by me, style it accordingly
+                        if (uid === loggedUser) {
+                            messageHTML = messageHTML.concat('<div class="my-message">' +
+                                    '<p class="message-body">' +
+                                    $messageData.find('text').text() +
+                                    '</p>' +
+                                    '<p class="timestamp">' +
+                                    toTime(timestamp = $messageData.find('timestamp').text()) +
+                                    '</p>' +
+                                    '</div>'
+                                    );
+                        } else {
+                            // message was sent by someone else
+                            messageHTML = messageHTML.concat('<div class="others-message">' +
+                                    '<p class="username">' +
+                                    firstname + ' ' +
+                                    lastname +
+                                    '</p>' +
+                                    '<p class="message-body">' +
+                                    $messageData.find('text').text() +
+                                    '</p>' +
+                                    '<p class="timestamp">' +
+                                    toTime(timestamp = $messageData.find('timestamp').text()) +
+                                    '</p>' +
+                                    '</div>'
+                                    );
+                        }
 
+                        // convert timestamp string to integer
+                        timestamp = parseInt(timestamp);
+                        messageBuffer.push({timestamp: timestamp, message: messageHTML});
+                        /*
+                        console.log('pushed values ...');
+                        console.log('timestamp: ' + timestamp);
+                        console.log('message: ' + messageHTML);
+                        console.log('buffer now: ' + messageBuffer.toString());
+                        */
+                    }
+                }));
+        console.log('promises size now: ' + promises.length);
     });
 
-    // finally, scroll message container to bottom
-    $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
+    // MESSAGE BUFFERING DONE
+
+    // wait for ajax calls to complete
+    $.when.apply($, promises).done(function () {
+
+        // sort the buffer by timestamps
+        messageBuffer.sort(function (x, y) {
+            return x.timestamp - y.timestamp;
+        });
+
+        // clear the message container
+        $messagesContainer.empty();
+
+        // output newly-populated message buffer to the container
+        for (var i = 0; i < messageBuffer.length; i++) {
+            console.log('message in buffer: ' + messageBuffer[i].message.toString());
+            $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
+        }
+
+        // finally, scroll message container to bottom
+        $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
+
+    });
 
 }
 
 function sendMessage(message) {
-    // populate fromUser with getuser by id
-    //var message = messageContent;
-    //var fromUser = getUserXml(loggedUser);
-    //console.log("message being readied for send: " + message);
-    //console.log("fromUser: " + fromUser);
-    /*
-     var messageXML =
-     $.parseXML('');
-     var messageXMLDoc = $.parseXML(messageXML);
-     console.log(messageXMLDoc);
-     var $xml = $(messageXMLDoc);
-     */
 
     var xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
     var xmlDoc = $.parseXML(xml);
@@ -207,15 +233,16 @@ function sendMessage(message) {
                 processData: false,
                 type: 'POST',
                 contentType: 'application/xml',
-                //dataType: 'xml',
                 success: function () {
-                    // update messages on successful send
-                    getBroadcasts();
                     // empty message-field
                     $('#message-field').val('');
                 },
                 error: function () {
                     alert('DEBUG: sendMessage AJAX error!');
+                },
+                complete: function () {
+                    // update messages
+                    getBroadcasts();
                 }
             });
         }
@@ -245,16 +272,16 @@ function getBroadcasts() {
     });
 }
 
-//Work in progress. Trying to get the group backlog and show it on chat window
-function getGroupMessages(groupid){
+// Work in progress. Trying to get the group backlog and show it on chat window
+function getGroupMessages(groupid) {
     console.log('In getPrivate');
     $.ajax({
-        url: baseURL + '/messages/'+groupid,
+        url: baseURL + '/messages/' + groupid,
         method: 'GET',
         dataType: 'xml',
         success: listMessages
     });
-    }
+}
 
 function validateInput(input) {
     // returns true for valid text content (no empty string or just whitespace)
