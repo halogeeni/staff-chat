@@ -31,6 +31,17 @@ function toTime(s) {
     return myDate.toLocaleString();
 }
 
+function loginValidate() {
+    var username = document.loginForm.username.value;
+    var password = document.loginForm.password.value;
+
+    if ((username == "user") && (password == "password")) {
+        return true;
+    } else {
+        alert("Username or password wrong. :c");
+        return false;
+    }
+}
 // Fix so that the user doesn't show in the contacts
 function listContacts(xml, status) {
     console.log('In listContacts');
@@ -247,23 +258,47 @@ function getBroadcasts() {
 }
 
 //Work in progress. Trying to get the group backlog and show it on chat window
-function getGroupMessages(groupid){
+function getGroupMessages(groupid) {
     console.log('In getPrivate');
     $.ajax({
-        url: baseURL + '/messages/'+groupid,
+        url: baseURL + '/messages/' + groupid,
         method: 'GET',
         dataType: 'xml',
         success: listMessages
     });
-    }
-
-function validateInput(input) {
-    // returns true for valid text content (no empty string or just whitespace)
-    var value = $.trim(input);
-
-    if (value.length > 0) {
-        return true;
-    }
-
-    return false;
 }
+
+var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+
+var tagOrComment = new RegExp(
+        '<(?:'
+        + '!--(?:(?:-*[^->])*--+|-?)'
+        + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
+        + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+        + '|/?[a-z]'
+        + tagBody
+        + ')>',
+// global identifier without case sensitiviness
+        'gi');
+function validateInput(input) {
+    var oldInput;
+    do {
+        oldInput = input;
+        input = input.replace(tagOrComment, '');
+    } while (input !== oldInput);
+    console.log("RegEx is hard!");
+    // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
+    return input.replace(/</g, '&lt;');
+}
+/* // old version not needed anymore, left for sake of backrolling
+ function validateInput(input) {
+ // returns true for valid text content (no empty string or just whitespace)
+ var value = $.trim(input);
+ 
+ if (value.length > 0) {
+ return true;
+ }
+ 
+ return false;
+ }
+ */
