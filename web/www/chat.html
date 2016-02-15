@@ -37,7 +37,7 @@ THE SOFTWARE.
 <script>
 
     $(document).ready(function () {
-        $("input:text:visible:first").focus();
+        $("#message-field").focus();
         // bind enter key event to submit
         $('#message-field').keypress(function (event) {
             if (event.which === 13) {
@@ -49,13 +49,14 @@ THE SOFTWARE.
         });
 
         $('#send-button').click(function () {
-            $("input:text:visible:first").focus();
+            $("#message-field").focus();
             if (validateInput($('#message-field').val())) {
                 sendMessage($('#message-field').val());
             }
         });
 
         getBroadcasts();
+        
     });
 
 </script>
