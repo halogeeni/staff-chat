@@ -31,6 +31,19 @@ function toTime(s) {
     return myDate.toLocaleString();
 }
 
+function loginValidate() {
+    var username = document.loginForm.username.value;
+    var password = document.loginForm.password.value;
+
+    if ((username === "user") && (password === "password")) {
+        return true;
+    } else {
+        alert("Username or password wrong. :c");
+        return false;
+    }
+}
+
+// Fix so that the user doesn't show in the contacts
 function listContacts(xml) {
     console.log('In listContacts');
     //var xmlString = (new XMLSerializer().serializeToString(xml));
@@ -67,12 +80,13 @@ function listGroups(xml) {
     var $xml = $(xml);
     var $groupsContent = $('#groupsContent');
 
-    $groupsContent.append($('<ul id="groupsList">\n\
-                    </ul>'));
+    $groupsContent.append($('<ul id="groupsList"></ul>'));
     var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
-        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text()) + '</button></li>';
+        // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
+        //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
+        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text() + '</button></li><button id="groupid-button">' + $(this).find('groupId').text() + '</button></li>');
     });
 }
 
@@ -180,13 +194,11 @@ function listMessages(xml) {
 
         // finally, scroll message container to bottom
         $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
-
     });
 
 }
 
 function sendMessage(message) {
-
     var xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
     var xmlDoc = $.parseXML(xml);
     var $xml = $(xmlDoc);
@@ -276,13 +288,39 @@ function getGroupMessages(groupid) {
     });
 }
 
+var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+
+var tagOrComment = new RegExp(
+        '<(?:'
+        + '!--(?:(?:-*[^->])*--+|-?)'
+        + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
+        + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+        + '|/?[a-z]'
+        + tagBody
+        + ')>',
+// global identifier without case sensitiviness
+        'gi');
+
 function validateInput(input) {
-    // returns true for valid text content (no empty string or just whitespace)
-    var value = $.trim(input);
-
-    if (value.length > 0) {
-        return true;
-    }
-
-    return false;
+    var oldInput;
+    do {
+        oldInput = input;
+        input = input.replace(tagOrComment, '');
+    } while (input !== oldInput);
+    console.log("RegEx is hard!");
+    // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
+    return input.replace(/</g, '&lt;');
 }
+
+/* // old version not needed anymore, left for sake of backrolling
+ function validateInput(input) {
+ // returns true for valid text content (no empty string or just whitespace)
+ var value = $.trim(input);
+ 
+ if (value.length > 0) {
+ return true;
+ }
+ 
+ return false;
+ }
+ */
