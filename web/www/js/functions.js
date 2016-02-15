@@ -31,7 +31,7 @@ function toTime(s) {
     return myDate.toLocaleString();
 }
 
-function listContacts(xml, status) {
+function listContacts(xml) {
     console.log('In listContacts');
     //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
@@ -115,13 +115,6 @@ function listMessages(xml) {
                     success: function (userXml) {
                         firstname = $(userXml).find('firstname').text();
                         lastname = $(userXml).find('lastname').text();
-                    },
-                    error: function () {
-                        // just in case nothing is found...
-                        firstname = 'unknown';
-                        lastname = 'user';
-                    },
-                    complete: function () {
                         var messageHTML = '';
                         var timestamp = 0;
                         // message was sent by me, style it accordingly
@@ -155,15 +148,15 @@ function listMessages(xml) {
                         // convert timestamp string to integer
                         timestamp = parseInt(timestamp);
                         messageBuffer.push({timestamp: timestamp, message: messageHTML});
-                        /*
+
                         console.log('pushed values ...');
                         console.log('timestamp: ' + timestamp);
                         console.log('message: ' + messageHTML);
                         console.log('buffer now: ' + messageBuffer.toString());
-                        */
                     }
                 }));
         console.log('promises size now: ' + promises.length);
+        console.log('promises contains: ' + promises.toString());
     });
 
     // MESSAGE BUFFERING DONE

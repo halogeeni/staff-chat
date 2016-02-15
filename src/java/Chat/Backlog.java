@@ -84,7 +84,6 @@ public class Backlog {
                 getSingleUser(msg.getToUserId()).update(msg);
                 break;
             case CHANNEL_GROUP:
-                
                 // first get all groups from the message "header"
                 for (Group group : msg.getToGroups()) {
                     group.addToGroupBacklog(msg);
@@ -151,9 +150,10 @@ public class Backlog {
         return null;
     }
 
-    public List<Message> getBroadcastBacklog() {
+    public synchronized List<Message> getBroadcastBacklog() {
         return broadcastBacklog;
     }
+    
     public List<Message> getGroupBacklog(int groupid) {
          for (Group group : groups) {
              if(group.getGroupId()==groupid){
