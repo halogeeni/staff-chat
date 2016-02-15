@@ -68,12 +68,13 @@ function listGroups(xml) {
     var $xml = $(xml);
     var $groupsContent = $('#groupsContent');
 
-    $groupsContent.append($('<ul id="groupsList">\n\
-                    </ul>'));
+    $groupsContent.append($('<ul id="groupsList"></ul>'));
     var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
-        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text()) + '</button></li>';
+       // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
+       //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
+    $groupsList.append('<li><button id="group-chat-button">'+$(this).find('name').text()+'</button></li><button id="groupid-button">'+$(this).find('groupId').text()+'</button></li>');
     });
 }
 
