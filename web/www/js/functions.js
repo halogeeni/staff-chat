@@ -26,21 +26,35 @@ var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 // development login flag, so that we are "logged in" as a specific user
 var loggedUser = 0;
 
+function getQueryVariable(variable) {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+function login() {
+   
+   var username = getQueryVariable("username");
+   var password = getQueryVariable("password");
+   
+    if ((username === "user") && (password === "pass")) {
+        loggedUser = 0;
+    } else if ((username === "user1") && (password === "pass")) {
+        loggedUser = 1;
+    } else if ((username === "user2") && (password === "pass")) {
+        loggedUser = 2;
+    } else if ((username === "user3") && (password === "pass")) {
+        loggedUser = 3;
+    }
+}
+
 function toTime(s) {
     var myDate = new Date(s * 1);
     return myDate.toLocaleString();
-}
-
-function loginValidate() {
-    var username = document.loginForm.username.value;
-    var password = document.loginForm.password.value;
-
-    if ((username === "user") && (password === "password")) {
-        return true;
-    } else {
-        alert("Username or password wrong. :c");
-        return false;
-    }
 }
 
 // Fix so that the user doesn't show in the contacts
