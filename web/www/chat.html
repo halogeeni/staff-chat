@@ -54,8 +54,12 @@ THE SOFTWARE.
                 sendMessage($('#message-field').val());
             }
         });
-
-        getBroadcasts();
+        
+        
+        // polling..
+        setInterval(function(){ 
+            getBroadcasts();
+        }, 500);
         
     });
 

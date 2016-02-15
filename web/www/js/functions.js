@@ -101,7 +101,7 @@ function getGroups() {
 }
 
 function listMessages(xml) {
-    console.log('In listMessages');
+    //console.log('In listMessages');
     //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $messagesContainer = $('#messages');
@@ -118,7 +118,7 @@ function listMessages(xml) {
         var uid = parseInt($messageData.find('fromUserId').text());
         var firstname = '', lastname = '';
 
-        console.log('starting ajax call - promises size now: ' + promises.length);
+        //console.log('starting ajax call - promises size now: ' + promises.length);
 
         // push promise to array
         promises.push(
@@ -162,15 +162,16 @@ function listMessages(xml) {
                         // convert timestamp string to integer
                         timestamp = parseInt(timestamp);
                         messageBuffer.push({timestamp: timestamp, message: messageHTML});
-
+                        /*
                         console.log('pushed values ...');
                         console.log('timestamp: ' + timestamp);
                         console.log('message: ' + messageHTML);
                         console.log('buffer now: ' + messageBuffer.toString());
+                        */
                     }
                 }));
-        console.log('promises size now: ' + promises.length);
-        console.log('promises contains: ' + promises.toString());
+        //console.log('promises size now: ' + promises.length);
+        //console.log('promises contains: ' + promises.toString());
     });
 
     // MESSAGE BUFFERING DONE
@@ -188,7 +189,7 @@ function listMessages(xml) {
 
         // output newly-populated message buffer to the container
         for (var i = 0; i < messageBuffer.length; i++) {
-            console.log('message in buffer: ' + messageBuffer[i].message.toString());
+            //console.log('message in buffer: ' + messageBuffer[i].message.toString());
             $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
         }
 
@@ -206,8 +207,10 @@ function sendMessage(message) {
     var serializer = new XMLSerializer();
 
     var debugXmlString = serializer.serializeToString($xml[0]);
+    /*
     console.log("message to append is: " + message);
     console.log("debugXmlString is: " + debugXmlString);
+    */
 
     $.ajax({
         url: baseURL + '/users/' + loggedUser,
@@ -244,10 +247,6 @@ function sendMessage(message) {
                 },
                 error: function () {
                     alert('DEBUG: sendMessage AJAX error!');
-                },
-                complete: function () {
-                    // update messages
-                    getBroadcasts();
                 }
             });
         }
@@ -268,7 +267,7 @@ function getUserXml(user) {
 }
 
 function getBroadcasts() {
-    console.log('In getBroadcasts');
+    //console.log('In getBroadcasts');
     $.ajax({
         url: baseURL + '/messages/broadcast',
         method: 'GET',
@@ -279,7 +278,7 @@ function getBroadcasts() {
 
 // Work in progress. Trying to get the group backlog and show it on chat window
 function getGroupMessages(groupid) {
-    console.log('In getPrivate');
+    //console.log('In getPrivate');
     $.ajax({
         url: baseURL + '/messages/' + groupid,
         method: 'GET',

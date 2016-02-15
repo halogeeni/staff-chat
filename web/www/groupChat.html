@@ -42,14 +42,14 @@ THE SOFTWARE.
             if (event.which === 13) {
                 event.preventDefault();
                 if (validateInput($('#message-field').val())) {
-                    sendMessage($('#message-field').val());
+                    sendMessage($('#message-field').text());
                 }
             }
         });
 
         $('#send-button').click(function () {
             if (validateInput($('#message-field').val())) {
-                sendMessage($('#message-field').val());
+                sendMessage($('#message-field').text());
             }
         });
         
