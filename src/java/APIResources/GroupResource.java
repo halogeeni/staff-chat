@@ -60,7 +60,12 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
-        return Response.ok().entity(thischat.getBacklog().getSingleGroup(groupid)).build();
+        Group grp = thischat.getBacklog().getSingleGroup(groupid);
+        if(grp == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        return Response.ok().entity(grp).build();
     }
 
     @Path("/add")

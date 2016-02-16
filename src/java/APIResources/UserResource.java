@@ -62,7 +62,13 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        return Response.ok().entity(thischat.getBacklog().getSingleUser(userid)).build();
+        User usr = thischat.getBacklog().getSingleUser(userid);
+        
+        if(usr == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        return Response.ok().entity(usr).build();
     }
 
     @Path("/add")

@@ -51,7 +51,8 @@ public class MessageResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesXML() {
         List<Message> messages = chatInstance.getBacklog().getFullBacklog();
-        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
+        GenericEntity<List<Message>> list = 
+                new GenericEntity<List<Message>>(messages) {
         };
         return Response.ok(list).build();
     }
@@ -62,7 +63,8 @@ public class MessageResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getBroadcastMessagesXML() {
         List<Message> messages = chatInstance.getBacklog().getBroadcastBacklog();
-        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
+        GenericEntity<List<Message>> list = 
+                new GenericEntity<List<Message>>(messages) {
         };
         return Response.ok(list).build();
     }
@@ -73,8 +75,15 @@ public class MessageResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupMessagesXML(@PathParam("groupid") int groupid) {
         List<Message> messages = chatInstance.getBacklog().getGroupBacklog(groupid);
-        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
-        };
+        
+        // no messages found with id --> return 404
+        if(messages == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        // messages found --> create list and build response
+        GenericEntity<List<Message>> list = 
+                new GenericEntity<List<Message>>(messages) {};
         return Response.ok(list).build();
     }
 
@@ -91,7 +100,14 @@ public class MessageResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessageXML(@PathParam("messageid") int messageid) {
-        return Response.ok().entity(chatInstance.getBacklog().getSingleMessage(messageid)).build();
+        Message msg = chatInstance.getBacklog().getSingleMessage(messageid);
+        
+        // no message found with id --> return 404
+        if (msg == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        return Response.ok().entity(msg).build();
     }
 
     // get all messages sent by the user
@@ -100,8 +116,14 @@ public class MessageResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesUserXML(@PathParam("userid") int userid) {
         List<Message> messages = chatInstance.getBacklog().getMessagesByUserID(userid);
-        GenericEntity<List<Message>> list = new GenericEntity<List<Message>>(messages) {
-        };
+        
+        // no messages found with id --> return 404
+        if(messages == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        GenericEntity<List<Message>> list = 
+                new GenericEntity<List<Message>>(messages) {};
         return Response.ok(list).build();
     }
 
