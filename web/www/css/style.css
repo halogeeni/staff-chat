@@ -23,7 +23,7 @@ THE SOFTWARE.
 */
 
 body{
-    background-color: #386787;
+    background-color: #2E4172;
     font-family: Arial;
 }
 
@@ -61,9 +61,9 @@ body{
     float: left;
     overflow: hidden;
     margin: 5px 0px 5px 5px; /* top, right, bottom, left */
-    border: 1px solid #5CA3FF;
+    border: 1px solid #ACD5E3;
     border-radius: 10px;
-    background-color: #5CA3FF;
+    background-color: #ACD5E3;
 }
 
 .username{
@@ -102,7 +102,7 @@ body{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #788CB8;
 }
 
 #navigation li{
@@ -116,15 +116,15 @@ body{
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #333;
+    background-color: #788CB8;
 }
 
 #navigation li button:hover{
-    background-color: #111;
+    background-color: #ccc;
 }
 
 .active{
-    background-color: #686b6e;
+    background-color: #071430;
 }
 
 /* Form */
@@ -164,12 +164,13 @@ form #send-button{
     height: 500px;
     margin: 0;
     padding: 0;
-    background-color: #575757;
+    background-color: #fff;
 }
 
 #groupsList li{
     width: 400px;
     height: 60px;
+    margin-bottom: 5px;
 }
 
 #groupsList li button{
@@ -181,11 +182,11 @@ form #send-button{
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #575757;
+    background-color: #7A7A7A;
 }
 
 #groupsList li button:hover{
-    background-color: #111;
+    background-color: #ccc;
 }
 
 /* Contacts */
@@ -195,12 +196,13 @@ form #send-button{
     height: 500px;
     margin: 0;
     padding: 0;
-    background-color: #575757;
+    background-color: #fff;
 }
 
 #contactsList li{
     width: 400px;
     height: 60px;
+    margin-bottom: 5px;
 }
 
 #contactsList li button{
@@ -212,11 +214,11 @@ form #send-button{
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #575757;
+    background-color: #7A7A7A;
 }
 
 #contactsList li button:hover{
-    background-color: #111;
+    background-color: #ccc;
 }
 
 /* Login */

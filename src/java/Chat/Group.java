@@ -62,8 +62,8 @@ public class Group {
         this.groupId = idCounter++;
     }
 
-    // setters & getters
-    
+    // setters & getters  
+
     @XmlElement
     public int getGroupId() {
         return groupId;

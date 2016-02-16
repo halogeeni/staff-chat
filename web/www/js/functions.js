@@ -112,7 +112,7 @@ function listGroups(xml) {
     $xml.find('group').each(function () {
         // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text() + '</button></li><button id="groupid-button">' + $(this).find('groupId').text() + '</button></li>');
+        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text() + '</button></li>');
     });
 }
 
