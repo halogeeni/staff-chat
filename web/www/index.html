@@ -34,6 +34,7 @@ THE SOFTWARE.
     </head>
     <body>
         <div id="navigation">
+            <div id="loggedInAs"></div>
             <ul>
                 <li><button type="button" id="groups-button">Groups</button></li>
                 <li><button type="button" id="contacts-button">Contacts</button></li>
@@ -77,6 +78,10 @@ THE SOFTWARE.
                 $(this).addClass("active");
                 $("#container").load("groupChat.html").fadeIn('500');
             });
+            
+            // Get username
+            getUser();
+            
         </script>
     </body>
 </html>
