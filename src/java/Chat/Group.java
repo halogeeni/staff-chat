@@ -62,13 +62,14 @@ public class Group {
         this.groupId = idCounter++;
     }
 
-    // setters & getters
+    // setters & getters  
+
     @XmlElement
     public int getGroupId() {
         return groupId;
     }
 
-    @XmlElement
+    @XmlElement(name = "user")
     public List<User> getUsers() {
         return users;
     }
@@ -93,9 +94,11 @@ public class Group {
     public void setUserIds(List<Integer> userIds) {
         this.userIds = userIds;
     }
+    
     public List<Message> getGroupBacklog(){
         return backlog;
     }
+    
     public void addToGroupBacklog(Message msg){
         backlog.add(msg);
     }

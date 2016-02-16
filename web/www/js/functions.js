@@ -62,6 +62,8 @@ function login() {
         console.log('user 3');
         return 3;
     }
+    // default to user zero if no parameters are passed
+    return 0;
 }
 
 function toTime(s) {
@@ -110,7 +112,7 @@ function listGroups(xml) {
     $xml.find('group').each(function () {
         // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text() + '</button></li><button id="groupid-button">' + $(this).find('groupId').text() + '</button></li>');
+        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text() + '</button></li>');
     });
 }
 
@@ -288,7 +290,7 @@ var tagOrComment = new RegExp(
         + '|/?[a-z]'
         + tagBody
         + ')>',
-// global identifier without case sensitiviness
+        // global identifier without case sensitiviness
         'gi');
 
 function validateInput(input) {
@@ -302,15 +304,23 @@ function validateInput(input) {
     return input.replace(/</g, '&lt;');
 }
 
-/* // old version not needed anymore, left for sake of backrolling
- function validateInput(input) {
- // returns true for valid text content (no empty string or just whitespace)
- var value = $.trim(input);
- 
- if (value.length > 0) {
- return true;
- }
- 
- return false;
- }
- */
+// Function to get user's firstname, lastname and title to navigation
+function getUser(){
+    $.ajax({
+        url: baseURL + '/users/' + loggedUser,
+        method: 'GET',
+        dataType: 'xml',
+        success: function (userXml) {
+            firstname = $(userXml).find('firstname').text();
+            lastname = $(userXml).find('lastname').text();
+            
+            var userHTML = '';
+            
+            // Title is the job title e.g. "Nurse"
+            userHTML = userHTML.concat(
+                    firstname + ' ' + lastname + '<br>' + "<i>title</i>");
+            
+            $('#loggedInAs').append(userHTML);
+        }
+    });
+}
