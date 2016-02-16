@@ -47,29 +47,32 @@ public class Backlog {
         this.groups = new ArrayList<>();
         this.users = new ArrayList<>();
         this.broadcastBacklog = new ArrayList<>();
-
-        // create group 0 (=BROADCAST CHANNEL)
-        //groups.add(0, new Group("Broadcast"));
-    }
-
-    // observer pattern is utilized to notify connected users on new entries 
-    // and server messages
-    // synchronized is used to enforce thread safety
-    public synchronized void register(Observer observer) {
-        // notify observers on user login
-        for (Observer o : observers) {
-            o.update(observer.toString() + " has joined.");
-        }
-        observers.add(observer);
     }
 
     // synchronized is used to enforce thread safety
-    public synchronized void unregister(Observer observer) {
-        // notify observers on user logout
-        for (Observer o : observers) {
-            o.update(observer.toString() + " has left.");
+    public synchronized void register(Observer observer) throws ObserverException {
+        if (observers.contains(observer)) {
+            throw new ObserverException("Observer already registered");
+        } else {
+            // notify observers on user login
+            for (Observer o : observers) {
+                o.update(observer.toString() + " has joined.");
+            }
+            observers.add(observer);
         }
-        observers.remove(observer);
+    }
+
+    // synchronized is used to enforce thread safety
+    public synchronized void unregister(Observer observer) throws ObserverException {
+        if (observers.contains(observer)) {
+            // notify observers on user logout
+            for (Observer o : observers) {
+                o.update(observer.toString() + " has left.");
+            }
+            observers.remove(observer);
+        } else {
+            throw new ObserverException("Observer not registered!");
+        }
     }
 
     // synchronized is used to enforce thread safety
@@ -153,14 +156,14 @@ public class Backlog {
     public synchronized List<Message> getBroadcastBacklog() {
         return broadcastBacklog;
     }
-    
+
     public List<Message> getGroupBacklog(int groupid) {
-         for (Group group : groups) {
-             if(group.getGroupId()==groupid){
-                 return group.getGroupBacklog();
-             }
-         }
-         return null;
+        for (Group group : groups) {
+            if (group.getGroupId() == groupid) {
+                return group.getGroupBacklog();
+            }
+        }
+        return null;
     }
 
     public List<Message> getMessagesByUserID(int id) {
@@ -172,5 +175,5 @@ public class Backlog {
         }
         return null;
     }
-    
+
 }
