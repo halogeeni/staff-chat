@@ -96,6 +96,23 @@ body{
 
 /* Navigation */
 
+#navigation{
+    width: 400px;
+    height: 95px;
+    color: #fff;
+    background-color: #5A698A;
+}
+
+#loggedInAs{
+    height: 30px;
+    width: 390px;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    text-align: right;
+}
+
 #navigation ul{
     width: 400px;
     list-style-type: none;

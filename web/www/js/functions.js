@@ -290,7 +290,7 @@ var tagOrComment = new RegExp(
         + '|/?[a-z]'
         + tagBody
         + ')>',
-// global identifier without case sensitiviness
+        // global identifier without case sensitiviness
         'gi');
 
 function validateInput(input) {
@@ -304,15 +304,23 @@ function validateInput(input) {
     return input.replace(/</g, '&lt;');
 }
 
-/* // old version not needed anymore, left for sake of backrolling
- function validateInput(input) {
- // returns true for valid text content (no empty string or just whitespace)
- var value = $.trim(input);
- 
- if (value.length > 0) {
- return true;
- }
- 
- return false;
- }
- */
+// Function to get user's firstname, lastname and title to navigation
+function getUser(){
+    $.ajax({
+        url: baseURL + '/users/' + loggedUser,
+        method: 'GET',
+        dataType: 'xml',
+        success: function (userXml) {
+            firstname = $(userXml).find('firstname').text();
+            lastname = $(userXml).find('lastname').text();
+            
+            var userHTML = '';
+            
+            // Title is the job title e.g. "Nurse"
+            userHTML = userHTML.concat(
+                    firstname + ' ' + lastname + '<br>' + "<i>title</i>");
+            
+            $('#loggedInAs').append(userHTML);
+        }
+    });
+}
