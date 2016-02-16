@@ -39,16 +39,14 @@ import static org.junit.Assert.*;
  * @author Oskar
  */
 public class BacklogTest {
-    
-    
+
     public BacklogTest() {
-        
-        
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-        
+
         System.out.println("IN SET UP !!!!!!!!!");
         Backlog backlog = Backlog.getInstance();
 
@@ -92,20 +90,22 @@ public class BacklogTest {
         backlog.getGroups().get(2).getUsers().add(user3);
 
         // register observers
-        backlog.register(user1);
-        backlog.register(user2);
-        backlog.register(user3);
-        backlog.register(user4);
+        try {
+            backlog.register(user1);
+            backlog.register(user2);
+            backlog.register(user3);
+            backlog.register(user4);
+
+        } catch (ObserverException ex) {
+            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // create messages
-        
-        
-        
-       Message message1
+        Message message1
                 = new Message(user1, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Hei kaikki! Hejsan!"));
         backlog.addMessage(message1);
-        
+
         try {
             Thread.sleep(2);
         } catch (InterruptedException ex) {
@@ -122,7 +122,7 @@ public class BacklogTest {
         } catch (InterruptedException ex) {
             Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Message message3
                 = new Message(user3, Channel.CHANNEL_PRIVATE, user2, null,
                         new MessageBody("Martta! Kahvit loppu toista päivää -LISSU"));
@@ -133,47 +133,45 @@ public class BacklogTest {
         } catch (InterruptedException ex) {
             Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Message message4
                 = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Ostakaa joku kahvia, pliis."));
         backlog.addMessage(message4);
 
-        
         try {
             Thread.sleep(2);
         } catch (InterruptedException ex) {
             Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Message message5
                 = new Message(user4, Channel.CHANNEL_BROADCAST, null, null,
                         new MessageBody("Missä se kahvi viipyy! Pitäs olla jo!"));
         backlog.addMessage(message5);
-        
+
         try {
             Thread.sleep(2);
         } catch (InterruptedException ex) {
             Logger.getLogger(TestChat.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Message message6
                 = new Message(user1, Channel.CHANNEL_GROUP, null, staffGroupList,
                         new MessageBody("Täällä on joku pappa maassa; tulkaapi nostamaan! T: MARTTA"));
         backlog.addMessage(message6);
-        
-        
+
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
- 
+
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -187,11 +185,15 @@ public class BacklogTest {
         Backlog instance = Backlog.getInstance();
         User user = instance.getSingleUser(0);
         Observer observer = user;
-        
-        //observer will be added even though the user is already an observer (arraylist)
-        instance.register(observer);
-        // TODO review the generated test code and remove the default call to fail.
-       
+
+        try {
+            //observer will be added even though the user is already an observer (arraylist)
+            instance.register(observer);
+            // TODO review the generated test code and remove the default call to fail.
+        } catch (ObserverException ex) {
+            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -202,18 +204,26 @@ public class BacklogTest {
         System.out.println("unregister");
         Backlog instance = Backlog.getInstance();
         Observer observer = instance.getSingleUser(0);
-        instance.unregister(observer);
-        List<Observer> observers=instance.getObservers();
-        
-       System.out.println("Amount of observers: "+observers.size());
-       instance.unregister(observer);
-       System.out.println("Amount after unregistering one observer: "+observers.size());
-       
-       int expResult=3;
-       int result=observers.size();
-        
+        try {
+            instance.unregister(observer);
+        } catch (ObserverException ex) {
+            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        List<Observer> observers = instance.getObservers();
+
+        System.out.println("Amount of observers: " + observers.size());
+        try {
+            instance.unregister(observer);
+        } catch (ObserverException ex) {
+            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Amount after unregistering one observer: " + observers.size());
+
+        int expResult = 3;
+        int result = observers.size();
+
         // TODO review the generated test code and remove the default call to fail.
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -223,9 +233,9 @@ public class BacklogTest {
     public void testAddMessage() {
         System.out.println("addMessage");
         User usr = Backlog.getInstance().getSingleUser(1);
-        
+
         Message msg = new Message(usr, Channel.CHANNEL_BROADCAST, null, null,
-                        new MessageBody("Martta! Kahvit loppu toista päivää -LISSU"));
+                new MessageBody("Martta! Kahvit loppu toista päivää -LISSU"));
         Backlog instance = Backlog.getInstance();
         instance.addMessage(msg);
         assertEquals(msg, Backlog.getInstance().getSingleMessage(msg.getMessageId()));
@@ -239,16 +249,16 @@ public class BacklogTest {
         System.out.println("getFullBacklog");
         Backlog instance = Backlog.getInstance();
         //List<Message> expResult = instance.getFullBacklog();
-       // List<Message> result = 
-         int expResult=instance.getFullBacklog().size();
-         int result=8;
+        // List<Message> result = 
+        int expResult = instance.getFullBacklog().size();
+        int result = 8;
         /* 
          for(int i=0;i<=instance.getFullBacklog().size()-1;i++){
              System.out.println(instance.getFullBacklog().get(i));
              System.out.println(instance.getFullBacklog().get(i).getBody().getText());
          }
          */
-         
+
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
     }
@@ -261,15 +271,15 @@ public class BacklogTest {
         System.out.println("getObservers");
         Backlog instance = Backlog.getInstance();
         //List<Observer> expResult = null;
-       // List<Observer> result = instance.getObservers();
-       
+        // List<Observer> result = instance.getObservers();
+
         //All the users are added to the observers arraylist, so they should have the same size
         //One user is created in the tests, so we need to -1 from the expResult
-        int expResult=instance.getUsers().size()-1;
-        int result=instance.getObservers().size();
+        int expResult = instance.getUsers().size() - 1;
+        int result = instance.getObservers().size();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        
+
     }
 
     /**
@@ -281,11 +291,10 @@ public class BacklogTest {
         Backlog instance = Backlog.getInstance();
         //List<User> expResult = null;
         //List<User> result = instance.getUsers();
-        int expResult=5;
-        int result=instance.getUsers().size();
+        int expResult = 5;
+        int result = instance.getUsers().size();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-       
     }
 
     /**
@@ -310,11 +319,11 @@ public class BacklogTest {
     public void testGetSingleUser() {
         System.out.println("getSingleUser");
         Backlog instance = Backlog.getInstance();
-        
+
         List<Group> standardGroupList = new ArrayList<>();
 
         standardGroupList.add(instance.getGroups().get(1));
-        
+
         User usr = new User("Testi", "Useri", "testuser", standardGroupList);
         instance.getUsers().add(usr);
         assertEquals(usr, instance.getSingleUser(usr.getUserId()));
@@ -332,7 +341,7 @@ public class BacklogTest {
         Group result = instance.getSingleGroup(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        
+
     }
 
     /**
@@ -340,23 +349,23 @@ public class BacklogTest {
      */
     @Test
     public void testGetSingleMessage() {
-        
+
         System.out.println("getSingleMessage");
         Backlog instance = Backlog.getInstance();
-        
-        User user=instance.getSingleUser(0);
-        Message msg=null;
-        
-        msg=new Message(user, Channel.CHANNEL_BROADCAST, null, null,
-                        new MessageBody("Lissu hei! Tuo kahvia T: MARTTA"));
-        
+
+        User user = instance.getSingleUser(0);
+        Message msg = null;
+
+        msg = new Message(user, Channel.CHANNEL_BROADCAST, null, null,
+                new MessageBody("Lissu hei! Tuo kahvia T: MARTTA"));
+
         instance.addMessage(msg);
-        
+
         Message expResult = msg;
         Message result = instance.getSingleMessage(msg.getMessageId());
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        
+
     }
 
     /**
@@ -367,12 +376,12 @@ public class BacklogTest {
         System.out.println("getBroadcastBacklog");
         Backlog instance = Backlog.getInstance();
         //List<Message> expResult = null;
-       // List<Message> result = instance.getBroadcastBacklog();
-       int expResult=4;
-       int result=instance.getBroadcastBacklog().size();
+        // List<Message> result = instance.getBroadcastBacklog();
+        int expResult = 4;
+        int result = instance.getBroadcastBacklog().size();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        
+
     }
 
     /**
@@ -382,12 +391,12 @@ public class BacklogTest {
     public void testGetGroupBacklog() {
         System.out.println("getGroupBacklog");
         Backlog instance = Backlog.getInstance();
-         Group group=instance.getSingleGroup(1);
+        Group group = instance.getSingleGroup(1);
         List<Message> expResult = group.getGroupBacklog();
         List<Message> result = instance.getGroupBacklog(1);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        
+
     }
 
     /**
@@ -396,14 +405,14 @@ public class BacklogTest {
     @Test
     public void testGetMessagesByUserID() {
         System.out.println("getMessagesByUserID");
-       
+
         Backlog instance = Backlog.getInstance();
-         User user=instance.getSingleUser(0);
+        User user = instance.getSingleUser(0);
         List<Message> expResult = user.getUserBacklog();
         List<Message> result = instance.getMessagesByUserID(0);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-      
+
     }
-    
+
 }

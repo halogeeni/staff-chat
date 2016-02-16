@@ -119,7 +119,7 @@ public class User implements Observer {
         return groups;
     }
 
-    @XmlElement
+    @XmlElement(name="groupId")
     public List<Integer> getGroupIds() {
         return groupIds;
     }
