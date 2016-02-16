@@ -63,6 +63,7 @@ public class Group {
     }
 
     // setters & getters
+    
     @XmlElement
     public int getGroupId() {
         return groupId;

@@ -62,6 +62,8 @@ function login() {
         console.log('user 3');
         return 3;
     }
+    // default to user zero if no parameters are passed
+    return 0;
 }
 
 function toTime(s) {

@@ -67,7 +67,7 @@ public class MessageResource {
         return Response.ok(list).build();
     }
     
-    //return group messages made by single group, by id
+    // return group messages made by single group, by id
     @Path("/group/{groupid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
