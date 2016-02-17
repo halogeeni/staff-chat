@@ -65,6 +65,11 @@ THE SOFTWARE.
                 });
 
                 $("#broadcastchat-button").click(function () {
+                    console.log("broadcastbutton");
+                    
+                    //broadcastTrigger doesn't always have time to change the broadcastClicked variable
+                    //before the chat.html is loaded
+                    broadcastTrigger();
                     $("#groups-button").removeClass("active");
                     $("#contacts-button").removeClass("active");
                     $(this).addClass("active");
