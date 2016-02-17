@@ -1,32 +1,35 @@
 <!DOCTYPE html>
-<!--
-The MIT License
-
-Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
--->
 
 <html>
     <head>
         <title>Staff Chat</title>
+        <!-- charset should be defined in the first 1024 bytes -->
         <meta charset="UTF-8">
+
+        <!--
+        The MIT License
+        
+        Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+        -->
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
@@ -39,14 +42,14 @@ THE SOFTWARE.
                 <ul>
                     <li><button type="button" id="groups-button">Groups</button></li>
                     <li><button type="button" id="contacts-button">Contacts</button></li>
-                    <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
+                    <li><button type="button" id="broadcastchat-button" class="active">Announcements</button></li>
                 </ul>
             </div>
             <div id="container"></div>
 
             <script type="text/javascript">
                 $(document).ready(function () {
-                    console.log("UserID: " + loggedUser);
+                    //console.log("UserID: " + loggedUser);
                     $("#container").load("chat.html").fadeIn('500');
 
                     // get username if not already logged in
@@ -55,13 +58,12 @@ THE SOFTWARE.
                     }
 
                     // button event handlers
-
                     $("#groups-button").click(function () {
                         clearInterval(timerId);
                         $("#contacts-button").removeClass("active");
                         $("#broadcastchat-button").removeClass("active");
                         $(this).addClass("active");
-                        messagecount = 0;
+                        messageCount = 0;
                         $("#container").load("groups.html").fadeIn('500');
                     });
 
@@ -79,10 +81,11 @@ THE SOFTWARE.
                         $("#groups-button").removeClass("active");
                         $("#contacts-button").removeClass("active");
                         $(this).addClass("active");
-                        messagecount = 0;
+                        messageCount = 0;
                         $("#container").load("chat.html").fadeIn('500');
                     });
                 });
             </script>
+        </div>
     </body>
 </html>

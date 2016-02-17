@@ -28,13 +28,10 @@ var loggedUser = login();
 
 // we need this for autoscrolling on new messages
 var messageCount = 0;
-var broadcastClicked = false;
-
 var selectedGroup = 0;
-
 var timerId = 0;
-
 var loggedIn = false;
+//var broadcastClicked = false;
 
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
@@ -49,7 +46,6 @@ function getQueryVariable(variable) {
 }
 
 function login() {
-
     var username = getQueryVariable("username");
     var password = getQueryVariable("password");
 
@@ -65,9 +61,11 @@ function login() {
     } else if ((username === "user3") && (password === "pass")) {
         console.log('user 3');
         return 3;
+    } else {
+        // JUST FOR DEBUGGING :3
+        // default to user zero if no parameters are passed
+        return 0;
     }
-    // default to user zero if no parameters are passed
-    //return 0;
 }
 
 function toTime(s) {
@@ -84,9 +82,15 @@ function listContacts(xml) {
 
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
-            $contactsList.append('<li><button value="' + $(this).find('userId').text() + '">' +
+            $contactsList.append(
+                    '<li><button value="' +
+                    $(this).find('userId').text() +
+                    '">' +
                     $(this).find('firstname').text() +
-                    " " + $(this).find('lastname').text() + '</button></li>');
+                    " " +
+                    $(this).find('lastname').text() +
+                    '</button></li>'
+                    );
         }
     });
 }
@@ -147,12 +151,7 @@ function listMessages(xml) {
     var currentMessageCount = $xml.find('message').size();
 
     // update message view only when new messages are available
-
-
-    //Messages will only be shown when index.html is loaded or when a new message arrives
-    if (currentMessageCount > messageCount || broadcastClicked === true) {
-        broadcastClicked = false;
-
+    if (currentMessageCount > messageCount) {
         $xml.find('message').each(function () {
             var $messageData = $(this);
             var uid = parseInt($messageData.find('fromUserId').text());
@@ -219,19 +218,19 @@ function listMessages(xml) {
 
             // output newly-populated message buffer to the container
             for (var i = 0; i < messageBuffer.length; i++) {
-                //console.log('message in buffer: ' + messageBuffer[i].message.toString());
                 $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
             }
 
             // finally, scroll message container to bottom
             $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
-
+            
         });
 
     }
 
     // update message counter
     messageCount = currentMessageCount;
+    
 }
 
 function sendMessage(message, channel) {
@@ -258,6 +257,7 @@ function sendMessage(message, channel) {
             $xml.find('text').append(message);
             // append channel info
             $xml.find('channel').append(channel);
+            // append toGroupId in case of a group message
             if (channel === 'CHANNEL_GROUP') {
                 $xml.find('toGroupId').append(selectedGroup);
             }
@@ -320,7 +320,7 @@ function validateInput(input) {
         oldInput = input;
         input = input.replace(tagOrComment, '');
     } while (input !== oldInput);
-    console.log("RegEx is hard!");
+    //console.log("RegEx is hard!");
     // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
     return input.replace(/</g, '&lt;');
 }
@@ -352,11 +352,4 @@ function getUser() {
         }
 
     });
-}
-
-function broadcastTrigger() {
-
-    console.log("In broadcastClick");
-    broadcastClicked = true;
-
 }
