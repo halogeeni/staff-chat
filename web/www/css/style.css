@@ -27,6 +27,16 @@ body{
     font-family: Arial;
 }
 
+#wrapper{
+    height: 500px;
+    width: 400px;
+    margin: auto auto;
+}
+
+ul {
+    list-style: none;
+}
+
 /* Messages */
 
 #messages{

@@ -33,55 +33,57 @@ THE SOFTWARE.
         <script type="text/javascript" src="js/functions.js"></script>
     </head>
     <body>
-        <div id="navigation">
-            <div id="loggedInAs"></div>
-            <ul>
-                <li><button type="button" id="groups-button">Groups</button></li>
-                <li><button type="button" id="contacts-button">Contacts</button></li>
-                <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
-            </ul>
+        <div id="wrapper">
+            <div id="navigation">
+                <div id="loggedInAs"></div>
+                <ul>
+                    <li><button type="button" id="groups-button">Groups</button></li>
+                    <li><button type="button" id="contacts-button">Contacts</button></li>
+                    <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
+                </ul>
+            </div>
+            <div id="container"></div>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    console.log("UserID: " + loggedUser);
+                    $("#container").load("chat.html").fadeIn('500');
+                });
+
+                $("#groups-button").click(function () {
+                    $("#contacts-button").removeClass("active");
+                    $("#broadcastchat-button").removeClass("active");
+                    $(this).addClass("active");
+                    $("#container").load("groups.html").fadeIn('500');
+                });
+
+                $("#contacts-button").click(function () {
+                    $("#groups-button").removeClass("active");
+                    $("#broadcastchat-button").removeClass("active");
+                    $(this).addClass("active");
+                    $("#container").load("contacts.html").fadeIn('500');
+                });
+
+                $("#broadcastchat-button").click(function () {
+                    $("#groups-button").removeClass("active");
+                    $("#contacts-button").removeClass("active");
+                    $(this).addClass("active");
+                    $("#container").load("chat.html").fadeIn('500');
+                });
+
+                //still work in progress. Trying to access group chat window by clicking the group in group listing
+                $("#group-chat-button").click(function () {
+                    console.log("group-chat-button clicked");
+                    $("#groups-button").removeClass("active");
+                    $("#contacts-button").removeClass("active");
+                    $(this).addClass("active");
+                    $("#container").load("groupChat.html").fadeIn('500');
+                });
+
+                // Get username
+                getUser();
+
+            </script>
         </div>
-        <div id="container"></div>
-
-        <script type="text/javascript">
-            $(document).ready(function () {
-                console.log("UserID: " + loggedUser);
-                $("#container").load("chat.html").fadeIn('500');
-            });
-
-            $("#groups-button").click(function () {
-                $("#contacts-button").removeClass("active");
-                $("#broadcastchat-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("groups.html").fadeIn('500');
-            });
-
-            $("#contacts-button").click(function () {
-                $("#groups-button").removeClass("active");
-                $("#broadcastchat-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("contacts.html").fadeIn('500');
-            });
-
-            $("#broadcastchat-button").click(function () {
-                $("#groups-button").removeClass("active");
-                $("#contacts-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("chat.html").fadeIn('500');
-            });
-            
-            //still work in progress. Trying to access group chat window by clicking the group in group listing
-            $("#group-chat-button").click(function () {
-                console.log("group-chat-button clicked");
-                $("#groups-button").removeClass("active");
-                $("#contacts-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("groupChat.html").fadeIn('500');
-            });
-            
-            // Get username
-            getUser();
-            
-        </script>
     </body>
 </html>
