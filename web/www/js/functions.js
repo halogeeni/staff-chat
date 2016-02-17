@@ -28,6 +28,7 @@ var loggedUser = login();
 
 // we need this for autoscrolling on new messages
 var messageCount = 0;
+var broadcastClicked = false;
 
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
@@ -86,7 +87,7 @@ function listContacts(xml) {
 }
 
 function getContacts() {
-    //console.log('In getContacts');
+    console.log('In getContacts');
     $.ajax({
         url: baseURL + '/users',
         method: 'GET',
@@ -119,16 +120,22 @@ function getGroups() {
 }
 
 function listMessages(xml) {
+    //console.log('In listMessages');
     var $xml = $(xml);
     var $messagesContainer = $('#messages');
     var messageBuffer = [];
     var promises = [];
-    
+
     // get the current number of messages
     var currentMessageCount = $xml.find('message').size();
 
     // update message view only when new messages are available
-    if (currentMessageCount > messageCount) {
+
+
+    //Messages will only be shown when index.html is loaded or when a new message arrives
+    if (currentMessageCount > messageCount || broadcastClicked === true) {
+        broadcastClicked = false;
+
         $xml.find('message').each(function () {
             var $messageData = $(this);
             var uid = parseInt($messageData.find('fromUserId').text());
@@ -208,7 +215,6 @@ function listMessages(xml) {
 
     // update message counter
     messageCount = currentMessageCount;
-
 }
 
 function sendMessage(message) {
@@ -252,6 +258,7 @@ function sendMessage(message) {
 }
 
 function getBroadcasts() {
+
     //console.log('In getBroadcasts');
     $.ajax({
         url: baseURL + '/messages/broadcast',
@@ -297,7 +304,7 @@ function validateInput(input) {
 }
 
 // Function to get user's firstname, lastname and title to navigation
-function getUser(){
+function getUser() {
     $.ajax({
         url: baseURL + '/users/' + loggedUser,
         method: 'GET',
@@ -305,14 +312,21 @@ function getUser(){
         success: function (userXml) {
             firstname = $(userXml).find('firstname').text();
             lastname = $(userXml).find('lastname').text();
-            
+
             var userHTML = '';
-            
+
             // Title is the job title e.g. "Nurse"
             userHTML = userHTML.concat(
                     firstname + ' ' + lastname + '<br>' + "<i>job title</i>");
-            
+
             $('#loggedInAs').append(userHTML);
         }
     });
+}
+
+function broadcastTrigger() {
+
+    console.log("In broadcastClick");
+    broadcastClicked = true;
+
 }
