@@ -29,6 +29,12 @@ var loggedUser = login();
 // we need this for autoscrolling on new messages
 var messageCount = 0;
 
+var selectedGroup = 0;
+
+var timerId = 0;
+
+var loggedIn = false;
+
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -60,7 +66,7 @@ function login() {
         return 3;
     }
     // default to user zero if no parameters are passed
-    return 0;
+    //return 0;
 }
 
 function toTime(s) {
@@ -77,7 +83,6 @@ function listContacts(xml) {
 
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
-            //console.log("UserID: " + $(this).find('userId').text());
             $contactsList.append('<li><button value="' + $(this).find('userId').text() + '">' +
                     $(this).find('firstname').text() +
                     " " + $(this).find('lastname').text() + '</button></li>');
@@ -99,15 +104,25 @@ function listGroups(xml) {
     var $xml = $(xml);
     var $groupsContent = $('#groupsContent');
 
-    $groupsContent.append($('<form action="GroupsTest.html"><ul id="groupsList"></ul></form>'));
+    $groupsContent.append($('<form action="javascript:void(0);"><ul id="groupsList"></ul></form>'));
     var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
         // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        $groupsList.append('<li><button value="' + $(this).find('ID').text() + '" '
-            + 'id="group-chat-button">' + $(this).find('name').text() + '</button></li>');
+        $groupsList.append('<li><button value="' + $(this).find('id').text() + '" '
+            + 'class="group-chat-button">' + $(this).find('name').text() + '</button></li>');
     });
+
+    $(".group-chat-button").click(function (event) {
+        clearInterval(timerId);
+        console.log('group button clicked, id:' + $(this).attr("value"));
+        event.preventDefault();
+        selectedGroup = parseInt($(this).attr("value"));
+        $('#groupsContent').empty();
+        $("#container").load("groupChat.html").fadeIn('500');
+    });
+    
 }
 
 function getGroups() {
@@ -213,8 +228,15 @@ function listMessages(xml) {
 
 }
 
-function sendMessage(message) {
-    var xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
+function sendMessage(message, channel) {
+    var xml = '';
+    
+    if(channel === 'CHANNEL_BROADCAST') {
+        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
+    } else if (channel === 'CHANNEL_GROUP') {
+        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toGroupId></toGroupId><messageId>-1</messageId></message>";
+    }
+    
     var xmlDoc = $.parseXML(xml);
     var $xml = $(xmlDoc);
     var serializer = new XMLSerializer();
@@ -228,9 +250,11 @@ function sendMessage(message) {
             $xml.find('fromUserId').append(loggedUser);
             // append message body (text)
             $xml.find('text').append(message);
-            // CHANNEL_xxx STRING COULD BE A FUNCTION PARAMETER
-            // it would enable us to use a single function for sending messages to all channels
-            $xml.find('channel').append('CHANNEL_BROADCAST');
+            // append channel info
+            $xml.find('channel').append(channel);
+            if (channel === 'CHANNEL_GROUP') {
+                $xml.find('toGroupId').append(selectedGroup);
+            }
             // serialize the xml for sending
             xmlDoc = serializer.serializeToString($xml[0]);
         },
@@ -254,7 +278,6 @@ function sendMessage(message) {
 }
 
 function getBroadcasts() {
-    //console.log('In getBroadcasts');
     $.ajax({
         url: baseURL + '/messages/broadcast',
         method: 'GET',
@@ -263,11 +286,9 @@ function getBroadcasts() {
     });
 }
 
-// Work in progress. Trying to get the group backlog and show it on chat window
 function getGroupMessages(groupid) {
-    //console.log('In getPrivate');
     $.ajax({
-        url: baseURL + '/messages/' + groupid,
+        url: baseURL + '/messages/group/' + groupid,
         method: 'GET',
         dataType: 'xml',
         success: listMessages
@@ -311,10 +332,15 @@ function getUser(){
             var userHTML = '';
             
             // Title is the job title e.g. "Nurse"
-            userHTML = userHTML.concat(
-                    firstname + ' ' + lastname + '<br>' + "<i>job title</i>");
+            userHTML = userHTML.concat(firstname + ' ' + 
+                    lastname + '<br>' + "<i>job title</i>");
             
             $('#loggedInAs').append(userHTML);
+        },
+        
+        complete: function() {
+            loggedIn = true;
         }
+                
     });
 }

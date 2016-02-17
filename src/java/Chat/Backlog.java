@@ -88,14 +88,14 @@ public class Backlog {
                 break;
             case CHANNEL_GROUP:
                 // first get all groups from the message "header"
-                for (Group group : msg.getToGroups()) {
-                    group.addToGroupBacklog(msg);
-                    // then get all users from the group list
-                    for (User user : group.getUsers()) {
-                        // notify respective users
-                        user.update(msg);
-                    }
+                Group group = getSingleGroup(msg.getToGroupId());
+                group.addToGroupBacklog(msg);
+                // then get all users from the group list
+                for (User user : group.getUsers()) {
+                    // notify respective users
+                    user.update(msg);
                 }
+
                 break;
             default:
                 // broadcast message

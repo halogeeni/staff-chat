@@ -64,7 +64,7 @@ public class Group {
 
     // setters & getters  
 
-    @XmlElement(name = "ID")
+    @XmlElement(name = "id")
     public int getGroupId() {
         return groupId;
     }

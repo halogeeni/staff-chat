@@ -23,9 +23,7 @@
  */
 package Chat;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -42,10 +40,12 @@ public class Message {
     // sender, recipient(s) & publicity information
     private Channel channel;
     //private User fromUser, toUser;
+    
     // Integer used instead of int, as broadcast & group messages have no userIds (=null)
     private Integer fromUserId, toUserId;
-    private List<Group> toGroups;
-    private List<Integer> toGroupIds;
+    private Integer toGroupId;
+    private Group toGroup;
+    
     private final Date date = new Date();
 
     // message body (actual content: text, image ...)
@@ -53,25 +53,23 @@ public class Message {
 
     public Message() {
         this.timestamp = date.getTime();
-        this.toGroups = new ArrayList<>();
-        this.toGroupIds = new ArrayList<>();
     }
 
-    public Message(User fromUser, Channel channel, User toUser, List<Group> groups, MessageBody body) {
+    public Message(User fromUser, Channel channel, User toUser, Group toGroup, MessageBody body) {
         switch (channel) {
             case CHANNEL_GROUP:
-                this.toGroups = groups;
+                this.toGroup = toGroup;
                 this.toUserId = null;
                 //this.toUser = null;
                 break;
             case CHANNEL_BROADCAST:
                 // should we get all groups available from a singleton server?
-                this.toGroups = null;
+                this.toGroup = null;
                 this.toUserId = null;
                 //this.toUser = null;
                 break;
             default:
-                this.toGroups = null;
+                this.toGroup = null;
                 //this.toUser = toUser;
                 this.toUserId = toUser.getUserId();
                 break;
@@ -94,13 +92,12 @@ public class Message {
         // TODO synchronization? could two messages get the same id now?
         this.messageId = idCounter++;
 
-        this.toGroupIds = new ArrayList<>();
-
-        if (!(groups == null) && !groups.isEmpty()) {
-            for (Group group : groups) {
-                this.toGroupIds.add(group.getGroupId());
-            }
+        if(toGroup == null) {
+            this.toGroupId = null;
+        } else {
+            this.toGroupId = toGroup.getGroupId();
         }
+        
     }
 
     // getters & setters
@@ -180,8 +177,8 @@ public class Message {
 
     */
 
-    public List<Group> getToGroups() {
-        return toGroups;
+    public Group getToGroup() {
+        return toGroup;
     }
 
     @XmlElement
@@ -194,12 +191,12 @@ public class Message {
     }
 
     @XmlElement
-    public List<Integer> getToGroupIds() {
-        return toGroupIds;
+    public Integer getToGroupId() {
+        return toGroupId;
     }
 
-    public void setToGroupIds(List<Integer> toGroupIds) {
-        this.toGroupIds = toGroupIds;
+    public void setToGroupId(Integer toGroupId) {
+        this.toGroupId = toGroupId;
     }
 
 }

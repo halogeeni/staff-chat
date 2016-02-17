@@ -47,42 +47,41 @@ THE SOFTWARE.
             $(document).ready(function () {
                 console.log("UserID: " + loggedUser);
                 $("#container").load("chat.html").fadeIn('500');
-            });
 
-            $("#groups-button").click(function () {
-                $("#contacts-button").removeClass("active");
-                $("#broadcastchat-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("groups.html").fadeIn('500');
-            });
+                // get username if not already logged in
+                if (!loggedIn) {
+                    getUser();
+                }
 
-            $("#contacts-button").click(function () {
-                $("#groups-button").removeClass("active");
-                $("#broadcastchat-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("contacts.html").fadeIn('500');
-            });
+                // button event handlers
 
-            // message container missing after visiting groups or other subpage?
-            $("#broadcastchat-button").click(function () {
-                $("#groups-button").removeClass("active");
-                $("#contacts-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("chat.html").fadeIn('500');
+                $("#groups-button").click(function () {
+                    clearInterval(timerId);
+                    $("#contacts-button").removeClass("active");
+                    $("#broadcastchat-button").removeClass("active");
+                    $(this).addClass("active");
+                    messagecount = 0;
+                    $("#container").load("groups.html").fadeIn('500');
+                });
+
+                $("#contacts-button").click(function () {
+                    clearInterval(timerId);
+                    $("#groups-button").removeClass("active");
+                    $("#broadcastchat-button").removeClass("active");
+                    $(this).addClass("active");
+                    $("#container").load("contacts.html").fadeIn('500');
+                });
+
+                // message container missing after visiting groups or other subpage?
+                $("#broadcastchat-button").click(function () {
+                    clearInterval(timerId);
+                    $("#groups-button").removeClass("active");
+                    $("#contacts-button").removeClass("active");
+                    $(this).addClass("active");
+                    messagecount = 0;
+                    $("#container").load("chat.html").fadeIn('500');
+                });
             });
-            
-            //still work in progress. Trying to access group chat window by clicking the group in group listing
-            $("#group-chat-button").click(function () {
-                console.log("group-chat-button clicked");
-                $("#groups-button").removeClass("active");
-                $("#contacts-button").removeClass("active");
-                $(this).addClass("active");
-                $("#container").load("groupChat.html").fadeIn('500');
-            });
-            
-            // Get username
-            getUser();
-            
         </script>
     </body>
 </html>

@@ -111,7 +111,7 @@ public class TestChat {
         }
 
         Message message2
-                = new Message(user2, Channel.CHANNEL_GROUP, null, standardGroupList,
+                = new Message(user2, Channel.CHANNEL_GROUP, null, standard,
                         new MessageBody("Lissu hei! Tuo kahvia T: MARTTA"));
         backlog.addMessage(message2);
 
@@ -155,7 +155,7 @@ public class TestChat {
         }
 
         Message message6
-                = new Message(user1, Channel.CHANNEL_GROUP, null, staffGroupList,
+                = new Message(user1, Channel.CHANNEL_GROUP, null, staff,
                         new MessageBody("Täällä on joku pappa maassa; tulkaapi nostamaan! T: MARTTA"));
         backlog.addMessage(message6);
 
