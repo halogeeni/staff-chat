@@ -179,20 +179,47 @@ public class BacklogTest {
     /**
      * Test of register method, of class Backlog.
      */
-    @Test
-    public void testRegister() {
+    @Test(expected = ObserverException.class)
+    public void testRegisterFalse() throws ObserverException {
         System.out.println("register");
         Backlog instance = Backlog.getInstance();
-        User user = instance.getSingleUser(0);
+        User user = instance.getSingleUser(3);
         Observer observer = user;
+
+        //observer will be added even though the user is already an observer (arraylist)
+        instance.register(observer);
+        // TODO review the generated test code and remove the default call to fail.
+
+    }
+
+    @Test
+    public void testRegisterTrue() {
+        System.out.println("register");
+
+        List<Group> adminAndStaffGroupList = new ArrayList<>();
+        Backlog instance = Backlog.getInstance();
+        List<Observer> observers = instance.getObservers();
+        adminAndStaffGroupList.add(Backlog.getInstance().getGroups().get(0));
+        int observerCount = observers.size();
+
+        User user = new User("Jorma", "Jormanen", "asdfgh", adminAndStaffGroupList);
+
+        Observer observer = user;
+        System.out.println("Amount of observers: " + observers.size());
 
         try {
             //observer will be added even though the user is already an observer (arraylist)
             instance.register(observer);
-            // TODO review the generated test code and remove the default call to fail.
         } catch (ObserverException ex) {
             Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // TODO review the generated test code and remove the default call to fail.
+        System.out.println("Amount after registering one observer: " + observers.size());
+
+        int result = observers.size();
+
+        // TODO review the generated test code and remove the default call to fail.
+        assertEquals(observerCount + 1, result);
 
     }
 
@@ -200,30 +227,27 @@ public class BacklogTest {
      * Test of unregister method, of class Backlog.
      */
     @Test
-    public void testUnregister() {
+    public void testUnregisterTrue() {
         System.out.println("unregister");
         Backlog instance = Backlog.getInstance();
         Observer observer = instance.getSingleUser(0);
-        try {
-            instance.unregister(observer);
-        } catch (ObserverException ex) {
-            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
         List<Observer> observers = instance.getObservers();
+        int observerCount = observers.size();
 
         System.out.println("Amount of observers: " + observers.size());
+
         try {
             instance.unregister(observer);
         } catch (ObserverException ex) {
             Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         System.out.println("Amount after unregistering one observer: " + observers.size());
 
-        int expResult = 3;
         int result = observers.size();
 
         // TODO review the generated test code and remove the default call to fail.
-        assertEquals(expResult, result);
+        assertEquals(observerCount - 1, result);
     }
 
     /**
@@ -249,10 +273,10 @@ public class BacklogTest {
         System.out.println("getFullBacklog");
         Backlog instance = Backlog.getInstance();
         //List<Message> expResult = instance.getFullBacklog();
-        // List<Message> result = 
+        // List<Message> result =
         int expResult = instance.getFullBacklog().size();
         int result = 8;
-        /* 
+        /*
          for(int i=0;i<=instance.getFullBacklog().size()-1;i++){
              System.out.println(instance.getFullBacklog().get(i));
              System.out.println(instance.getFullBacklog().get(i).getBody().getText());

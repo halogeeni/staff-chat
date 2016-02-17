@@ -46,9 +46,6 @@ function login() {
     var username = getQueryVariable("username");
     var password = getQueryVariable("password");
 
-    //console.log(username);
-    //console.log(password);
-
     if ((username === "user0") && (password === "pass")) {
         console.log('user 0');
         return 0;
@@ -71,21 +68,17 @@ function toTime(s) {
     return myDate.toLocaleString();
 }
 
-// Fix so that the user doesn't show in the contacts
 function listContacts(xml) {
-    //console.log('In listContacts');
-    //var xmlString = (new XMLSerializer().serializeToString(xml));
     var $xml = $(xml);
     var $contactsContent = $('#contactsContent');
 
-    $contactsContent.append($('<ul id="contactsList">\n\
-                    </ul>'));
+    $contactsContent.append($('<form action="ContactsTest.html"><ul id="contactsList">\n\</ul></form>'));
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
             //console.log("UserID: " + $(this).find('userId').text());
-            $contactsList.append('<li><button>' +
+            $contactsList.append('<li><button value="' + $(this).find('userId').text() + '">' +
                     $(this).find('firstname').text() +
                     " " + $(this).find('lastname').text() + '</button></li>');
         }
@@ -106,13 +99,14 @@ function listGroups(xml) {
     var $xml = $(xml);
     var $groupsContent = $('#groupsContent');
 
-    $groupsContent.append($('<ul id="groupsList"></ul>'));
+    $groupsContent.append($('<form action="GroupsTest.html"><ul id="groupsList"></ul></form>'));
     var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
         // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        $groupsList.append('<li><button id="group-chat-button">' + $(this).find('name').text() + '</button></li>');
+        $groupsList.append('<li><button value="' + $(this).find('ID').text() + '" '
+            + 'id="group-chat-button">' + $(this).find('name').text() + '</button></li>');
     });
 }
 
@@ -318,7 +312,7 @@ function getUser(){
             
             // Title is the job title e.g. "Nurse"
             userHTML = userHTML.concat(
-                    firstname + ' ' + lastname + '<br>' + "<i>title</i>");
+                    firstname + ' ' + lastname + '<br>' + "<i>job title</i>");
             
             $('#loggedInAs').append(userHTML);
         }
