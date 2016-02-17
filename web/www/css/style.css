@@ -23,14 +23,18 @@ THE SOFTWARE.
 */
 
 body{
-    background-color: #2E4172;
+    background-color: #2B4C6F;
     font-family: Arial;
 }
 
 #wrapper{
-    height: 500px;
+    height: auto;
     width: 400px;
     margin: auto auto;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 0px 18px 5px rgba(4,29,55,1);
+    -moz-box-shadow: 0px 0px 18px 5px rgba(4,29,55,1);
+    box-shadow: 0px 0px 18px 5px rgba(4,29,55,1);
 }
 
 ul {
@@ -58,8 +62,9 @@ ul {
     overflow: hidden;
     margin: 5px 5px 5px 0px; /* top, right, bottom, left */
     border: 1px solid #85FF5C;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #85FF5C;
+    box-shadow: 1px 1px 1px #888888;
     
 }
 
@@ -72,22 +77,24 @@ ul {
     overflow: hidden;
     margin: 5px 0px 5px 5px; /* top, right, bottom, left */
     border: 1px solid #ACD5E3;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #ACD5E3;
+    box-shadow: 1px 1px 1px #888888;
 }
 
 .username{
-    height: 15px;
+    height: 14px;
     width: 195px;
     float: left;
-    margin: 0;
+    margin: 2px 0px 4px 0px; /* top, right, bottom, left */
     padding: 0;
-    font-size: 15px;
+    font-size: 14px;
     text-align: right;
 }
 
 .message-body{
     min-height: 20px;
+    font-size: 15px;
     margin: 0;
     padding: 5px;
     text-align: left;
@@ -98,9 +105,9 @@ ul {
     width: 195px;
     float: left;
     margin-bottom: 5px;
-    margin-top: 0px;
+    margin-top: 4px;
     padding: 0;
-    font-size: 15px;
+    font-size: 12px;
     text-align: right;
 }
 
@@ -108,9 +115,9 @@ ul {
 
 #navigation{
     width: 400px;
-    height: 95px;
+    height: 100px;
     color: #fff;
-    background-color: #5A698A;
+    background-color: #133253;
 }
 
 #loggedInAs{
@@ -124,12 +131,13 @@ ul {
 }
 
 #navigation ul{
+    height: 47px;
     width: 400px;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    background-color: #788CB8;
+    /*overflow: hidden;*/
+    background-color: #4A6B8A;
 }
 
 #navigation li{
@@ -137,21 +145,21 @@ ul {
 }
 
 #navigation li button{
-    display: block;
-    color: white;
-    text-align: center;
     padding: 14px 16px;
+    display: block;
+    text-align: center;
     text-decoration: none;
     border: none;
-    background-color: #788CB8;
+    color: white;
+    background-color: #4A6B8A;
 }
 
 #navigation li button:hover{
-    background-color: #ccc;
+    background-color: #738CA6;
 }
 
 .active{
-    background-color: #071430;
+    height: 55px;
 }
 
 /* Form */
@@ -160,7 +168,7 @@ ul {
     height: 30px;
     width: 390px;
     padding: 5px;
-    background-color: #1C262D;
+    background-color: #041D37;
     clear: both;
     float: left;
 }
@@ -190,7 +198,7 @@ form #send-button{
     width: 400px;
     height: 500px;
     margin: 0;
-    padding: 0;
+    padding: 3px 0px 0px 0px; /* top, right, bottom, left */
     background-color: #fff;
 }
 
@@ -209,11 +217,11 @@ form #send-button{
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #7A7A7A;
+    background-color: #4A6B8A;
 }
 
 #groupsList li button:hover{
-    background-color: #ccc;
+    background-color: #738CA6;
 }
 
 /* Contacts */
@@ -222,7 +230,7 @@ form #send-button{
     width: 400px;
     height: 500px;
     margin: 0;
-    padding: 0;
+    padding: 3px 0px 0px 0px; /* top, right, bottom, left */
     background-color: #fff;
 }
 
@@ -241,11 +249,11 @@ form #send-button{
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #7A7A7A;
+    background-color: #4A6B8A;
 }
 
 #contactsList li button:hover{
-    background-color: #ccc;
+    background-color: #738CA6;
 }
 
 /* Login */
