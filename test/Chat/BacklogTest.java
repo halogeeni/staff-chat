@@ -47,7 +47,7 @@ public class BacklogTest {
     @BeforeClass
     public static void setUpClass() {
 
-        System.out.println("IN SET UP !!!!!!!!!");
+        System.out.println("In class set up");
         Backlog backlog = Backlog.getInstance();
 
         Group admins = new Group("Administrators");
@@ -188,7 +188,6 @@ public class BacklogTest {
 
         //observer will be added even though the user is already an observer (arraylist)
         instance.register(observer);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
@@ -218,7 +217,6 @@ public class BacklogTest {
 
         int result = observers.size();
 
-        // TODO review the generated test code and remove the default call to fail.
         assertEquals(observerCount + 1, result);
 
     }
@@ -246,7 +244,6 @@ public class BacklogTest {
 
         int result = observers.size();
 
-        // TODO review the generated test code and remove the default call to fail.
         assertEquals(observerCount - 1, result);
     }
 
@@ -284,7 +281,6 @@ public class BacklogTest {
          */
 
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -302,7 +298,6 @@ public class BacklogTest {
         int expResult = instance.getUsers().size() - 1;
         int result = instance.getObservers().size();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
@@ -318,7 +313,6 @@ public class BacklogTest {
         int expResult = 5;
         int result = instance.getUsers().size();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -331,9 +325,8 @@ public class BacklogTest {
         //List<Group> expResult = instance.getGroups().size();
         int expResult = instance.getGroups().size();
         // List<Group> result = instance.getGroups().size;
-        int result = 3;
+        int result = 4;
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -359,12 +352,18 @@ public class BacklogTest {
     @Test
     public void testGetSingleGroup() {
         System.out.println("getSingleGroup");
-        int id = 0;
-        Backlog instance = new Backlog();
-        Group expResult = null;
-        Group result = instance.getSingleGroup(id);
+        Backlog instance = Backlog.getInstance();
+
+        Group coffeeClub = new Group("Kahvikerho");
+        // 2
+        instance.getGroups().add(coffeeClub);
+
+        List<Group> casual = new ArrayList<>();
+        casual.add(instance.getGroups().get(3));
+
+        Group expResult = instance.getGroups().get(3);
+        Group result = instance.getSingleGroup(3);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
@@ -388,7 +387,6 @@ public class BacklogTest {
         Message expResult = msg;
         Message result = instance.getSingleMessage(msg.getMessageId());
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
@@ -404,7 +402,6 @@ public class BacklogTest {
         int expResult = 4;
         int result = instance.getBroadcastBacklog().size();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
@@ -419,7 +416,6 @@ public class BacklogTest {
         List<Message> expResult = group.getGroupBacklog();
         List<Message> result = instance.getGroupBacklog(1);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
@@ -435,7 +431,6 @@ public class BacklogTest {
         List<Message> expResult = user.getUserBacklog();
         List<Message> result = instance.getMessagesByUserID(0);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
 
     }
 
