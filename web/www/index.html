@@ -33,55 +33,56 @@ THE SOFTWARE.
         <script type="text/javascript" src="js/functions.js"></script>
     </head>
     <body>
-        <div id="navigation">
-            <div id="loggedInAs"></div>
-            <ul>
-                <li><button type="button" id="groups-button">Groups</button></li>
-                <li><button type="button" id="contacts-button">Contacts</button></li>
-                <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
-            </ul>
-        </div>
-        <div id="container"></div>
+        <div id="wrapper">
+            <div id="navigation">
+                <div id="loggedInAs"></div>
+                <ul>
+                    <li><button type="button" id="groups-button">Groups</button></li>
+                    <li><button type="button" id="contacts-button">Contacts</button></li>
+                    <li><button type="button" id="broadcastchat-button" class="active">All Chat</button></li>
+                </ul>
+            </div>
+            <div id="container"></div>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                console.log("UserID: " + loggedUser);
-                $("#container").load("chat.html").fadeIn('500');
-
-                // get username if not already logged in
-                if (!loggedIn) {
-                    getUser();
-                }
-
-                // button event handlers
-
-                $("#groups-button").click(function () {
-                    clearInterval(timerId);
-                    $("#contacts-button").removeClass("active");
-                    $("#broadcastchat-button").removeClass("active");
-                    $(this).addClass("active");
-                    messagecount = 0;
-                    $("#container").load("groups.html").fadeIn('500');
-                });
-
-                $("#contacts-button").click(function () {
-                    clearInterval(timerId);
-                    $("#groups-button").removeClass("active");
-                    $("#broadcastchat-button").removeClass("active");
-                    $(this).addClass("active");
-                    $("#container").load("contacts.html").fadeIn('500');
-                });
-
-                // message container missing after visiting groups or other subpage?
-                $("#broadcastchat-button").click(function () {
-                    clearInterval(timerId);
-                    $("#groups-button").removeClass("active");
-                    $("#contacts-button").removeClass("active");
-                    $(this).addClass("active");
-                    messagecount = 0;
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    console.log("UserID: " + loggedUser);
                     $("#container").load("chat.html").fadeIn('500');
+
+                    // get username if not already logged in
+                    if (!loggedIn) {
+                        getUser();
+                    }
+
+                    // button event handlers
+
+                    $("#groups-button").click(function () {
+                        clearInterval(timerId);
+                        $("#contacts-button").removeClass("active");
+                        $("#broadcastchat-button").removeClass("active");
+                        $(this).addClass("active");
+                        messagecount = 0;
+                        $("#container").load("groups.html").fadeIn('500');
+                    });
+
+                    $("#contacts-button").click(function () {
+                        clearInterval(timerId);
+                        $("#groups-button").removeClass("active");
+                        $("#broadcastchat-button").removeClass("active");
+                        $(this).addClass("active");
+                        $("#container").load("contacts.html").fadeIn('500');
+                    });
+
+                    // message container missing after visiting groups or other subpage?
+                    $("#broadcastchat-button").click(function () {
+                        clearInterval(timerId);
+                        $("#groups-button").removeClass("active");
+                        $("#contacts-button").removeClass("active");
+                        $(this).addClass("active");
+                        messagecount = 0;
+                        $("#container").load("chat.html").fadeIn('500');
+                    });
                 });
-            });
-        </script>
+            </script>
     </body>
 </html>

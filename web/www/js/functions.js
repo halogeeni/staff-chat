@@ -28,6 +28,7 @@ var loggedUser = login();
 
 // we need this for autoscrolling on new messages
 var messageCount = 0;
+var broadcastClicked = false;
 
 var selectedGroup = 0;
 
@@ -91,7 +92,7 @@ function listContacts(xml) {
 }
 
 function getContacts() {
-    //console.log('In getContacts');
+    console.log('In getContacts');
     $.ajax({
         url: baseURL + '/users',
         method: 'GET',
@@ -108,10 +109,10 @@ function listGroups(xml) {
     var $groupsList = $("#groupsList");
 
     $xml.find('group').each(function () {
-        // $groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
+        //$groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         $groupsList.append('<li><button value="' + $(this).find('id').text() + '" '
-            + 'class="group-chat-button">' + $(this).find('name').text() + '</button></li>');
+                + 'class="group-chat-button">' + $(this).find('name').text() + '</button></li>');
     });
 
     $(".group-chat-button").click(function (event) {
@@ -122,7 +123,7 @@ function listGroups(xml) {
         $('#groupsContent').empty();
         $("#container").load("groupChat.html").fadeIn('500');
     });
-    
+
 }
 
 function getGroups() {
@@ -136,16 +137,22 @@ function getGroups() {
 }
 
 function listMessages(xml) {
+    //console.log('In listMessages');
     var $xml = $(xml);
     var $messagesContainer = $('#messages');
     var messageBuffer = [];
     var promises = [];
-    
+
     // get the current number of messages
     var currentMessageCount = $xml.find('message').size();
 
     // update message view only when new messages are available
-    if (currentMessageCount > messageCount) {
+
+
+    //Messages will only be shown when index.html is loaded or when a new message arrives
+    if (currentMessageCount > messageCount || broadcastClicked === true) {
+        broadcastClicked = false;
+
         $xml.find('message').each(function () {
             var $messageData = $(this);
             var uid = parseInt($messageData.find('fromUserId').text());
@@ -225,18 +232,17 @@ function listMessages(xml) {
 
     // update message counter
     messageCount = currentMessageCount;
-
 }
 
 function sendMessage(message, channel) {
     var xml = '';
-    
-    if(channel === 'CHANNEL_BROADCAST') {
+
+    if (channel === 'CHANNEL_BROADCAST') {
         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
     } else if (channel === 'CHANNEL_GROUP') {
         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toGroupId></toGroupId><messageId>-1</messageId></message>";
     }
-    
+
     var xmlDoc = $.parseXML(xml);
     var $xml = $(xmlDoc);
     var serializer = new XMLSerializer();
@@ -320,7 +326,7 @@ function validateInput(input) {
 }
 
 // Function to get user's firstname, lastname and title to navigation
-function getUser(){
+function getUser() {
     $.ajax({
         url: baseURL + '/users/' + loggedUser,
         method: 'GET',
@@ -328,19 +334,29 @@ function getUser(){
         success: function (userXml) {
             firstname = $(userXml).find('firstname').text();
             lastname = $(userXml).find('lastname').text();
-            
+
             var userHTML = '';
-            
+
             // Title is the job title e.g. "Nurse"
-            userHTML = userHTML.concat(firstname + ' ' + 
-                    lastname + '<br>' + "<i>job title</i>");
-            
+            userHTML = userHTML.concat(
+                    firstname +
+                    ' ' +
+                    lastname +
+                    '<br>' +
+                    '<i>job title</i>'
+                    );
             $('#loggedInAs').append(userHTML);
         },
-        
-        complete: function() {
+        complete: function () {
             loggedIn = true;
         }
-                
+
     });
+}
+
+function broadcastTrigger() {
+
+    console.log("In broadcastClick");
+    broadcastClicked = true;
+
 }
