@@ -21,18 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
-// development login flag, so that we are "logged in" as a specific user
+// Development login flag, so that we are "logged in" as a specific user
 var loggedUser = login();
 
-// we need this for autoscrolling on new messages
-var messageCount = 0;
-var selectedGroup = 0, selectedUser = 0;
-var timerId = 0;
+// We need this for autoscrolling on new messages
+var messageCount = 0; 
+var selectedGroup = 0;
+var selectedUser = 0, timerId = 0;
 var loggedIn = false;
-//var broadcastClicked = false;
 
+// Finds GET variables from URL
+// Used in login()
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -45,42 +47,40 @@ function getQueryVariable(variable) {
     return(false);
 }
 
+// Login placeholder
 function login() {
     var username = getQueryVariable("username");
     var password = getQueryVariable("password");
 
     if ((username === "user0") && (password === "pass")) {
-        console.log('user 0');
         return 0;
     } else if ((username === "user1") && (password === "pass")) {
-        console.log('user 1');
         return 1;
     } else if ((username === "user2") && (password === "pass")) {
-        console.log('user 2');
         return 2;
     } else if ((username === "user3") && (password === "pass")) {
-        console.log('user 3');
         return 3;
     } else {
-        // JUST FOR DEBUGGING :3
-        // default to user zero if no parameters are passed
         return 0;
     }
 }
 
+// Turns milliseconds time to a timestamp
 function toTime(s) {
     var myDate = new Date(s * 1);
     return myDate.toLocaleString();
 }
 
+// Lists contacts
 function listContacts(xml) {
     var $xml = $(xml);
-    var $contactContainer = $('#contactContainer');
-    $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactListing">\n\</ul></form>'));
-    var $contactListing = $("#contactListing");
+    var $contactContainer = $('#contactsContainer');
+    $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactsList">\n\</ul></form>'));
+    var $contactsList = $("#contactsList");
+    
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
-            $contactListing.append(
+            $contactsList.append(
                     '<li><button value="' +
                     $(this).find('userId').text() +
                     '"' +
@@ -93,9 +93,9 @@ function listContacts(xml) {
         }
     });
 
+    // Opens private chat
     $(".private-chat-button").click(function (event) {
         clearInterval(timerId);
-        console.log('private button clicked, id:' + $(this).attr("value"));
         event.preventDefault();
         selectedUser = parseInt($(this).attr("value"));
         $('#contactsContent').empty();
@@ -103,25 +103,16 @@ function listContacts(xml) {
     });
 }
 
-function getContacts() {
-    console.log('In getContacts');
-    $.ajax({
-        url: baseURL + '/users',
-        method: 'GET',
-        dataType: 'xml',
-        success: listContacts
-    });
-}
-
+// Lists groups
 function listGroups(xml) {
     var $xml = $(xml);
-    var $contactContainer = $('#contactContainer');
+    var $contactContainer = $('#contactsContainer');
 
-    $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactListing"></ul></form>'));
-    var $contactListing = $("#contactListing");
+    $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactsList"></ul></form>'));
+    var $contactsList = $("#contactsList");
 
     $xml.find('group').each(function () {
-        $contactListing.append('<li><button value="' +
+        $contactsList.append('<li><button value="' +
                 $(this).find('id').text() +
                 '" ' +
                 'class="group-chat-button">' +
@@ -130,9 +121,9 @@ function listGroups(xml) {
                 );
     });
 
+    // Opens group chat
     $(".group-chat-button").click(function (event) {
         clearInterval(timerId);
-        console.log('group button clicked, id:' + $(this).attr("value"));
         event.preventDefault();
         selectedGroup = parseInt($(this).attr("value"));
         $('#contactContainer').empty();
@@ -141,161 +132,21 @@ function listGroups(xml) {
 
 }
 
+function getContacts() {
+    $.ajax({
+        url: baseURL + '/users',
+        method: 'GET',
+        dataType: 'xml',
+        success: listContacts
+    });
+}
+
 function getGroups() {
-    console.log('In getGroup');
     $.ajax({
         url: baseURL + '/groups',
         method: 'GET',
         dataType: 'xml',
         success: listGroups
-    });
-}
-
-function listMessages(xml) {
-    //console.log('In listMessages');
-    var $xml = $(xml);
-    var $messagesContainer = $('#messages');
-    var messageBuffer = [];
-    var promises = [];
-
-    // get the current number of messages
-    var currentMessageCount = $xml.find('message').size();
-
-    // update message view only when new messages are available
-    if (currentMessageCount > messageCount) {
-        $xml.find('message').each(function () {
-            var $messageData = $(this);
-            var uid = parseInt($messageData.find('fromUserId').text());
-            var firstname = '', lastname = '';
-
-            // push ajax call promise to array
-            promises.push(
-                    $.ajax({
-                        url: baseURL + '/users/' + uid,
-                        method: 'GET',
-                        dataType: 'xml',
-                        success: function (userXml) {
-                            firstname = $(userXml).find('firstname').text();
-                            lastname = $(userXml).find('lastname').text();
-                            var messageHTML = '';
-                            var timestamp = 0;
-                            // message was sent by me, style it accordingly
-                            if (uid === loggedUser) {
-                                messageHTML = messageHTML.concat('<div class="my-message">' +
-                                        '<p class="message-body">' +
-                                        $messageData.find('text').text() +
-                                        '</p>' +
-                                        '<p class="timestamp">' +
-                                        toTime(timestamp = $messageData.find('timestamp').text()) +
-                                        '</p>' +
-                                        '</div>'
-                                        );
-                            } else {
-                                // message was sent by someone else
-                                messageHTML = messageHTML.concat('<div class="others-message">' +
-                                        '<p class="username">' +
-                                        firstname + ' ' +
-                                        lastname +
-                                        '</p>' +
-                                        '<p class="message-body">' +
-                                        $messageData.find('text').text() +
-                                        '</p>' +
-                                        '<p class="timestamp">' +
-                                        toTime(timestamp = $messageData.find('timestamp').text()) +
-                                        '</p>' +
-                                        '</div>'
-                                        );
-                            }
-
-                            // convert timestamp string to integer
-                            timestamp = parseInt(timestamp);
-                            messageBuffer.push({timestamp: timestamp, message: messageHTML});
-                        }
-                    }));
-        });
-
-        // MESSAGE BUFFERING DONE
-
-        // wait for ajax calls to complete
-        $.when.apply($, promises).done(function () {
-
-            // sort the buffer by timestamps
-            messageBuffer.sort(function (x, y) {
-                return x.timestamp - y.timestamp;
-            });
-
-            // clear the message container
-            $messagesContainer.empty();
-
-            // output newly-populated message buffer to the container
-            for (var i = 0; i < messageBuffer.length; i++) {
-                $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
-            }
-
-            // finally, scroll message container to bottom
-            $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
-
-        });
-
-    }
-
-    // update message counter
-    messageCount = currentMessageCount;
-
-}
-
-function sendMessage(message, channel) {
-    var xml = '';
-
-    // test if sending messages works without timestamp?
-    if (channel === 'CHANNEL_BROADCAST') {
-        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
-    } else if (channel === 'CHANNEL_GROUP') {
-        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toGroupId></toGroupId><messageId>-1</messageId></message>";
-    } else if (channel === 'CHANNEL_PRIVATE') {
-        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toUserId></toUserId><messageId>-1</messageId></message>";
-    }
-
-    var xmlDoc = $.parseXML(xml);
-    var $xml = $(xmlDoc);
-    var serializer = new XMLSerializer();
-
-    $.ajax({
-        url: baseURL + '/users/' + loggedUser,
-        method: 'GET',
-        dataType: 'xml',
-        success: function (xml) {
-            // append sender's user id to the xml
-            $xml.find('fromUserId').append(loggedUser);
-            // append message body (text)
-            $xml.find('text').append(message);
-            // append channel info
-            $xml.find('channel').append(channel);
-            // append toGroupId in case of a group message
-            if (channel === 'CHANNEL_GROUP') {
-                $xml.find('toGroupId').append(selectedGroup);
-            } else if (channel === 'CHANNEL_PRIVATE') {
-                $xml.find('toUserId').append(selectedUser);
-            }
-            // serialize the xml for sending
-            xmlDoc = serializer.serializeToString($xml[0]);
-        },
-        complete: function () {
-            $.ajax({
-                url: baseURL + "/messages/add",
-                data: xmlDoc,
-                processData: false,
-                type: 'POST',
-                contentType: 'application/xml',
-                success: function () {
-                    // empty message-field
-                    $('#message-field').val('');
-                },
-                error: function () {
-                    alert('DEBUG: sendMessage AJAX error!');
-                }
-            });
-        }
     });
 }
 
@@ -326,6 +177,154 @@ function getPrivateMessages(userid) {
     });
 }
 
+// Message listing
+function listMessages(xml) {
+    var $xml = $(xml);
+    var $messagesContainer = $('#messages');
+    var messageBuffer = [];
+    var promises = [];
+
+    // Get the current number of messages
+    var currentMessageCount = $xml.find('message').size();
+
+    // Update message view only when new messages are available
+    if (currentMessageCount > messageCount) {
+        $xml.find('message').each(function () {
+            var $messageData = $(this);
+            var uid = parseInt($messageData.find('fromUserId').text());
+            var firstname = '', lastname = '';
+
+            // Push AJAX call promise to array
+            promises.push(
+                    $.ajax({
+                        url: baseURL + '/users/' + uid,
+                        method: 'GET',
+                        dataType: 'xml',
+                        success: function (userXml) {
+                            firstname = $(userXml).find('firstname').text();
+                            lastname = $(userXml).find('lastname').text();
+                            var messageHTML = '';
+                            var timestamp = 0;
+                            
+                            // Message was sent by me, style it accordingly
+                            if (uid === loggedUser) {
+                                messageHTML = messageHTML.concat('<div class="my-message">' +
+                                    '<p class="message-body">' +
+                                    $messageData.find('text').text() +
+                                    '</p>' +
+                                    '<p class="timestamp">' +
+                                    toTime(timestamp = $messageData.find('timestamp').text()) +
+                                    '</p>' +
+                                    '</div>'
+                                    );
+                            } else {
+                                // Message was sent by someone else
+                                messageHTML = messageHTML.concat('<div class="others-message">' +
+                                    '<p class="username">' +
+                                    firstname + ' ' +
+                                    lastname +
+                                    '</p>' +
+                                    '<p class="message-body">' +
+                                    $messageData.find('text').text() +
+                                    '</p>' +
+                                    '<p class="timestamp">' +
+                                    toTime(timestamp = $messageData.find('timestamp').text()) +
+                                    '</p>' +
+                                    '</div>'
+                                    );
+                            }
+
+                            // Convert timestamp string to integer
+                            timestamp = parseInt(timestamp);
+                            messageBuffer.push({timestamp: timestamp, message: messageHTML});
+                        }
+                    }));
+        });
+
+        // MESSAGE BUFFERING DONE
+        // Wait for AJAX calls to complete
+        $.when.apply($, promises).done(function () {
+            // Sort the buffer by timestamps
+            messageBuffer.sort(function (x, y) {
+                return x.timestamp - y.timestamp;
+            });
+
+            // Clear the message container
+            $messagesContainer.empty();
+
+            // Output newly-populated message buffer to the container
+            for (var i = 0; i < messageBuffer.length; i++) {
+                $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
+            }
+
+            // Finally, scroll message container to bottom
+            $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
+
+        });
+
+    }
+
+    // Update message counter
+    messageCount = currentMessageCount;
+
+}
+
+function sendMessage(message, channel) {
+    var xml = '';
+
+    // Test if sending messages works without timestamp?
+    if (channel === 'CHANNEL_BROADCAST') {
+        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
+    } else if (channel === 'CHANNEL_GROUP') {
+        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toGroupId></toGroupId><messageId>-1</messageId></message>";
+    } else if (channel === 'CHANNEL_PRIVATE') {
+        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toUserId></toUserId><messageId>-1</messageId></message>";
+    }
+
+    var xmlDoc = $.parseXML(xml);
+    var $xml = $(xmlDoc);
+    var serializer = new XMLSerializer();
+
+    $.ajax({
+        url: baseURL + '/users/' + loggedUser,
+        method: 'GET',
+        dataType: 'xml',
+        success: function (xml) {
+            // Append sender's user id to the XML
+            $xml.find('fromUserId').append(loggedUser);
+            // Append message body (text)
+            $xml.find('text').append(message);
+            // Append channel info
+            $xml.find('channel').append(channel);
+            // Append toGroupId in case of a group message
+            if (channel === 'CHANNEL_GROUP') {
+                $xml.find('toGroupId').append(selectedGroup);
+            } else if (channel === 'CHANNEL_PRIVATE') {
+                $xml.find('toUserId').append(selectedUser);
+            }
+            
+            // Serialize the XML for sending
+            xmlDoc = serializer.serializeToString($xml[0]);
+        },
+        complete: function () {
+            $.ajax({
+                url: baseURL + "/messages/add",
+                data: xmlDoc,
+                processData: false,
+                type: 'POST',
+                contentType: 'application/xml',
+                success: function () {
+                    // Empty message-field
+                    $('#message-field').val('');
+                },
+                error: function () {
+                    alert('DEBUG: sendMessage AJAX error!');
+                }
+            });
+        }
+    });
+}
+
 var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
 
 var tagOrComment = new RegExp(
@@ -336,7 +335,7 @@ var tagOrComment = new RegExp(
         + '|/?[a-z]'
         + tagBody
         + ')>',
-        // global identifier without case sensitiviness
+        // Global identifier without case sensitiviness
         'gi');
 
 function validateInput(input) {
@@ -375,6 +374,5 @@ function getUser() {
         complete: function () {
             loggedIn = true;
         }
-
     });
 }

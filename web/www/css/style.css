@@ -194,7 +194,7 @@ form #send-button{
 }
 
 /* Listing contacts and groups */
-#contactListing{
+#contactsList{
     width: 100%;
     height: 400px;
     margin: 0;
@@ -202,12 +202,12 @@ form #send-button{
     background-color: #fff;
 }
 
-#contactListing li{
+#contactsList li{
     width: 100%;
     margin-bottom: 5px;
 }
 
-#contactListing li button{
+#contactsList li button{
     width: 100%;
     height: 60px;
     display: block;
@@ -219,7 +219,7 @@ form #send-button{
     background-color: #4A6B8A;
 }
 
-#contactListing li button:hover{
+#contactsList li button:hover{
     background-color: #738CA6;
 }
 
