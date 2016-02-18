@@ -25,6 +25,7 @@ package APIResources;
 
 import Chat.Message;
 import Chat.TestChat;
+import Chat.User;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -126,5 +127,24 @@ public class MessageResource {
                 new GenericEntity<List<Message>>(messages) {};
         return Response.ok(list).build();
     }
+    
+    @Path("/{userid}/private/{associateduserid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getPrivateMessagesXML(@PathParam("userid") int userid, 
+            @PathParam("associateduserid") int associatedUserId) {
+        
+        // get private messages with associated user
+        List<Message> messages = 
+                chatInstance.getBacklog().getSingleUser(userid).getPrivateMessages(associatedUserId);
 
+        // no messages found with id --> return 404
+        if(messages == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        GenericEntity<List<Message>> list = 
+                new GenericEntity<List<Message>>(messages) {};
+        return Response.ok(list).build();
+    }
 }

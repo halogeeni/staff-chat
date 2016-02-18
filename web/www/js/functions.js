@@ -28,7 +28,7 @@ var loggedUser = login();
 
 // we need this for autoscrolling on new messages
 var messageCount = 0;
-var selectedGroup = 0;
+var selectedGroup = 0, selectedUser = 0;
 var timerId = 0;
 var loggedIn = false;
 //var broadcastClicked = false;
@@ -38,7 +38,7 @@ function getQueryVariable(variable) {
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split("=");
-        if (pair[0] == variable) {
+        if (pair[0] === variable) {
             return pair[1];
         }
     }
@@ -77,7 +77,7 @@ function listContacts(xml) {
     var $xml = $(xml);
     var $contactsContent = $('#contactsContent');
 
-    $contactsContent.append($('<form action="ContactsTest.html"><ul id="contactsList">\n\</ul></form>'));
+    $contactsContent.append($('<form action="javascript:void(0);"><ul id="contactsList">\n\</ul></form>'));
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
@@ -85,13 +85,23 @@ function listContacts(xml) {
             $contactsList.append(
                     '<li><button value="' +
                     $(this).find('userId').text() +
-                    '">' +
+                    '"' +
+                    'class="private-chat-button">' + 
                     $(this).find('firstname').text() +
                     " " +
                     $(this).find('lastname').text() +
                     '</button></li>'
                     );
         }
+    });
+    
+    $(".private-chat-button").click(function (event) {
+        clearInterval(timerId);
+        console.log('private button clicked, id:' + $(this).attr("value"));
+        event.preventDefault();
+        selectedUser = parseInt($(this).attr("value"));
+        $('#contactsContent').empty();
+        $("#container").load("privateChat.html").fadeIn('500');
     });
 }
 
@@ -115,8 +125,13 @@ function listGroups(xml) {
     $xml.find('group').each(function () {
         //$groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
         //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        $groupsList.append('<li><button value="' + $(this).find('id').text() + '" '
-                + 'class="group-chat-button">' + $(this).find('name').text() + '</button></li>');
+        $groupsList.append('<li><button value="' + 
+                $(this).find('id').text() + 
+                '" ' + 
+                'class="group-chat-button">' + 
+                $(this).find('name').text() + 
+                '</button></li>'
+                );
     });
 
     $(".group-chat-button").click(function (event) {
@@ -236,10 +251,13 @@ function listMessages(xml) {
 function sendMessage(message, channel) {
     var xml = '';
 
+    // test if sending messages works without timestamp?
     if (channel === 'CHANNEL_BROADCAST') {
         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
     } else if (channel === 'CHANNEL_GROUP') {
         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toGroupId></toGroupId><messageId>-1</messageId></message>";
+    } else if (channel === 'CHANNEL_PRIVATE') {
+         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toUserId></toUserId><messageId>-1</messageId></message>";
     }
 
     var xmlDoc = $.parseXML(xml);
@@ -260,6 +278,8 @@ function sendMessage(message, channel) {
             // append toGroupId in case of a group message
             if (channel === 'CHANNEL_GROUP') {
                 $xml.find('toGroupId').append(selectedGroup);
+            } else if(channel === 'CHANNEL_PRIVATE') {
+                $xml.find('toUserId').append(selectedUser);
             }
             // serialize the xml for sending
             xmlDoc = serializer.serializeToString($xml[0]);
@@ -295,6 +315,15 @@ function getBroadcasts() {
 function getGroupMessages(groupid) {
     $.ajax({
         url: baseURL + '/messages/group/' + groupid,
+        method: 'GET',
+        dataType: 'xml',
+        success: listMessages
+    });
+}
+
+function getPrivateMessages(userid) {
+    $.ajax({
+        url: baseURL + '/messages/' + loggedUser + '/private/' + userid,
         method: 'GET',
         dataType: 'xml',
         success: listMessages

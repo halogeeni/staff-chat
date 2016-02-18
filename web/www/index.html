@@ -72,6 +72,7 @@
                         $("#groups-button").removeClass("active");
                         $("#broadcastchat-button").removeClass("active");
                         $(this).addClass("active");
+                        messageCount = 0;
                         $("#container").load("contacts.html").fadeIn('500');
                     });
 

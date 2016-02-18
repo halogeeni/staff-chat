@@ -22,11 +22,41 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
+<div id="chat">
+    <div id="messages">
+    </div>
+    <div id="send-message">
+        <form>
+            <input id="message-field" name="message" type="text" />
+            <input id="send-button" name="submit" type="button" value="Send" />
+        </form>
+    </div>
+</div>
 
-<div id="groupsContent"></div>
-
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
-        getGroups();
+        $('#message-field').focus();
+
+        // bind enter key event to submit
+        $('#message-field').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                if (validateInput($('#message-field').val())) {
+                    sendMessage($('#message-field').val(), 'CHANNEL_PRIVATE');
+                }
+            }
+        });
+
+        $('#send-button').click(function () {
+            if (validateInput($('#message-field').val())) {
+                sendMessage($('#message-field').val(), 'CHANNEL_PRIVATE');
+            }
+        });
+        
+        // polling
+        timerId = setInterval(function(){ 
+            getPrivateMessages(selectedUser);
+        }, 500);
+        
     });
 </script>

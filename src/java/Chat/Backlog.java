@@ -84,7 +84,8 @@ public class Backlog {
         // notify observers about a new entry
         switch (msg.getChannel()) {
             case CHANNEL_PRIVATE:
-                getSingleUser(msg.getToUserId()).update(msg);
+                //getSingleUser(msg.getToUserId()).update(msg);
+                getSingleUser(msg.getToUserId()).getUserBacklog().add(msg);
                 break;
             case CHANNEL_GROUP:
                 // first get all groups from the message "header"

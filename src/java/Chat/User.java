@@ -127,6 +127,41 @@ public class User implements Observer {
     public List<Message> getUserBacklog() {
         return userBacklog;
     }
+    
+    public List<Message> getPrivateMessages(int userid) {
+        List<Message> privateMessages = new ArrayList<>();
+        
+        for(Message msg : userBacklog) {
+            if(msg.getToUserId() != null) {
+                // add message if it is from you AND 
+                // is directed to the specified user
+                if(msg.getFromUserId() == this.userId && 
+                    msg.getToUserId() == userid) {
+                    privateMessages.add(msg);
+                // add message if it is from the specified user AND 
+                // is directed to you
+                } else if (msg.getFromUserId() == userid && 
+                    msg.getToUserId() == this.userId) {
+                    privateMessages.add(msg);
+                }
+            }
+            
+        }
+        
+        /*
+        for(Message msg :getUserBacklog(toUser)){
+            if(msg.getToUserId() != null && msg.getToUserId() == userid) {
+                privateMessages.add(msg);
+            }
+        */
+        
+        if(privateMessages.isEmpty()) {
+            return null;
+        } else {
+            return privateMessages;
+        }
+        
+    }
 
     // dummy id parameter
     // workaround because of zero-arg constructor
