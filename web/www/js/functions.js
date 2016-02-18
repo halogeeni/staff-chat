@@ -75,18 +75,16 @@ function toTime(s) {
 
 function listContacts(xml) {
     var $xml = $(xml);
-    var $contactsContent = $('#contactsContent');
-
-    $contactsContent.append($('<form action="javascript:void(0);"><ul id="contactsList">\n\</ul></form>'));
-    var $contactsList = $("#contactsList");
-
+    var $contactContainer = $('#contactContainer');
+    $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactListing">\n\</ul></form>'));
+    var $contactListing = $("#contactListing");
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
-            $contactsList.append(
+            $contactListing.append(
                     '<li><button value="' +
                     $(this).find('userId').text() +
                     '"' +
-                    'class="private-chat-button">' + 
+                    'class="private-chat-button">' +
                     $(this).find('firstname').text() +
                     " " +
                     $(this).find('lastname').text() +
@@ -94,7 +92,7 @@ function listContacts(xml) {
                     );
         }
     });
-    
+
     $(".private-chat-button").click(function (event) {
         clearInterval(timerId);
         console.log('private button clicked, id:' + $(this).attr("value"));
@@ -117,19 +115,17 @@ function getContacts() {
 
 function listGroups(xml) {
     var $xml = $(xml);
-    var $groupsContent = $('#groupsContent');
+    var $contactContainer = $('#contactContainer');
 
-    $groupsContent.append($('<form action="javascript:void(0);"><ul id="groupsList"></ul></form>'));
-    var $groupsList = $("#groupsList");
+    $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactListing"></ul></form>'));
+    var $contactListing = $("#contactListing");
 
     $xml.find('group').each(function () {
-        //$groupsList.append('<li><form action="groupChat.html"><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        //$groupsList.append('<li><form><input type="hidden" name="" value="'+$(this).find('groupId').text()+'"/>'+ '<input id="group-chat-button" type=submit value="'+ $(this).find('name').text()+'"/></form></li>');
-        $groupsList.append('<li><button value="' + 
-                $(this).find('id').text() + 
-                '" ' + 
-                'class="group-chat-button">' + 
-                $(this).find('name').text() + 
+        $contactListing.append('<li><button value="' +
+                $(this).find('id').text() +
+                '" ' +
+                'class="group-chat-button">' +
+                $(this).find('name').text() +
                 '</button></li>'
                 );
     });
@@ -139,7 +135,7 @@ function listGroups(xml) {
         console.log('group button clicked, id:' + $(this).attr("value"));
         event.preventDefault();
         selectedGroup = parseInt($(this).attr("value"));
-        $('#groupsContent').empty();
+        $('#contactContainer').empty();
         $("#container").load("groupChat.html").fadeIn('500');
     });
 
@@ -238,14 +234,14 @@ function listMessages(xml) {
 
             // finally, scroll message container to bottom
             $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
-            
+
         });
 
     }
 
     // update message counter
     messageCount = currentMessageCount;
-    
+
 }
 
 function sendMessage(message, channel) {
@@ -257,7 +253,7 @@ function sendMessage(message, channel) {
     } else if (channel === 'CHANNEL_GROUP') {
         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toGroupId></toGroupId><messageId>-1</messageId></message>";
     } else if (channel === 'CHANNEL_PRIVATE') {
-         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toUserId></toUserId><messageId>-1</messageId></message>";
+        xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><toUserId></toUserId><messageId>-1</messageId></message>";
     }
 
     var xmlDoc = $.parseXML(xml);
@@ -278,7 +274,7 @@ function sendMessage(message, channel) {
             // append toGroupId in case of a group message
             if (channel === 'CHANNEL_GROUP') {
                 $xml.find('toGroupId').append(selectedGroup);
-            } else if(channel === 'CHANNEL_PRIVATE') {
+            } else if (channel === 'CHANNEL_PRIVATE') {
                 $xml.find('toUserId').append(selectedUser);
             }
             // serialize the xml for sending
