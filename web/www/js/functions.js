@@ -326,6 +326,7 @@ function getPrivateMessages(userid) {
     });
 }
 
+/*
 var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
 
 var tagOrComment = new RegExp(
@@ -348,6 +349,18 @@ function validateInput(input) {
     //console.log("RegEx is hard!");
     // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
     return input.replace(/</g, '&lt;');
+}
+
+*/
+
+function validateInput(input) {
+    // just a simple input check for an empty string or plain whitespace
+    
+    if (input.trim() == null || input.trim() == "" || input === " ") {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 // Function to get user's firstname, lastname and title to navigation

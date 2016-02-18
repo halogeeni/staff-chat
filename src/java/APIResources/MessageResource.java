@@ -25,7 +25,6 @@ package APIResources;
 
 import Chat.Message;
 import Chat.TestChat;
-import Chat.User;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -36,6 +35,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 @Path("/messages")
 public class MessageResource {
@@ -93,6 +93,8 @@ public class MessageResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postMessageXML(Message msg) {
+        // escape HTML via Apache Commons 
+        msg.getBody().setText(StringEscapeUtils.escapeHtml4(msg.getBody().getText()));
         chatInstance.getBacklog().addMessage(msg);
     }
 

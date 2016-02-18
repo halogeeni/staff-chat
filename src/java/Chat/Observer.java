@@ -21,18 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package Chat;
 
 public interface Observer {
 
-    // method to update the observer, used by subject
+    // method to update the observer
     public void update(Message msg);
 
     // method to update the observer on server events
     public void update(String serverMessage);
-    /*
-    // attach with subject to observe
-    public void setSubject(Subject subject);
-     */
 
 }
