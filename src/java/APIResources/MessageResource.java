@@ -35,6 +35,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 @Path("/messages")
 public class MessageResource {
@@ -92,6 +93,8 @@ public class MessageResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postMessageXML(Message msg) {
+        // escape HTML via Apache Commons 
+        msg.getBody().setText(StringEscapeUtils.escapeHtml4(msg.getBody().getText()));
         chatInstance.getBacklog().addMessage(msg);
     }
 
@@ -126,5 +129,24 @@ public class MessageResource {
                 new GenericEntity<List<Message>>(messages) {};
         return Response.ok(list).build();
     }
+    
+    @Path("/{userid}/private/{associateduserid}")
+    @GET
+    @Produces(MediaType.APPLICATION_XML)
+    public Response getPrivateMessagesXML(@PathParam("userid") int userid, 
+            @PathParam("associateduserid") int associatedUserId) {
+        
+        // get private messages with associated user
+        List<Message> messages = 
+                chatInstance.getBacklog().getSingleUser(userid).getPrivateMessages(associatedUserId);
 
+        // no messages found with id --> return 404
+        if(messages == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        GenericEntity<List<Message>> list = 
+                new GenericEntity<List<Message>>(messages) {};
+        return Response.ok(list).build();
+    }
 }

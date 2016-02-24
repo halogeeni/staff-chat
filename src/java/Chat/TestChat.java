@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package Chat;
 
 import java.util.ArrayList;
@@ -156,7 +157,7 @@ public class TestChat {
 
         Message message6
                 = new Message(user1, Channel.CHANNEL_GROUP, null, staff,
-                        new MessageBody("Täällä on joku pappa maassa; tulkaapi nostamaan! T: MARTTA"));
+                        new MessageBody("Kahvia!!! HETI! T: MARTTA"));
         backlog.addMessage(message6);
 
     }

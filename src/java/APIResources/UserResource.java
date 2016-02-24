@@ -36,10 +36,6 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- *
- * @author EliteBook
- */
 @Path("/users")
 public class UserResource {
 
@@ -63,7 +59,6 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
         User usr = thischat.getBacklog().getSingleUser(userid);
-        
         if(usr == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

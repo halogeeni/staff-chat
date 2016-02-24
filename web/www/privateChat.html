@@ -24,29 +24,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<html>
-    <head>
-        <title>Login</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
-        <script type="text/javascript" src="js/functions.js"></script>
-    </head>
-    <body>
-        <div id="loginWrapper">
-            <h4>staff-chat</h4>
-            <form name="loginForm" method="GET" action="index.html">
-                <p><label for="username">Username</label><input type="text" name="username" id="username" /></p>
-                <p><label for="password">Password</label><input type="text" name="password" id="password" /></p>
-                <p><input type="submit" name="login"  value="Login" /></p>
-            </form>
-        </div>
+<div id="chat">
+    <div id="messages">
+    </div>
+    <div id="send-message">
+        <form>
+            <input id="message-field" name="message" type="text" />
+            <input id="send-button" name="submit" type="button" value="Send" />
+        </form>
+    </div>
+</div>
 
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $("#username").focus();
-            });
-        </script>
-    </body>
-</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#message-field').focus();
+
+        // bind enter key event to submit
+        $('#message-field').keypress(function (event) {
+            if (event.which === 13) {
+                event.preventDefault();
+                if (validateInput($('#message-field').val())) {
+                    sendMessage($('#message-field').val(), 'CHANNEL_PRIVATE');
+                }
+            }
+        });
+
+        $('#send-button').click(function () {
+            if (validateInput($('#message-field').val())) {
+                sendMessage($('#message-field').val(), 'CHANNEL_PRIVATE');
+            }
+        });
+        
+        // polling
+        timerId = setInterval(function(){ 
+            getPrivateMessages(selectedUser);
+        }, 500);
+        
+    });
+</script>
