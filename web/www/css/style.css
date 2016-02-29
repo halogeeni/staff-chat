@@ -245,3 +245,25 @@ form #send-button{
 #loginWrapper h4{
     padding-left: 10px;
 }
+
+/* Register */
+#createUserWrapper{
+    height: 250px;
+    width: 300px;
+    background-color: white;
+    float: left;
+    border-radius: 10px;
+}
+
+#createUserWrapper input{
+    float: right;
+    margin-right: 10px;
+}
+
+#createUserWrapper p{
+    padding-left: 10px;
+}
+
+#createUserWrapper h4{
+    padding-left: 10px;
+}
