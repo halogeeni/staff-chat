@@ -28,7 +28,7 @@ var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 var loggedUser = login();
 
 // We need this for autoscrolling on new messages
-var messageCount = 0; 
+var messageCount = 0;
 var selectedGroup = 0;
 var selectedUser = 0, timerId = 0;
 var loggedIn = false;
@@ -77,7 +77,7 @@ function listContacts(xml) {
     var $contactContainer = $('#contactsContainer');
     $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactsList">\n\</ul></form>'));
     var $contactsList = $("#contactsList");
-    
+
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
             $contactsList.append(
@@ -205,33 +205,33 @@ function listMessages(xml) {
                             lastname = $(userXml).find('lastname').text();
                             var messageHTML = '';
                             var timestamp = 0;
-                            
+
                             // Message was sent by me, style it accordingly
                             if (uid === loggedUser) {
                                 messageHTML = messageHTML.concat('<div class="my-message">' +
-                                    '<p class="message-body">' +
-                                    $messageData.find('text').text() +
-                                    '</p>' +
-                                    '<p class="timestamp">' +
-                                    toTime(timestamp = $messageData.find('timestamp').text()) +
-                                    '</p>' +
-                                    '</div>'
-                                    );
+                                        '<p class="message-body">' +
+                                        $messageData.find('text').text() +
+                                        '</p>' +
+                                        '<p class="timestamp">' +
+                                        toTime(timestamp = $messageData.find('timestamp').text()) +
+                                        '</p>' +
+                                        '</div>'
+                                        );
                             } else {
                                 // Message was sent by someone else
                                 messageHTML = messageHTML.concat('<div class="others-message">' +
-                                    '<p class="username">' +
-                                    firstname + ' ' +
-                                    lastname +
-                                    '</p>' +
-                                    '<p class="message-body">' +
-                                    $messageData.find('text').text() +
-                                    '</p>' +
-                                    '<p class="timestamp">' +
-                                    toTime(timestamp = $messageData.find('timestamp').text()) +
-                                    '</p>' +
-                                    '</div>'
-                                    );
+                                        '<p class="username">' +
+                                        firstname + ' ' +
+                                        lastname +
+                                        '</p>' +
+                                        '<p class="message-body">' +
+                                        $messageData.find('text').text() +
+                                        '</p>' +
+                                        '<p class="timestamp">' +
+                                        toTime(timestamp = $messageData.find('timestamp').text()) +
+                                        '</p>' +
+                                        '</div>'
+                                        );
                             }
 
                             // Convert timestamp string to integer
@@ -257,8 +257,13 @@ function listMessages(xml) {
                 $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
             }
 
-            // Finally, scroll message container to bottom
-            $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
+            // check if user has scrolled to somewhat near bottom ...
+            if($messagesContainer.scrollTop() + 200 >= 
+                    ($messagesContainer.prop('scrollHeight') - 
+                    $messagesContainer.prop('offsetHeight'))) {
+                // ... if so, then scroll message container to bottom
+                $messagesContainer.animate({scrollTop: $messagesContainer.prop('scrollHeight')}, 500);
+            }
 
         });
 
@@ -302,7 +307,7 @@ function sendMessage(message, channel) {
             } else if (channel === 'CHANNEL_PRIVATE') {
                 $xml.find('toUserId').append(selectedUser);
             }
-            
+
             // Serialize the XML for sending
             xmlDoc = serializer.serializeToString($xml[0]);
         },
@@ -353,32 +358,32 @@ function getPrivateMessages(userid) {
 }
 
 /*
-
-var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
-
-var tagOrComment = new RegExp(
-        '<(?:'
-        + '!--(?:(?:-*[^->])*--+|-?)'
-        + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
-        + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
-        + '|/?[a-z]'
-        + tagBody
-        + ')>',
-        // Global identifier without case sensitiviness
-        'gi');
-
-function validateInput(input) {
-    var oldInput;
-    do {
-        oldInput = input;
-        input = input.replace(tagOrComment, '');
-    } while (input !== oldInput);
-    //console.log("RegEx is hard!");
-    // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
-    return input.replace(/</g, '&lt;');
-}
-
-*/
+ 
+ var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+ 
+ var tagOrComment = new RegExp(
+ '<(?:'
+ + '!--(?:(?:-*[^->])*--+|-?)'
+ + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
+ + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
+ + '|/?[a-z]'
+ + tagBody
+ + ')>',
+ // Global identifier without case sensitiviness
+ 'gi');
+ 
+ function validateInput(input) {
+ var oldInput;
+ do {
+ oldInput = input;
+ input = input.replace(tagOrComment, '');
+ } while (input !== oldInput);
+ //console.log("RegEx is hard!");
+ // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
+ return input.replace(/</g, '&lt;');
+ }
+ 
+ */
 
 function validateInput(input) {
     // just a simple input check for an empty string or plain whitespace

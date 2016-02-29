@@ -93,7 +93,7 @@ public class MessageResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postMessageXML(Message msg) {
-        // escape HTML via Apache Commons 
+        // escape HTML via Apache Commons library
         msg.getBody().setText(StringEscapeUtils.escapeHtml4(msg.getBody().getText()));
         chatInstance.getBacklog().addMessage(msg);
     }
