@@ -199,6 +199,8 @@ form #send-button{
     width: 100%;
     height: 400px;
     margin: 0;
+    overflow: scroll;
+    overflow-x: hidden;
     padding: 3px 0px 0px 0px; /* top, right, bottom, left */
     background-color: #fff;
 }

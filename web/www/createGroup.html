@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<!--
+The MIT License
+
+Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<html>
+    <head>
+        <title>Create Group</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
+        <script type="text/javascript" src="js/functions.js"></script>
+    </head>
+    <body>
+        <div id="createUserWrapper">
+            <h4>Create group</h4>
+            <form name="createGroupForm" method="GET" onsubmit="addGroup();" action="createGroup.html">
+                <p><label for="groupname">Name</label><input type="text" name="groupname" id="groupname" /></p>
+                <p><input type="submit" name="createGroupButton" value="Create" /></p>
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#groupname").focus();
+            });
+
+            function addGroup() {
+                var xml = "<group><id>-1</id><name></name></group>";
+                var xmlDoc = $.parseXML(xml);
+                var $xml = $(xmlDoc);
+                var serializer = new XMLSerializer();
+
+                //Append xml with values from user creation form
+                $xml.find('name').append($('#groupname').val());
+
+                // Serialize the XML for sending
+                xmlDoc = serializer.serializeToString($xml[0]);
+
+                $.ajax({
+                    url: baseURL + "/groups/add",
+                    data: xmlDoc,
+                    processData: false,
+                    type: 'POST',
+                    contentType: 'application/xml'
+                });
+            }
+
+        </script>
+    </body>
+</html>
