@@ -43,24 +43,26 @@ THE SOFTWARE.
         $('#message-field').keypress(function (event) {
             if (event.which === 13) {
                 event.preventDefault();
-                if (validateInput($('#message-field').val())) {
-                    sendMessage($('#message-field').val(), 'CHANNEL_BROADCAST');
+                var messageText = $('#message-field').val();
+                if (validateInput(messageText)) {
+                    sendMessage(escapeHtml(messageText), 'CHANNEL_BROADCAST');
                 }
             }
         });
 
         $('#send-button').click(function () {
             $("#message-field").focus();
-            if (validateInput($('#message-field').val())) {
-                sendMessage($('#message-field').val(), 'CHANNEL_BROADCAST');
+            var messageText = $('#message-field').val();
+            if (validateInput(messageText)) {
+                sendMessage(escapeHtml(messageText), 'CHANNEL_BROADCAST');
             }
         });
 
         // polling
-        timerId = setInterval(function(){ 
+        timerId = setInterval(function () {
             getBroadcasts();
         }, 500);
-        
+
     });
 
 </script>

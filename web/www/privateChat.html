@@ -43,15 +43,18 @@ THE SOFTWARE.
         $('#message-field').keypress(function (event) {
             if (event.which === 13) {
                 event.preventDefault();
-                if (validateInput($('#message-field').val())) {
-                    sendMessage($('#message-field').val(), 'CHANNEL_PRIVATE');
+                var messageText = $('#message-field').val();
+                if (validateInput(messageText)) {
+                    sendMessage(escapeHtml(messageText), 'CHANNEL_PRIVATE');
                 }
             }
         });
 
         $('#send-button').click(function () {
-            if (validateInput($('#message-field').val())) {
-                sendMessage($('#message-field').val(), 'CHANNEL_PRIVATE');
+            $("#message-field").focus();
+            var messageText = $('#message-field').val();
+            if (validateInput(messageText)) {
+                sendMessage(escapeHtml(messageText), 'CHANNEL_PRIVATE');
             }
         });
         

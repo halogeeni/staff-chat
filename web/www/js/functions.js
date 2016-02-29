@@ -24,17 +24,17 @@
 
 var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
-// Development login flag, so that we are "logged in" as a specific user
+// development login flag, so that we are "logged in" as a specific user
 var loggedUser = login();
 
-// We need this for autoscrolling on new messages
+// we need this for autoscrolling on new messages
 var messageCount = 0;
-var selectedGroup = 0;
-var selectedUser = 0, timerId = 0;
+// chat selection flags
+var selectedGroup = 0, selectedUser = 0, timerId = 0;
+// simple login flag for demo purposes
 var loggedIn = false;
 
-// Finds GET variables from URL
-// Used in login()
+// parse GET variables from URL
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -47,7 +47,7 @@ function getQueryVariable(variable) {
     return(false);
 }
 
-// Login placeholder
+// login demo functionality
 function login() {
     var username = getQueryVariable("username");
     var password = getQueryVariable("password");
@@ -121,7 +121,7 @@ function listGroups(xml) {
                 );
     });
 
-    // Opens group chat
+    // group buttons' click event handler
     $(".group-chat-button").click(function (event) {
         clearInterval(timerId);
         event.preventDefault();
@@ -258,9 +258,9 @@ function listMessages(xml) {
             }
 
             // check if user has scrolled to somewhat near bottom ...
-            if($messagesContainer.scrollTop() + 200 >= 
-                    ($messagesContainer.prop('scrollHeight') - 
-                    $messagesContainer.prop('offsetHeight'))) {
+            if ($messagesContainer.scrollTop() + 200 >=
+                    ($messagesContainer.prop('scrollHeight') -
+                            $messagesContainer.prop('offsetHeight'))) {
                 // ... if so, then scroll message container to bottom
                 $messagesContainer.animate({scrollTop: $messagesContainer.prop('scrollHeight')}, 500);
             }
@@ -357,33 +357,19 @@ function getPrivateMessages(userid) {
     });
 }
 
-/*
- 
- var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
- 
- var tagOrComment = new RegExp(
- '<(?:'
- + '!--(?:(?:-*[^->])*--+|-?)'
- + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
- + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
- + '|/?[a-z]'
- + tagBody
- + ')>',
- // Global identifier without case sensitiviness
- 'gi');
- 
- function validateInput(input) {
- var oldInput;
- do {
- oldInput = input;
- input = input.replace(tagOrComment, '');
- } while (input !== oldInput);
- //console.log("RegEx is hard!");
- // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
- return input.replace(/</g, '&lt;');
- }
- 
- */
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
+}
 
 function validateInput(input) {
     // just a simple input check for an empty string or plain whitespace
