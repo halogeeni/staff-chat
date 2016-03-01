@@ -230,18 +230,18 @@ form #send-button{
     width: 97%;
     height: 60px;
     display: block;
-    color: white;
+    color: #fff;
     font-size: 16px;
     text-align: left;
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #41C41F;
+    background-color: #9BD93F;
     margin-left: 2%;
 }
 
 #contactsList li button:hover{
-    background-color: #60D840;
+    background-color: #A7D463;
 }
 
 /* Login */
