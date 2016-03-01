@@ -246,11 +246,12 @@ form #send-button{
 
 /* Login */
 #loginWrapper{
-    height: 170px;
+    height: 100%;
     width: 280px;
     background-color: white;
     float: left;
     border-radius: 10px;
+    padding-bottom: 10px;
 }
 
 #loginWrapper input{
@@ -268,14 +269,20 @@ form #send-button{
 
 /* Register */
 #createUserWrapper{
-    height: 250px;
+    height: 100%;
     width: 300px;
     background-color: white;
     float: left;
     border-radius: 10px;
+    padding-bottom: 10px;
 }
 
 #createUserWrapper input{
+    float: right;
+    margin-right: 10px;
+}
+
+#createUserWrapper select{
     float: right;
     margin-right: 10px;
 }
