@@ -47,27 +47,61 @@ function getQueryVariable(variable) {
     return(false);
 }
 
-// login demo functionality
-function login() {
-    var username = getQueryVariable("username");
-    var password = getQueryVariable("password");
+function validateCredentials() {
+    // 1. validate & sanitize username
+    // 2. check if it matches to a userid via ajax call
+    // 3a -> MATCH FOUND -> forward to index.html with GET variables
+    // 3b -> MATCH NOT FOUND -> display alert
 
-    if ((username === "user0") && (password === "pass")) {
-        return 0;
-    } else if ((username === "user1") && (password === "pass")) {
-        return 1;
-    } else if ((username === "user2") && (password === "pass")) {
-        return 2;
-    } else if ((username === "user3") && (password === "pass")) {
-        return 3;
-    } else {
-        return 0;
+    // clear possible error message
+    $('#login-error').empty();
+
+    var username = escapeHtml($('#username').val());
+    var id;
+    
+    console.log('username: ' + username);
+
+    if (validateInput(username)) {
+        // username is not empty or plain whitespace
+        $.ajax({
+            url: baseURL + '/users/',
+            method: 'GET',
+            dataType: 'xml',
+            success: function (xml) {
+                console.log('ajax success');
+                $(xml).find('user').each(function() {
+                    if($(this).find('username').text() === username) {
+                        id = $(this).find('userId').text();
+                    }
+                });
+                console.log('userid: ' + id);
+            },
+            fail: function () {
+                $('#login-error').append('AJAX connection error!');
+            },
+            complete: function () {
+                if (!id) {
+                    //  display error & clear credential input fields
+                    $('#login-error').append('No matching user found!');
+                    $('#username').val('');
+                    $('#password').val('');
+                    $("#username").focus();
+                } else {
+                    window.location = "./index.html?userid=" + id;
+                }
+            }
+        });
     }
 }
 
-// Turns milliseconds time to a timestamp
+// login demo functionality
+function login() {
+    return parseInt(getQueryVariable("userid"));
+}
+
+// Turns milliseconds to a human-readable timestamp
 function toTime(s) {
-    var myDate = new Date(s * 1);
+    var myDate = new Date(parseInt(s));
     return myDate.toLocaleString();
 }
 
@@ -373,7 +407,7 @@ function escapeHtml(text) {
 
 function validateInput(input) {
     // just a simple input check for an empty string or plain whitespace
-    if (input.trim() == null || input.trim() == "" || input === " ") {
+    if (input.trim() == null || input.trim() == "" || input == " ") {
         return false;
     } else {
         return true;
@@ -389,7 +423,6 @@ function getUser() {
         success: function (userXml) {
             firstname = $(userXml).find('firstname').text();
             lastname = $(userXml).find('lastname').text();
-
             var userHTML = '';
 
             // Title is the job title e.g. "Nurse"

@@ -269,3 +269,9 @@ form #send-button{
 #createUserWrapper h4{
     padding-left: 10px;
 }
+
+#login-error {
+    color: #D8000C;
+    font-style: italic;
+    font-size: small;
+}
