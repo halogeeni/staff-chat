@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <!--
 The MIT License
 
@@ -22,6 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
+
 <div id="chat">
     <div id="messages">
     </div>
@@ -41,15 +43,18 @@ THE SOFTWARE.
         $('#message-field').keypress(function (event) {
             if (event.which === 13) {
                 event.preventDefault();
-                if (validateInput($('#message-field').val())) {
-                    sendMessage($('#message-field').val(), 'CHANNEL_GROUP');
+                var messageText = $('#message-field').val();
+                if (validateInput(messageText)) {
+                    sendMessage(escapeHtml(messageText), 'CHANNEL_GROUP');
                 }
             }
         });
 
         $('#send-button').click(function () {
-            if (validateInput($('#message-field').val())) {
-                sendMessage($('#message-field').val(), 'CHANNEL_GROUP');
+            $("#message-field").focus();
+            var messageText = $('#message-field').val();
+            if (validateInput(messageText)) {
+                sendMessage(escapeHtml(messageText), 'CHANNEL_GROUP');
             }
         });
         

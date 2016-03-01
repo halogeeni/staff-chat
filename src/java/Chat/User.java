@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package Chat;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class User implements Observer {
         this.userBacklog = new ArrayList<>();
         this.groupIds = new ArrayList<>();
 
-        // Adds all groupIDs into array
+        // Adds all group IDs into array
         for (Group g : groups) {
             groupIds.add(g.getGroupId());
         }
@@ -148,13 +149,6 @@ public class User implements Observer {
             
         }
         
-        /*
-        for(Message msg :getUserBacklog(toUser)){
-            if(msg.getToUserId() != null && msg.getToUserId() == userid) {
-                privateMessages.add(msg);
-            }
-        */
-        
         if(privateMessages.isEmpty()) {
             return null;
         } else {
@@ -163,8 +157,7 @@ public class User implements Observer {
         
     }
 
-    // dummy id parameter
-    // workaround because of zero-arg constructor
+    // id parameter workaround because of zero-arg constructor
     public void setUserId(int userId) {
         this.userId = idCounter++;
     }

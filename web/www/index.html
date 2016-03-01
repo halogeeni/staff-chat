@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>Staff Chat</title>
-        <!-- charset should be defined in the first 1024 bytes -->
+        <!-- charset  should be defined in the first 1024 bytes -->
         <meta charset="UTF-8">
 
         <!--
@@ -37,13 +37,16 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="navigation">
+            <div id="title">
+                <div id="currentGroup"></div>
                 <div id="loggedInAs"></div>
+            </div>
+            <div id="navigation">
                 <ul>
                     <li><button type="button" id="groups-button">Groups</button></li>
                     <li><button type="button" id="contacts-button">Contacts</button></li>
                     <li><button type="button" id="broadcastchat-button" class="active">Announcements</button></li>
-                    <li><button type="button" id="logout">Logout</button></li>
+                    <li><button type="button" id="logout-button">Logout</button></li>
                 </ul>
             </div>
             <div id="container"></div>
@@ -60,6 +63,7 @@
 
                     // button event handlers
                     $("#groups-button").click(function () {
+                        $('#currentGroup').empty();
                         clearInterval(timerId);
                         $("#contacts-button").removeClass("active");
                         $("#broadcastchat-button").removeClass("active");
@@ -68,7 +72,9 @@
                         $("#container").load("groups.html").fadeIn('500');
                     });
 
+                    // private chats
                     $("#contacts-button").click(function () {
+                        $('#currentGroup').empty();
                         clearInterval(timerId);
                         $("#groups-button").removeClass("active");
                         $("#broadcastchat-button").removeClass("active");
@@ -77,9 +83,22 @@
                         $("#container").load("contacts.html").fadeIn('500');
                     });
 
+                    // user logout
+                    $("#logout-button").click(function () {
+                        $('#currentGroup').empty();
+                        clearInterval(timerId);
+                        messageCount = 0;
+                        loggedUser = -1;
+                        selectedGroup = -1;
+                        selectedUser = -1;
+                        loggedIn = false;
+                        location.href='login.html';
+                    });
+
                     // message container missing after visiting groups or other subpage?
                     $("#broadcastchat-button").click(function () {
                         clearInterval(timerId);
+                        $('#currentGroup').empty();
                         $("#groups-button").removeClass("active");
                         $("#contacts-button").removeClass("active");
                         $(this).addClass("active");

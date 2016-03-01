@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package Chat;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class Backlog {
     private static Backlog backlogInstance = new Backlog();
     // full backlog - contains ALL messages, broadcast, group & private
     private final List<Message> backlog;
+    // broadcast message backlog
     private final List<Message> broadcastBacklog;
     private final List<Observer> observers;
     private final List<Group> groups;
@@ -84,7 +86,6 @@ public class Backlog {
         // notify observers about a new entry
         switch (msg.getChannel()) {
             case CHANNEL_PRIVATE:
-                //getSingleUser(msg.getToUserId()).update(msg);
                 getSingleUser(msg.getToUserId()).getUserBacklog().add(msg);
                 break;
             case CHANNEL_GROUP:
@@ -96,7 +97,6 @@ public class Backlog {
                     // notify respective users
                     user.update(msg);
                 }
-
                 break;
             default:
                 // broadcast message

@@ -24,17 +24,17 @@
 
 var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
-// Development login flag, so that we are "logged in" as a specific user
+// development login flag, so that we are "logged in" as a specific user
 var loggedUser = login();
 
-// We need this for autoscrolling on new messages
-var messageCount = 0; 
-var selectedGroup = 0;
-var selectedUser = 0, timerId = 0;
+// we need this for autoscrolling on new messages
+var messageCount = 0;
+// chat selection flags
+var selectedGroup = 0, selectedUser = 0, timerId = 0;
+// simple login flag for demo purposes
 var loggedIn = false;
 
-// Finds GET variables from URL
-// Used in login()
+// parse GET variables from URL
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -47,7 +47,7 @@ function getQueryVariable(variable) {
     return(false);
 }
 
-// Login placeholder
+// login demo functionality
 function login() {
     var username = getQueryVariable("username");
     var password = getQueryVariable("password");
@@ -77,7 +77,7 @@ function listContacts(xml) {
     var $contactContainer = $('#contactsContainer');
     $contactContainer.append($('<form action="javascript:void(0);"><ul id="contactsList">\n\</ul></form>'));
     var $contactsList = $("#contactsList");
-    
+
     $xml.find('user').each(function () {
         if (parseInt($(this).find('userId').text()) !== loggedUser) {
             $contactsList.append(
@@ -99,6 +99,16 @@ function listContacts(xml) {
         event.preventDefault();
         selectedUser = parseInt($(this).attr("value"));
         $('#contactsContent').empty();
+        
+        $xml.find('user').each(function () {
+            if (parseInt($(this).find('userId').text()) === selectedUser) {
+                $('#currentGroup').append(
+                        $(this).find('firstname').text() 
+                        + " " + 
+                        $(this).find('lastname').text()
+                    );
+                }
+            });
         $("#container").load("privateChat.html").fadeIn('500');
     });
 }
@@ -121,12 +131,19 @@ function listGroups(xml) {
                 );
     });
 
-    // Opens group chat
+    // group buttons' click event handler
     $(".group-chat-button").click(function (event) {
         clearInterval(timerId);
         event.preventDefault();
         selectedGroup = parseInt($(this).attr("value"));
         $('#contactContainer').empty();
+        
+        $xml.find('group').each(function () {
+            if (parseInt($(this).find('id').text()) === selectedGroup) {
+                $('#currentGroup').append($(this).find('name').text());
+            }
+        });
+        
         $("#container").load("groupChat.html").fadeIn('500');
     });
 
@@ -205,33 +222,33 @@ function listMessages(xml) {
                             lastname = $(userXml).find('lastname').text();
                             var messageHTML = '';
                             var timestamp = 0;
-                            
+
                             // Message was sent by me, style it accordingly
                             if (uid === loggedUser) {
                                 messageHTML = messageHTML.concat('<div class="my-message">' +
-                                    '<p class="message-body">' +
-                                    $messageData.find('text').text() +
-                                    '</p>' +
-                                    '<p class="timestamp">' +
-                                    toTime(timestamp = $messageData.find('timestamp').text()) +
-                                    '</p>' +
-                                    '</div>'
-                                    );
+                                        '<p class="message-body">' +
+                                        $messageData.find('text').text() +
+                                        '</p>' +
+                                        '<p class="timestamp">' +
+                                        toTime(timestamp = $messageData.find('timestamp').text()) +
+                                        '</p>' +
+                                        '</div>'
+                                        );
                             } else {
                                 // Message was sent by someone else
                                 messageHTML = messageHTML.concat('<div class="others-message">' +
-                                    '<p class="username">' +
-                                    firstname + ' ' +
-                                    lastname +
-                                    '</p>' +
-                                    '<p class="message-body">' +
-                                    $messageData.find('text').text() +
-                                    '</p>' +
-                                    '<p class="timestamp">' +
-                                    toTime(timestamp = $messageData.find('timestamp').text()) +
-                                    '</p>' +
-                                    '</div>'
-                                    );
+                                        '<p class="username">' +
+                                        firstname + ' ' +
+                                        lastname +
+                                        '</p>' +
+                                        '<p class="message-body">' +
+                                        $messageData.find('text').text() +
+                                        '</p>' +
+                                        '<p class="timestamp">' +
+                                        toTime(timestamp = $messageData.find('timestamp').text()) +
+                                        '</p>' +
+                                        '</div>'
+                                        );
                             }
 
                             // Convert timestamp string to integer
@@ -257,8 +274,13 @@ function listMessages(xml) {
                 $messagesContainer.append($.parseHTML((messageBuffer[i].message)));
             }
 
-            // Finally, scroll message container to bottom
-            $messagesContainer.animate({scrollTop: $messagesContainer[0].scrollHeight}, 500);
+            // check if user has scrolled to somewhat near bottom ...
+            if ($messagesContainer.scrollTop() + 200 >=
+                    ($messagesContainer.prop('scrollHeight') -
+                            $messagesContainer.prop('offsetHeight'))) {
+                // ... if so, then scroll message container to bottom
+                $messagesContainer.animate({scrollTop: $messagesContainer.prop('scrollHeight')}, 500);
+            }
 
         });
 
@@ -272,7 +294,7 @@ function listMessages(xml) {
 function sendMessage(message, channel) {
     var xml = '';
 
-    // Test if sending messages works without timestamp?
+    // -1 value for timestamp is a workaround
     if (channel === 'CHANNEL_BROADCAST') {
         xml = "<message><body><text></text></body><channel></channel><fromUserId></fromUserId><messageId>-1</messageId></message>";
     } else if (channel === 'CHANNEL_GROUP') {
@@ -302,7 +324,7 @@ function sendMessage(message, channel) {
             } else if (channel === 'CHANNEL_PRIVATE') {
                 $xml.find('toUserId').append(selectedUser);
             }
-            
+
             // Serialize the XML for sending
             xmlDoc = serializer.serializeToString($xml[0]);
         },
@@ -325,28 +347,54 @@ function sendMessage(message, channel) {
     });
 }
 
-var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
+function getBroadcasts() {
+    $.ajax({
+        url: baseURL + '/messages/broadcast',
+        method: 'GET',
+        dataType: 'xml',
+        success: listMessages
+    });
+}
 
-var tagOrComment = new RegExp(
-        '<(?:'
-        + '!--(?:(?:-*[^->])*--+|-?)'
-        + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
-        + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
-        + '|/?[a-z]'
-        + tagBody
-        + ')>',
-        // Global identifier without case sensitiviness
-        'gi');
+function getGroupMessages(groupid) {
+    $.ajax({
+        url: baseURL + '/messages/group/' + groupid,
+        method: 'GET',
+        dataType: 'xml',
+        success: listMessages
+    });
+}
+
+function getPrivateMessages(userid) {
+    $.ajax({
+        url: baseURL + '/messages/' + loggedUser + '/private/' + userid,
+        method: 'GET',
+        dataType: 'xml',
+        success: listMessages
+    });
+}
+
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
+}
 
 function validateInput(input) {
-    var oldInput;
-    do {
-        oldInput = input;
-        input = input.replace(tagOrComment, '');
-    } while (input !== oldInput);
-    //console.log("RegEx is hard!");
-    // "&lt" means "<" in ascii(replacing this prevents <scripts> from being run)
-    return input.replace(/</g, '&lt;');
+    // just a simple input check for an empty string or plain whitespace
+    if (input.trim() == null || input.trim() == "" || input === " ") {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 // Function to get user's firstname, lastname and title to navigation

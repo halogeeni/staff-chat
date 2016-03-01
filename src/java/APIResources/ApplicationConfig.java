@@ -26,8 +26,6 @@ package APIResources;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
-// !!! ÄLÄ RÄPLÄÄ KÄSIN !!!
-
 @javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
 
