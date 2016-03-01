@@ -83,12 +83,22 @@ public class TestChat {
         backlog.getUsers().add(user4);
 
         // add users to groups (server side)
+        
         backlog.getGroups().get(0).getUsers().add(user1);
+        backlog.getGroups().get(0).getUserIds().add(user1.getUserId());
+        
         backlog.getGroups().get(2).getUsers().add(user1);
+        backlog.getGroups().get(2).getUserIds().add(user1.getUserId());
+        
         backlog.getGroups().get(1).getUsers().add(user2);
+        backlog.getGroups().get(1).getUserIds().add(user2.getUserId());
+        
         backlog.getGroups().get(1).getUsers().add(user4);
+        backlog.getGroups().get(1).getUserIds().add(user4.getUserId());
+        
         backlog.getGroups().get(2).getUsers().add(user3);
-
+        backlog.getGroups().get(2).getUserIds().add(user3.getUserId());
+        
         // register observers
         try {
             backlog.register(user1);

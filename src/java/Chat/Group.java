@@ -36,7 +36,9 @@ public class Group {
 
     private int groupId;
     private String name;
+    
     private final List<User> users;
+    
     private List<Integer> userIds;
     private List<Message> backlog;
 
@@ -54,6 +56,7 @@ public class Group {
     }
 
     public Group(String name, List<User> users) {
+        this.backlog=new ArrayList<>();
         this.name = name;
         this.users = users;
         this.userIds = new ArrayList<>();
@@ -70,11 +73,18 @@ public class Group {
         return groupId;
     }
 
-    @XmlElement(name = "user")
+    //@XmlElement(name = "user")
     public List<User> getUsers() {
         return users;
     }
-
+    
+    
+    @XmlElement(name = "userId")
+    public List<Integer> getUserIds() {
+        return userIds;
+    }
+    
+    
     @XmlElement
     public String getName() {
         return name;
@@ -88,10 +98,12 @@ public class Group {
         this.groupId = idCounter++;
     }
 
+    /*
     public List<Integer> getUserIds() {
         return userIds;
     }
-
+    */
+    
     public void setUserIds(List<Integer> userIds) {
         this.userIds = userIds;
     }
@@ -103,5 +115,4 @@ public class Group {
     public void addToGroupBacklog(Message msg){
         backlog.add(msg);
     }
-
 }
