@@ -70,7 +70,16 @@ public class UserResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
+        // add user to the main 'user pool'
         thischat.getBacklog().getUsers().add(user);
+
+        for(Integer groupid : user.getGroupIds()) {
+            if(groupid != null) {
+                thischat.getBacklog().getSingleGroup(groupid).getUsers().add(user);
+                // add user's id to group's collection of user ids
+                thischat.getBacklog().getSingleGroup(groupid).getUserIds().add(user.getUserId());
+            }
+        }
     }
 
 }
