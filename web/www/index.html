@@ -37,8 +37,11 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="navigation">
+            <div id="title">
+                <div id="currentGroup"></div>
                 <div id="loggedInAs"></div>
+            </div>
+            <div id="navigation">
                 <ul>
                     <li><button type="button" id="groups-button">Groups</button></li>
                     <li><button type="button" id="contacts-button">Contacts</button></li>
@@ -60,6 +63,7 @@
 
                     // button event handlers
                     $("#groups-button").click(function () {
+                        $('#currentGroup').empty();
                         clearInterval(timerId);
                         $("#contacts-button").removeClass("active");
                         $("#broadcastchat-button").removeClass("active");
@@ -70,6 +74,7 @@
 
                     // private chats
                     $("#contacts-button").click(function () {
+                        $('#currentGroup').empty();
                         clearInterval(timerId);
                         $("#groups-button").removeClass("active");
                         $("#broadcastchat-button").removeClass("active");
@@ -80,6 +85,7 @@
 
                     // user logout
                     $("#logout-button").click(function () {
+                        $('#currentGroup').empty();
                         clearInterval(timerId);
                         messageCount = 0;
                         loggedUser = -1;
@@ -92,6 +98,7 @@
                     // message container missing after visiting groups or other subpage?
                     $("#broadcastchat-button").click(function () {
                         clearInterval(timerId);
+                        $('#currentGroup').empty();
                         $("#groups-button").removeClass("active");
                         $("#contacts-button").removeClass("active");
                         $(this).addClass("active");

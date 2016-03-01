@@ -133,6 +133,16 @@ function listContacts(xml) {
         event.preventDefault();
         selectedUser = parseInt($(this).attr("value"));
         $('#contactsContent').empty();
+        
+        $xml.find('user').each(function () {
+            if (parseInt($(this).find('userId').text()) === selectedUser) {
+                $('#currentGroup').append(
+                        $(this).find('firstname').text() 
+                        + " " + 
+                        $(this).find('lastname').text()
+                    );
+                }
+            });
         $("#container").load("privateChat.html").fadeIn('500');
     });
 }
@@ -161,6 +171,13 @@ function listGroups(xml) {
         event.preventDefault();
         selectedGroup = parseInt($(this).attr("value"));
         $('#contactContainer').empty();
+        
+        $xml.find('group').each(function () {
+            if (parseInt($(this).find('id').text()) === selectedGroup) {
+                $('#currentGroup').append($(this).find('name').text());
+            }
+        });
+        
         $("#container").load("groupChat.html").fadeIn('500');
     });
 
