@@ -41,14 +41,14 @@ public class TestChat {
         return chat;
     }
 
-    private final Backlog backlog;
+    private final ChatServer backlog;
 
-    public Backlog getBacklog() {
+    public ChatServer getBacklog() {
         return backlog;
     }
 
     public TestChat() {
-        backlog = Backlog.getInstance();
+        backlog = ChatServer.getInstance();
 
         Group admins = new Group("Administrators", true);
         Group standard = new Group("Standard users", true);

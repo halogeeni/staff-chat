@@ -54,7 +54,7 @@ function getQueryVariable(variable) {
 }
 
 function validateCredentials() {
-    
+
     // clear possible error message
     $('#login-error').empty();
 
@@ -162,16 +162,16 @@ function listGroups(xml) {
     var $contactsList = $("#contactsList");
 
     $xml.find('group').each(function () {
-        if($(this).find('active').text() === 'true') {
+        if ($(this).find('active').text() === 'true') {
             $contactsList.append('<li><button value="' +
-                $(this).find('id').text() +
-                '" ' +
-                'class="group-chat-button">' +
-                $(this).find('name').text() +
-                '</button></li>'
-                );
+                    $(this).find('id').text() +
+                    '" ' +
+                    'class="group-chat-button">' +
+                    $(this).find('name').text() +
+                    '</button></li>'
+                    );
         }
-        
+
     });
 
     // group buttons' click event handler
@@ -464,6 +464,118 @@ function getUser() {
         },
         complete: function () {
             loggedIn = true;
+        }
+    });
+}
+
+function addUser() {
+    // check for invalid inputs
+    if (validateInput($('#firstname').val()) &&
+            validateInput($('#lastname').val()) &&
+            validateInput($('#position').val()) &&
+            validateInput($('#username').val()) &&
+            validateInput($('#password').val()))
+    {
+
+        var xml = "<user><firstname></firstname><groupId></groupId><lastname></lastname><userId>-1</userId><username></username><position></position><active>1</active></user>";
+
+        var xmlDoc = $.parseXML(xml);
+        var $xml = $(xmlDoc);
+        var serializer = new XMLSerializer();
+
+        //Append xml with values from user creation form
+        $xml.find('firstname').append(escapeHtml($('#firstname').val()));
+        $xml.find('lastname').append(escapeHtml($('#lastname').val()));
+        $xml.find('username').append(escapeHtml($('#username').val()));
+        $xml.find('position').append(escapeHtml($('#position').val()));
+        $xml.find('groupId').append(escapeHtml($('#groupid').val()));
+
+        // Serialize the XML for sending
+        xmlDoc = serializer.serializeToString($xml[0]);
+
+        $.ajax({
+            url: baseURL + "/users/add",
+            data: xmlDoc,
+            processData: false,
+            type: 'POST',
+            contentType: 'application/xml',
+            success: function () {
+                alert('User created successfully!');
+                $('#firstname').val('');
+                $('#lastname').val('');
+                $('#username').val('');
+                $('#position').val('');
+                $('#password').val('');
+                $("#firstname").focus();
+            },
+            fail: function () {
+                alert('User creation failed!');
+            }
+        });
+    }
+}
+
+function addGroup() {
+    if (validateInput($('#groupname').val())) {
+        var xml = "<group><id>-1</id><name></name></group>";
+        var xmlDoc = $.parseXML(xml);
+        var $xml = $(xmlDoc);
+        var serializer = new XMLSerializer();
+
+        //Append xml with values from user creation form
+        $xml.find('name').append(escapeHtml($('#groupname').val()));
+
+        // Serialize the XML for sending
+        xmlDoc = serializer.serializeToString($xml[0]);
+
+        $.ajax({
+            url: baseURL + "/groups/add",
+            data: xmlDoc,
+            processData: false,
+            type: 'POST',
+            contentType: 'application/xml',
+            success: function () {
+                alert('Group created successfully!');
+                $('#groupname').val('');
+                $("#groupname").focus();
+            },
+            fail: function () {
+                alert('Connection error - group creation failed!');
+            }
+        });
+    }
+}
+
+function deactivateGroup() {
+    var groupid = $('#groupid').val();
+
+    $.ajax({
+        url: baseURL + "/groups/" + groupid,
+        type: 'DELETE',
+        contentType: 'application/xml',
+        success: function () {
+            alert('Group deactivated successfully!');
+            window.location.replace("deactivateGroup.html");
+        },
+        fail: function () {
+            alert('Group deactivation failed!');
+        }
+    });
+}
+
+function deactivateUser() {
+    var userid = $('#userid').val();
+
+    $.ajax({
+        url: baseURL + "/users/" + userid,
+        type: 'DELETE',
+        contentType: 'application/xml',
+        success: function () {
+            alert('User deactivated successfully!');
+            window.location.replace("deactivateUser.html");
+        },
+        fail: function () {
+            alert('User deactivation failed!');
         }
     });
 }

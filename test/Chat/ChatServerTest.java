@@ -38,9 +38,9 @@ import static org.junit.Assert.*;
  *
  * @author Oskar
  */
-public class BacklogTest {
+public class ChatServerTest {
 
-    public BacklogTest() {
+    public ChatServerTest() {
 
     }
 
@@ -48,7 +48,7 @@ public class BacklogTest {
     public static void setUpClass() {
 
         System.out.println("In class set up");
-        Backlog backlog = Backlog.getInstance();
+        ChatServer backlog = ChatServer.getInstance();
 
         Group admins = new Group("Administrators", true);
         Group standard = new Group("Standard users", true);
@@ -97,7 +97,7 @@ public class BacklogTest {
             backlog.register(user4);
 
         } catch (ObserverException ex) {
-            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChatServerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // create messages
@@ -177,12 +177,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of register method, of class Backlog.
+     * Test of register method, of class ChatServer.
      */
     @Test(expected = ObserverException.class)
     public void testRegisterFalse() throws ObserverException {
         System.out.println("register");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         User user = instance.getSingleUser(3);
         Observer observer = user;
 
@@ -196,9 +196,9 @@ public class BacklogTest {
         System.out.println("register");
 
         List<Group> adminAndStaffGroupList = new ArrayList<>();
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         List<Observer> observers = instance.getObservers();
-        adminAndStaffGroupList.add(Backlog.getInstance().getGroups().get(0));
+        adminAndStaffGroupList.add(ChatServer.getInstance().getGroups().get(0));
         int observerCount = observers.size();
 
         User user = new User("Jorma", "Jormanen", "asdfgh", "intern", adminAndStaffGroupList, true);
@@ -210,7 +210,7 @@ public class BacklogTest {
             //observer will be added even though the user is already an observer (arraylist)
             instance.register(observer);
         } catch (ObserverException ex) {
-            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChatServerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         // TODO review the generated test code and remove the default call to fail.
         System.out.println("Amount after registering one observer: " + observers.size());
@@ -222,12 +222,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of unregister method, of class Backlog.
+     * Test of unregister method, of class ChatServer.
      */
     @Test
     public void testUnregisterTrue() {
         System.out.println("unregister");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         Observer observer = instance.getSingleUser(0);
         List<Observer> observers = instance.getObservers();
         int observerCount = observers.size();
@@ -237,7 +237,7 @@ public class BacklogTest {
         try {
             instance.unregister(observer);
         } catch (ObserverException ex) {
-            Logger.getLogger(BacklogTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChatServerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         System.out.println("Amount after unregistering one observer: " + observers.size());
@@ -248,27 +248,27 @@ public class BacklogTest {
     }
 
     /**
-     * Test of addMessage method, of class Backlog.
+     * Test of addMessage method, of class ChatServer.
      */
     @Test
     public void testAddMessage() {
         System.out.println("addMessage");
-        User usr = Backlog.getInstance().getSingleUser(1);
+        User usr = ChatServer.getInstance().getSingleUser(1);
 
         Message msg = new Message(usr, Channel.CHANNEL_BROADCAST, null, null,
                 new MessageBody("Martta! Kahvit loppu toista päivää -LISSU"));
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         instance.addMessage(msg);
-        assertEquals(msg, Backlog.getInstance().getSingleMessage(msg.getMessageId()));
+        assertEquals(msg, ChatServer.getInstance().getSingleMessage(msg.getMessageId()));
     }
 
     /**
-     * Test of getFullBacklog method, of class Backlog.
+     * Test of getFullBacklog method, of class ChatServer.
      */
     @Test
     public void testGetFullBacklog() {
         System.out.println("getFullBacklog");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         //List<Message> expResult = instance.getFullBacklog();
         // List<Message> result =
         int expResult = instance.getFullBacklog().size();
@@ -284,12 +284,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getObservers method, of class Backlog.
+     * Test of getObservers method, of class ChatServer.
      */
     @Test
     public void testGetObservers() {
         System.out.println("getObservers");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         //List<Observer> expResult = null;
         // List<Observer> result = instance.getObservers();
 
@@ -302,12 +302,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getUsers method, of class Backlog.
+     * Test of getUsers method, of class ChatServer.
      */
     @Test
     public void testGetUsers() {
         System.out.println("getUsers");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         //List<User> expResult = null;
         //List<User> result = instance.getUsers();
         int expResult = 5;
@@ -316,12 +316,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getGroups method, of class Backlog.
+     * Test of getGroups method, of class ChatServer.
      */
     @Test
     public void testGetGroups() {
         System.out.println("getGroups");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         //List<Group> expResult = instance.getGroups().size();
         int expResult = instance.getGroups().size();
         // List<Group> result = instance.getGroups().size;
@@ -330,12 +330,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getSingleUser method, of class Backlog.
+     * Test of getSingleUser method, of class ChatServer.
      */
     @Test
     public void testGetSingleUser() {
         System.out.println("getSingleUser");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
 
         List<Group> standardGroupList = new ArrayList<>();
 
@@ -347,12 +347,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getSingleGroup method, of class Backlog.
+     * Test of getSingleGroup method, of class ChatServer.
      */
     @Test
     public void testGetSingleGroup() {
         System.out.println("getSingleGroup");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
 
         Group coffeeClub = new Group("Kahvikerho", true);
         // 2
@@ -368,13 +368,13 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getSingleMessage method, of class Backlog.
+     * Test of getSingleMessage method, of class ChatServer.
      */
     @Test
     public void testGetSingleMessage() {
 
         System.out.println("getSingleMessage");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
 
         User user = instance.getSingleUser(0);
         Message msg = null;
@@ -391,12 +391,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getBroadcastBacklog method, of class Backlog.
+     * Test of getBroadcastBacklog method, of class ChatServer.
      */
     @Test
     public void testGetBroadcastBacklog() {
         System.out.println("getBroadcastBacklog");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         //List<Message> expResult = null;
         // List<Message> result = instance.getBroadcastBacklog();
         int expResult = 4;
@@ -406,12 +406,12 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getGroupBacklog method, of class Backlog.
+     * Test of getGroupBacklog method, of class ChatServer.
      */
     @Test
     public void testGetGroupBacklog() {
         System.out.println("getGroupBacklog");
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         Group group = instance.getSingleGroup(1);
         List<Message> expResult = group.getGroupBacklog();
         List<Message> result = instance.getGroupBacklog(1);
@@ -420,13 +420,13 @@ public class BacklogTest {
     }
 
     /**
-     * Test of getMessagesByUserID method, of class Backlog.
+     * Test of getMessagesByUserID method, of class ChatServer.
      */
     @Test
     public void testGetMessagesByUserID() {
         System.out.println("getMessagesByUserID");
 
-        Backlog instance = Backlog.getInstance();
+        ChatServer instance = ChatServer.getInstance();
         User user = instance.getSingleUser(0);
         List<Message> expResult = user.getUserBacklog();
         List<Message> result = instance.getMessagesByUserID(0);

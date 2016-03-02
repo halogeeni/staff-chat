@@ -23,7 +23,7 @@
  */
 package APIResources;
 
-import Chat.TestChat;
+import Chat.ChatServer;
 import Chat.User;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -40,16 +40,16 @@ import javax.ws.rs.core.Response;
 @Path("/users")
 public class UserResource {
 
-    private final TestChat thischat;
+    private final ChatServer thischat;
 
     public UserResource() {
-        this.thischat = TestChat.getInstance();
+        this.thischat = ChatServer.getInstance();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
-        List<User> users = thischat.getBacklog().getUsers();
+        List<User> users = thischat.getUsers();
         GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {
         };
         return Response.ok(list).build();
@@ -59,7 +59,7 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        User usr = thischat.getBacklog().getSingleUser(userid);
+        User usr = thischat.getSingleUser(userid);
         if (usr == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -71,7 +71,7 @@ public class UserResource {
     @DELETE
     @Produces({MediaType.TEXT_HTML})
     public Response inactivateUserXML(@PathParam("userid") int userid) {
-        User usr = thischat.getBacklog().getSingleUser(userid);
+        User usr = thischat.getSingleUser(userid);
 
         if (usr == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -87,13 +87,13 @@ public class UserResource {
     public void postUserXML(User user) {
 
         // add user to the main 'user pool'
-        thischat.getBacklog().getUsers().add(user);
+        thischat.getUsers().add(user);
 
         for (Integer groupid : user.getGroupIds()) {
             if (groupid != null) {
-                thischat.getBacklog().getSingleGroup(groupid).getUsers().add(user);
+                thischat.getSingleGroup(groupid).getUsers().add(user);
                 // add user's id to group's collection of user ids
-                thischat.getBacklog().getSingleGroup(groupid).getUserIds().add(user.getUserId());
+                thischat.getSingleGroup(groupid).getUserIds().add(user.getUserId());
             }
         }
     }

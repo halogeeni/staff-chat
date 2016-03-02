@@ -64,23 +64,6 @@ THE SOFTWARE.
                     }
                 });
             });
-
-            function deactivateGroup() {
-                var groupid = $('#groupid').val();
-
-                $.ajax({
-                    url: baseURL + "/groups/" + groupid,
-                    type: 'DELETE',
-                    contentType: 'application/xml',
-                    success: function () {
-                        alert('Group deactivated successfully!');
-                        window.location.replace("deactivateGroup.html");
-                    },
-                    fail: function () {
-                        alert('Group deactivation failed!');
-                    }
-                });
-            }
         </script>
     </body>
 </html>

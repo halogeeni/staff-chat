@@ -23,8 +23,8 @@
  */
 package APIResources;
 
+import Chat.ChatServer;
 import Chat.Message;
-import Chat.TestChat;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -40,20 +40,20 @@ import org.apache.commons.lang3.StringEscapeUtils;
 @Path("/messages")
 public class MessageResource {
 
-    private final TestChat chatInstance;
+    private final ChatServer chatInstance;
 
     public MessageResource() {
-        this.chatInstance = TestChat.getInstance();
+        this.chatInstance = ChatServer.getInstance();
     }
 
     // return ALL messages in backlog
-    // this should be secured!
+    // this should be secured by authentication!
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesXML() {
-        List<Message> messages = chatInstance.getBacklog().getFullBacklog();
-        GenericEntity<List<Message>> list = 
-                new GenericEntity<List<Message>>(messages) {
+        List<Message> messages = chatInstance.getFullBacklog();
+        GenericEntity<List<Message>> list
+                = new GenericEntity<List<Message>>(messages) {
         };
         return Response.ok(list).build();
     }
@@ -63,28 +63,29 @@ public class MessageResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getBroadcastMessagesXML() {
-        List<Message> messages = chatInstance.getBacklog().getBroadcastBacklog();
-        GenericEntity<List<Message>> list = 
-                new GenericEntity<List<Message>>(messages) {
+        List<Message> messages = chatInstance.getBroadcastBacklog();
+        GenericEntity<List<Message>> list
+                = new GenericEntity<List<Message>>(messages) {
         };
         return Response.ok(list).build();
     }
-    
+
     // return group messages made by single group, by id
     @Path("/group/{groupid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupMessagesXML(@PathParam("groupid") int groupid) {
-        List<Message> messages = chatInstance.getBacklog().getGroupBacklog(groupid);
-        
+        List<Message> messages = chatInstance.getGroupBacklog(groupid);
+
         // no messages found with id --> return 404
-        if(messages == null) {
+        if (messages == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
+
         // messages found --> create list and build response
-        GenericEntity<List<Message>> list = 
-                new GenericEntity<List<Message>>(messages) {};
+        GenericEntity<List<Message>> list
+                = new GenericEntity<List<Message>>(messages) {
+        };
         return Response.ok(list).build();
     }
 
@@ -95,7 +96,7 @@ public class MessageResource {
     public void postMessageXML(Message msg) {
         // escape HTML via Apache Commons library
         msg.getBody().setText(StringEscapeUtils.escapeHtml4(msg.getBody().getText()));
-        chatInstance.getBacklog().addMessage(msg);
+        chatInstance.addMessage(msg);
     }
 
     // get a single message that matches the id given
@@ -103,13 +104,13 @@ public class MessageResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessageXML(@PathParam("messageid") int messageid) {
-        Message msg = chatInstance.getBacklog().getSingleMessage(messageid);
-        
+        Message msg = chatInstance.getSingleMessage(messageid);
+
         // no message found with id --> return 404
         if (msg == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
+
         return Response.ok().entity(msg).build();
     }
 
@@ -118,35 +119,37 @@ public class MessageResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getMessagesUserXML(@PathParam("userid") int userid) {
-        List<Message> messages = chatInstance.getBacklog().getMessagesByUserID(userid);
-        
+        List<Message> messages = chatInstance.getMessagesByUserID(userid);
+
         // no messages found with id --> return 404
-        if(messages == null) {
+        if (messages == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
-        GenericEntity<List<Message>> list = 
-                new GenericEntity<List<Message>>(messages) {};
+
+        GenericEntity<List<Message>> list
+                = new GenericEntity<List<Message>>(messages) {
+        };
         return Response.ok(list).build();
     }
-    
+
     @Path("/{userid}/private/{associateduserid}")
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    public Response getPrivateMessagesXML(@PathParam("userid") int userid, 
+    public Response getPrivateMessagesXML(@PathParam("userid") int userid,
             @PathParam("associateduserid") int associatedUserId) {
-        
+
         // get private messages with associated user
-        List<Message> messages = 
-                chatInstance.getBacklog().getSingleUser(userid).getPrivateMessages(associatedUserId);
+        List<Message> messages
+                = chatInstance.getSingleUser(userid).getPrivateMessages(associatedUserId);
 
         // no messages found with id --> return 404
-        if(messages == null) {
+        if (messages == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        GenericEntity<List<Message>> list = 
-                new GenericEntity<List<Message>>(messages) {};
+        GenericEntity<List<Message>> list
+                = new GenericEntity<List<Message>>(messages) {
+        };
         return Response.ok(list).build();
     }
 }

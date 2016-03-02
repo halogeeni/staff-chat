@@ -47,37 +47,6 @@ THE SOFTWARE.
             $(document).ready(function () {
                 $("#groupname").focus();
             });
-
-            function addGroup() {
-                if (validateInput($('#groupname').val())) {
-                    var xml = "<group><id>-1</id><name></name></group>";
-                    var xmlDoc = $.parseXML(xml);
-                    var $xml = $(xmlDoc);
-                    var serializer = new XMLSerializer();
-
-                    //Append xml with values from user creation form
-                    $xml.find('name').append(escapeHtml($('#groupname').val()));
-
-                    // Serialize the XML for sending
-                    xmlDoc = serializer.serializeToString($xml[0]);
-
-                    $.ajax({
-                        url: baseURL + "/groups/add",
-                        data: xmlDoc,
-                        processData: false,
-                        type: 'POST',
-                        contentType: 'application/xml',
-                        success: function () {
-                            alert('Group created successfully!');
-                            $('#groupname').val('');
-                            $("#groupname").focus();
-                        },
-                        fail: function () {
-                            alert('Connection error - group creation failed!');
-                        }
-                    });
-                }
-            }
         </script>
     </body>
 </html>

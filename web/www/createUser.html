@@ -70,52 +70,6 @@ THE SOFTWARE.
 
             });
 
-            function addUser() {
-                // check for invalid inputs
-                if (validateInput($('#firstname').val()) &&
-                        validateInput($('#lastname').val()) &&
-                        validateInput($('#position').val()) &&
-                        validateInput($('#username').val()) &&
-                        validateInput($('#password').val()))
-                {
-                    
-                    var xml = "<user><firstname></firstname><groupId></groupId><lastname></lastname><userId>-1</userId><username></username><position></position><active>true</active></user>";
-
-                    var xmlDoc = $.parseXML(xml);
-                    var $xml = $(xmlDoc);
-                    var serializer = new XMLSerializer();
-
-                    //Append xml with values from user creation form
-                    $xml.find('firstname').append(escapeHtml($('#firstname').val()));
-                    $xml.find('lastname').append(escapeHtml($('#lastname').val()));
-                    $xml.find('username').append(escapeHtml($('#username').val()));
-                    $xml.find('position').append(escapeHtml($('#position').val()));
-                    $xml.find('groupId').append(escapeHtml($('#groupid').val()));
-
-                    // Serialize the XML for sending
-                    xmlDoc = serializer.serializeToString($xml[0]);
-
-                    $.ajax({
-                        url: baseURL + "/users/add",
-                        data: xmlDoc,
-                        processData: false,
-                        type: 'POST',
-                        contentType: 'application/xml',
-                        success: function () {
-                            alert('User created successfully!');
-                            $('#firstname').val('');
-                            $('#lastname').val('');
-                            $('#username').val('');
-                            $('#position').val('');
-                            $('#password').val('');
-                            $("#firstname").focus();
-                        },
-                        fail: function () {
-                            alert('User creation failed!');
-                        }
-                    });
-                }
-            }
         </script>
     </body>
 </html>

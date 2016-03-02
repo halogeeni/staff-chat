@@ -64,24 +64,6 @@ THE SOFTWARE.
                     }
                 });
             });
-
-            function deactivateUser() {
-                var userid = $('#userid').val();
-
-                $.ajax({
-                    url: baseURL + "/users/" + userid,
-                    type: 'DELETE',
-                    contentType: 'application/xml',
-                    success: function () {
-                        alert('User deactivated successfully!');
-                        window.location.replace("deactivateUser.html");
-                    },
-                    fail: function () {
-                        alert('User deactivation failed!');
-                    }
-                });
-            }
-
         </script>
     </body>
 </html>

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package Chat;
 
 import java.util.ArrayList;
@@ -37,18 +36,19 @@ public class Group {
 
     private int groupId;
     private String name;
-    
+
     private final List<User> users;
-    
+
     private List<Integer> userIds;
     private List<Message> backlog;
-    
+
     private boolean active;
 
     public Group() {
-        users = new ArrayList<>();
-        userIds = new ArrayList<>();
-        this.backlog=new ArrayList<>();
+        this.users = new ArrayList<>();
+        this.userIds = new ArrayList<>();
+        this.backlog = new ArrayList<>();
+        this.active = true;
     }
 
     public Group(String name, boolean active) {
@@ -56,12 +56,12 @@ public class Group {
         this.users = new ArrayList<>();
         this.userIds = new ArrayList<>();
         this.groupId = idCounter++;
-        this.backlog=new ArrayList<>();
+        this.backlog = new ArrayList<>();
         this.active = active;
     }
 
     public Group(String name, List<User> users, boolean active) {
-        this.backlog=new ArrayList<>();
+        this.backlog = new ArrayList<>();
         this.name = name;
         this.users = users;
         this.userIds = new ArrayList<>();
@@ -73,7 +73,6 @@ public class Group {
     }
 
     // setters & getters  
-
     @XmlElement(name = "id")
     public int getGroupId() {
         return groupId;
@@ -83,14 +82,12 @@ public class Group {
     public List<User> getUsers() {
         return users;
     }
-    
-    
+
     @XmlElement(name = "userId")
     public List<Integer> getUserIds() {
         return userIds;
     }
-    
-    
+
     @XmlElement
     public String getName() {
         return name;
@@ -103,19 +100,19 @@ public class Group {
     public void setGroupId(int groupid) {
         this.groupId = idCounter++;
     }
-    
+
     public void setUserIds(List<Integer> userIds) {
         this.userIds = userIds;
     }
-    
-    public List<Message> getGroupBacklog(){
+
+    public List<Message> getGroupBacklog() {
         return backlog;
     }
-    
-    public void addToGroupBacklog(Message msg){
+
+    public void addToGroupBacklog(Message msg) {
         backlog.add(msg);
     }
-    
+
     @XmlElement
     public boolean isActive() {
         return active;
@@ -124,5 +121,5 @@ public class Group {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
+
 }

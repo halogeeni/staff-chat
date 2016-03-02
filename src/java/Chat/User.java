@@ -56,6 +56,7 @@ public class User implements Observer {
         this.groupIds = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.userBacklog = new ArrayList<>();
+        this.active = true;
     }
 
     public User(String firstname, String lastname, String username, String position, List<Group> groups, boolean active) {

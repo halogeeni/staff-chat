@@ -26,10 +26,10 @@ package Chat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Backlog {
+public class ChatServer {
 
     // singleton pattern
-    private static Backlog backlogInstance = new Backlog();
+    private static ChatServer backlogInstance = new ChatServer();
     // full backlog - contains ALL messages, broadcast, group & private
     private final List<Message> backlog;
     // broadcast message backlog
@@ -38,11 +38,11 @@ public class Backlog {
     private final List<Group> groups;
     private final List<User> users;
 
-    public static Backlog getInstance() {
+    public static ChatServer getInstance() {
         return backlogInstance;
     }
 
-    protected Backlog() {
+    protected ChatServer() {
         this.backlog = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.groups = new ArrayList<>();

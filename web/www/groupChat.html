@@ -57,11 +57,11 @@ THE SOFTWARE.
                 sendMessage(escapeHtml(messageText), 'CHANNEL_GROUP');
             }
         });
-        
+
         // polling
-        timerId = setInterval(function(){ 
+        timerId = setInterval(function () {
             getGroupMessages(selectedGroup);
         }, 500);
-        
+
     });
 </script>

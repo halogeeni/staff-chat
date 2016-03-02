@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package Chat;
 
 import java.util.Date;
@@ -41,12 +40,12 @@ public class Message {
     // sender, recipient(s) & publicity information
     private Channel channel;
     //private User fromUser, toUser;
-    
+
     // Integer used instead of int, as broadcast & group messages have no userIds (=null)
     private Integer fromUserId, toUserId;
     private Integer toGroupId;
     private Group toGroup;
-    
+
     private final Date date = new Date();
 
     // message body (actual content: text, image ...)
@@ -87,16 +86,15 @@ public class Message {
         // set unique message id and increment counter
         this.messageId = idCounter++;
 
-        if(toGroup == null) {
+        if (toGroup == null) {
             this.toGroupId = null;
         } else {
             this.toGroupId = toGroup.getGroupId();
         }
-        
+
     }
 
     // getters & setters
-    
     @XmlElement
     public int getMessageId() {
         return messageId;
@@ -120,12 +118,12 @@ public class Message {
     public void setChannel(Channel channel) {
         this.channel = channel;
     }
-    
+
     @XmlElement
     public Integer getFromUserId() {
         return fromUserId;
     }
-    
+
     @XmlElement
     public Integer getToUserId() {
         return toUserId;

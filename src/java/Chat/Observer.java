@@ -25,11 +25,8 @@
 package Chat;
 
 public interface Observer {
-
     // method to update the observer
     public void update(Message msg);
-
     // method to update the observer on server events
     public void update(String serverMessage);
-
 }
