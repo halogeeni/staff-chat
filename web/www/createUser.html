@@ -37,9 +37,9 @@ THE SOFTWARE.
         <div id="createUserWrapper">
             <h4>Create user</h4>
             <form name="createUserForm" method="GET" onsubmit="addUser();" action="javascript:void(0);">
-                <p><label for="firstname">First Name</label><input type="text" name="firstname" id="firstname" /></p>
-                <p><label for="lastname">Last Name</label><input type="text" name="lastname" id="lastname" /></p>
-                <p><label for="position">Job title</label><input type="text" name="position" id="position" /></p>
+                <p><label for="firstname">First Name</label><input type="text" name="firstname" id="firstname" maxlength="60"/></p>
+                <p><label for="lastname">Last Name</label><input type="text" name="lastname" id="lastname" maxlength="60"/></p>
+                <p><label for="position">Job title</label><input type="text" name="position" id="position" maxlength="60"/></p>
                 <p><label for="username">Username</label><input type="text" name="username" id="username" /></p>
                 <p><label for="password">Password</label><input type="text" name="password" id="password" /></p>
                 <p><label for="groupid">Group</label><select id="groupid"></select></p>
