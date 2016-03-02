@@ -39,6 +39,7 @@ THE SOFTWARE.
             <form name="createUserForm" method="GET" onsubmit="addUser();" action="javascript:void(0);">
                 <p><label for="firstname">First Name</label><input type="text" name="firstname" id="firstname" /></p>
                 <p><label for="lastname">Last Name</label><input type="text" name="lastname" id="lastname" /></p>
+                <p><label for="position">Job title</label><input type="text" name="position" id="position" /></p>
                 <p><label for="username">Username</label><input type="text" name="username" id="username" /></p>
                 <p><label for="password">Password</label><input type="text" name="password" id="password" /></p>
                 <p><label for="groupid">Group</label><select id="groupid"></select></p>
@@ -73,10 +74,11 @@ THE SOFTWARE.
                 // check for invalid inputs
                 if (validateInput($('#firstname').val()) &&
                         validateInput($('#lastname').val()) &&
+                        validateInput($('#position').val()) &&
                         validateInput($('#username').val()) &&
                         validateInput($('#password').val())) 
                 {
-                    var xml = "<user><firstname></firstname><groupId></groupId><lastname></lastname><userId>-1</userId><username></username></user>";
+                    var xml = "<user><firstname></firstname><groupId></groupId><lastname></lastname><userId>-1</userId><username></username><position></position></user>";
 
                     var xmlDoc = $.parseXML(xml);
                     var $xml = $(xmlDoc);
@@ -86,6 +88,7 @@ THE SOFTWARE.
                     $xml.find('firstname').append(escapeHtml($('#firstname').val()));
                     $xml.find('lastname').append(escapeHtml($('#lastname').val()));
                     $xml.find('username').append(escapeHtml($('#username').val()));
+                    $xml.find('position').append(escapeHtml($('#position').val()));
                     $xml.find('groupId').append(escapeHtml($('#groupid').val()));
 
                     // Serialize the XML for sending
@@ -102,6 +105,7 @@ THE SOFTWARE.
                             $('#firstname').val('');
                             $('#lastname').val('');
                             $('#username').val('');
+                            $('#position').val('');
                             $('#password').val('');
                             $("#firstname").focus();
                         },
@@ -110,9 +114,7 @@ THE SOFTWARE.
                         }
                     });
                 }
-
             }
-
         </script>
     </body>
 </html>

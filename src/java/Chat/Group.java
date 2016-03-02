@@ -46,6 +46,7 @@ public class Group {
         users = new ArrayList<>();
         userIds = new ArrayList<>();
         this.backlog=new ArrayList<>();
+
     }
 
     public Group(String name) {
