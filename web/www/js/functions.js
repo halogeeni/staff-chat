@@ -122,6 +122,7 @@ function listContacts(xml) {
                     $(this).find('firstname').text() +
                     " " +
                     $(this).find('lastname').text() +
+                    "<p>" + $(this).find('position').text() + "</p>" +
                     '</button></li>'
                     );
         }
