@@ -38,7 +38,7 @@ public class User implements Observer {
     private int userId;
 
     // Personal information
-    private String firstname, lastname, username;
+    private String firstname, lastname, username, position;
 
     // list of groups the user is involved in
     // REDUNDANT
@@ -56,10 +56,11 @@ public class User implements Observer {
         this.userBacklog = new ArrayList<>();
     }
 
-    public User(String firstname, String lastname, String username, List<Group> groups) {
+    public User(String firstname, String lastname, String username, String position, List<Group> groups) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
+        this.position = position;
         this.userId = idCounter++;
         this.groups = groups;
         this.userBacklog = new ArrayList<>();
@@ -114,6 +115,14 @@ public class User implements Observer {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getPosition() {
+        return position;
+    }
+    
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public List<Group> getGroups() {

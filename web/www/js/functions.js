@@ -438,17 +438,18 @@ function getUser() {
         method: 'GET',
         dataType: 'xml',
         success: function (userXml) {
-            firstname = $(userXml).find('firstname').text();
-            lastname = $(userXml).find('lastname').text();
+            var firstname = $(userXml).find('firstname').text();
+            var lastname = $(userXml).find('lastname').text();
+            var position = $(userXml).find('position').text();
             var userHTML = '';
 
-            // Title is the job title e.g. "Nurse"
+            // Position is the job title e.g. "Nurse"
             userHTML = userHTML.concat(
                     firstname +
                     ' ' +
                     lastname +
                     '<br>' +
-                    '<i>job title</i>'
+                    '<i>' + position + '</i>'
                     );
             $('#loggedInAs').append(userHTML);
         },

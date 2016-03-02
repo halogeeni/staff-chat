@@ -71,10 +71,10 @@ public class TestChat {
         staffGroupList.add(backlog.getGroups().get(2));
 
         // create users
-        User user1 = new User("Aleksi", "Rasio", "halogeeni", adminAndStaffGroupList);
-        User user2 = new User("Joona", "Vainikka", "empurdia", standardGroupList);
-        User user3 = new User("Oskar", "Gusgård", "tunkio", staffGroupList);
-        User user4 = new User("Joel", "Vainikka", "pulla", standardGroupList);
+        User user1 = new User("Aleksi", "Rasio", "halogeeni", "Overlord", adminAndStaffGroupList);
+        User user2 = new User("Joona", "Vainikka", "empurdia", "CEO", standardGroupList);
+        User user3 = new User("Oskar", "Gusgård", "tunkio", "Programmer", staffGroupList);
+        User user4 = new User("Joel", "Vainikka", "pulla", "Visual Designer", standardGroupList);
 
         // add users to users-list (server side)
         backlog.getUsers().add(user1);
