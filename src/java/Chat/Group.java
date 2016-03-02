@@ -98,12 +98,6 @@ public class Group {
     public void setGroupId(int groupid) {
         this.groupId = idCounter++;
     }
-
-    /*
-    public List<Integer> getUserIds() {
-        return userIds;
-    }
-    */
     
     public void setUserIds(List<Integer> userIds) {
         this.userIds = userIds;

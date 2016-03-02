@@ -99,7 +99,7 @@ function login() {
     return parseInt(getQueryVariable("userid"));
 }
 
-// Turns milliseconds to a human-readable timestamp
+// Turns milliseconds to a human-readable, localized timestamp
 function toTime(s) {
     var myDate = new Date(parseInt(s));
     return myDate.toLocaleString();

@@ -60,10 +60,10 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
         User usr = thischat.getBacklog().getSingleUser(userid);
-        if(usr == null) {
+        if (usr == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
+
         return Response.ok().entity(usr).build();
     }
 
@@ -71,21 +71,17 @@ public class UserResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
-        
-        //add user to backlog userlist
+
+        // add user to the main 'user pool'
         thischat.getBacklog().getUsers().add(user);
-        
-        //add user to group userlists
-        for(Integer i: user.getGroupIds()){
-            if(i!=null){
-           // thischat.getBacklog().getGroups().get(i).getUsers().add(user);
-            thischat.getBacklog().getSingleGroup(i).getUsers().add(user);
-            thischat.getBacklog().getSingleGroup(i).getUserIds().add(user.getUserId());
-            
-           // System.out.println(thischat.getBacklog().getGroups().get(i).getName());
+
+        for (Integer groupid : user.getGroupIds()) {
+            if (groupid != null) {
+                thischat.getBacklog().getSingleGroup(groupid).getUsers().add(user);
+                // add user's id to group's collection of user ids
+                thischat.getBacklog().getSingleGroup(groupid).getUserIds().add(user.getUserId());
             }
         }
-        
     }
 
 }

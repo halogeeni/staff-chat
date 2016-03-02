@@ -213,7 +213,7 @@ form #send-button{
 /* Listing contacts and groups */
 #contactsList{
     width: 100%;
-    height: 400px;
+    height: 430px;
     margin: 0;
     overflow: scroll;
     overflow-x: hidden;
@@ -230,27 +230,28 @@ form #send-button{
     width: 97%;
     height: 60px;
     display: block;
-    color: white;
+    color: #fff;
     font-size: 16px;
     text-align: left;
     padding: 14px 16px;
     text-decoration: none;
     border: none;
-    background-color: #41C41F;
+    background-color: #9BD93F;
     margin-left: 2%;
 }
 
 #contactsList li button:hover{
-    background-color: #60D840;
+    background-color: #A7D463;
 }
 
 /* Login */
 #loginWrapper{
-    height: 170px;
+    height: 100%;
     width: 280px;
     background-color: white;
     float: left;
     border-radius: 10px;
+    padding-bottom: 10px;
 }
 
 #loginWrapper input{
@@ -268,14 +269,20 @@ form #send-button{
 
 /* Register */
 #createUserWrapper{
-    height: 250px;
+    height: 100%;
     width: 300px;
     background-color: white;
     float: left;
     border-radius: 10px;
+    padding-bottom: 10px;
 }
 
 #createUserWrapper input{
+    float: right;
+    margin-right: 10px;
+}
+
+#createUserWrapper select{
     float: right;
     margin-right: 10px;
 }
