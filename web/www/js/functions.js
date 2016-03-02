@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
@@ -22,6 +22,9 @@
  * THE SOFTWARE.
  */
 
+// strict javascript enforcement
+"use strict";
+
 var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
 
 // development login flag, so that we are "logged in" as a specific user
@@ -30,7 +33,10 @@ var loggedUser = login();
 // we need this for autoscrolling on new messages
 var messageCount = 0;
 // chat selection flags
-var selectedGroup = 0, selectedUser = 0, timerId = 0;
+var selectedGroup = 0;
+var selectedUser = 0;
+// timer id for polling
+var timerId = 0;
 // simple login flag for demo purposes
 var loggedIn = false;
 
@@ -58,7 +64,7 @@ function validateCredentials() {
 
     var username = escapeHtml($('#username').val());
     var id;
-    
+
     console.log('username: ' + username);
 
     if (validateInput(username)) {
@@ -69,8 +75,8 @@ function validateCredentials() {
             dataType: 'xml',
             success: function (xml) {
                 console.log('ajax success');
-                $(xml).find('user').each(function() {
-                    if($(this).find('username').text() === username) {
+                $(xml).find('user').each(function () {
+                    if ($(this).find('username').text() === username) {
                         id = $(this).find('userId').text();
                     }
                 });
@@ -134,16 +140,16 @@ function listContacts(xml) {
         event.preventDefault();
         selectedUser = parseInt($(this).attr("value"));
         $('#contactsContent').empty();
-        
+
         $xml.find('user').each(function () {
             if (parseInt($(this).find('userId').text()) === selectedUser) {
                 $('#currentGroup').append(
-                        $(this).find('firstname').text() 
-                        + " " + 
+                        $(this).find('firstname').text()
+                        + " " +
                         $(this).find('lastname').text()
-                    );
-                }
-            });
+                        );
+            }
+        });
         $("#container").load("privateChat.html").fadeIn('500');
     });
 }
@@ -172,13 +178,13 @@ function listGroups(xml) {
         event.preventDefault();
         selectedGroup = parseInt($(this).attr("value"));
         $('#contactContainer').empty();
-        
+
         $xml.find('group').each(function () {
             if (parseInt($(this).find('id').text()) === selectedGroup) {
                 $('#currentGroup').append($(this).find('name').text());
             }
         });
-        
+
         $("#container").load("groupChat.html").fadeIn('500');
     });
 

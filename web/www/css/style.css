@@ -53,7 +53,11 @@ ul {
     float: left;
     overflow: scroll;
     overflow-x: hidden;
-    background-color: #fff;
+    background-image: url("../gfx/chat_bg.png");
+    -webkit-box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
+    -moz-box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
+    box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
+    /* background-color: #fff; */
 }
 
 /* My message will always show right side */
@@ -177,7 +181,7 @@ ul {
 
 .active{
     height: 55px;
-    background-color: #86A4C5 !important;
+    background-color: #478E77 !important;
     padding-top: 5px !important;
 }
 
@@ -219,6 +223,10 @@ form #send-button{
     overflow-x: hidden;
     padding: 2% 0% 0% 0%; /* top, right, bottom, left */
     background-color: #fff;
+    background-image: url("../gfx/contacts_bg.png");
+    -webkit-box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
+    -moz-box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
+    box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
 }
 
 #contactsList li{
@@ -236,12 +244,13 @@ form #send-button{
     padding: 10px 16px;
     text-decoration: none;
     border: none;
-    background-color: #9BD93F;
-    margin-left: 2%;
+    background-color: #4B6A8B;
+    margin-left: 1%;
+    border-radius: 5px;
 }
 
 #contactsList li button:hover{
-    background-color: #A7D463;
+    background-color: #143354;
 }
 
 .private-chat-button p{
