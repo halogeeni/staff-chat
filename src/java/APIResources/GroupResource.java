@@ -28,6 +28,7 @@ import Chat.TestChat;
 import Chat.User;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -62,11 +63,25 @@ public class GroupResource {
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
         Group grp = thischat.getBacklog().getSingleGroup(groupid);
-        if(grp == null) {
+        if (grp == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
+
         return Response.ok().entity(grp).build();
+    }
+
+    @Path("/{groupid}")
+    @DELETE
+    @Produces({MediaType.TEXT_HTML})
+    public Response inactivateUserXML(@PathParam("groupid") int groupid) {
+        Group grp = thischat.getBacklog().getSingleGroup(groupid);
+
+        if (grp == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        grp.setActive(false);
+        return Response.status(Response.Status.OK).build();
     }
 
     @Path("/add")
@@ -74,8 +89,8 @@ public class GroupResource {
     @Consumes(MediaType.APPLICATION_XML)
     public void postGroupXML(Group group) {
         thischat.getBacklog().getGroups().add(group);
-        
-        for(User u:group.getUsers()){
+
+        for (User u : group.getUsers()) {
             u.getGroupIds().add(group.getGroupId());
         }
     }

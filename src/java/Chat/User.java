@@ -40,6 +40,7 @@ public class User implements Observer {
 
     // Personal information
     private String firstname, lastname, username, position;
+    private boolean active;
 
     // list of groups the user is involved in
     // REDUNDANT
@@ -57,7 +58,7 @@ public class User implements Observer {
         this.userBacklog = new ArrayList<>();
     }
 
-    public User(String firstname, String lastname, String username, String position, List<Group> groups) {
+    public User(String firstname, String lastname, String username, String position, List<Group> groups, boolean active) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
@@ -66,6 +67,7 @@ public class User implements Observer {
         this.groups = groups;
         this.userBacklog = new ArrayList<>();
         this.groupIds = new ArrayList<>();
+        this.active = active;
 
         // Adds all group IDs into array
         for (Group g : groups) {
@@ -155,8 +157,7 @@ public class User implements Observer {
                     msg.getToUserId() == this.userId) {
                     privateMessages.add(msg);
                 }
-            }
-            
+            }   
         }
         
         if(privateMessages.isEmpty()) {
@@ -170,6 +171,15 @@ public class User implements Observer {
     // id parameter workaround because of zero-arg constructor
     public void setUserId(int userId) {
         this.userId = idCounter++;
+    }
+
+    @XmlElement
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
 }

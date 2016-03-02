@@ -50,9 +50,9 @@ public class BacklogTest {
         System.out.println("In class set up");
         Backlog backlog = Backlog.getInstance();
 
-        Group admins = new Group("Administrators");
-        Group standard = new Group("Standard users");
-        Group staff = new Group("Staff");
+        Group admins = new Group("Administrators", true);
+        Group standard = new Group("Standard users", true);
+        Group staff = new Group("Staff", true);
 
         // 0
         backlog.getGroups().add(admins);
@@ -71,10 +71,10 @@ public class BacklogTest {
         staffGroupList.add(backlog.getGroups().get(2));
 
         // create users
-        User user1 = new User("Aleksi", "Rasio", "halogeeni", "Overlord", adminAndStaffGroupList);
-        User user2 = new User("Joona", "Vainikka", "empurdia", "CEO", standardGroupList);
-        User user3 = new User("Oskar", "Gusgård", "tunkio", "Programmer", staffGroupList);
-        User user4 = new User("Joel", "Vainikka", "pulla", "Visual Designer", standardGroupList);
+        User user1 = new User("Aleksi", "Rasio", "halogeeni", "Overlord", adminAndStaffGroupList, true);
+        User user2 = new User("Joona", "Vainikka", "empurdia", "CEO", standardGroupList, true);
+        User user3 = new User("Oskar", "Gusgård", "tunkio", "Programmer", staffGroupList, true);
+        User user4 = new User("Joel", "Vainikka", "pulla", "Visual Designer", standardGroupList, true);
 
         // add users to users-list (server side)
         backlog.getUsers().add(user1);
@@ -201,7 +201,7 @@ public class BacklogTest {
         adminAndStaffGroupList.add(Backlog.getInstance().getGroups().get(0));
         int observerCount = observers.size();
 
-        User user = new User("Jorma", "Jormanen", "asdfgh", "intern", adminAndStaffGroupList);
+        User user = new User("Jorma", "Jormanen", "asdfgh", "intern", adminAndStaffGroupList, true);
 
         Observer observer = user;
         System.out.println("Amount of observers: " + observers.size());
@@ -341,7 +341,7 @@ public class BacklogTest {
 
         standardGroupList.add(instance.getGroups().get(1));
 
-        User usr = new User("Testi", "Useri", "testuser", "intern", standardGroupList);
+        User usr = new User("Testi", "Useri", "testuser", "intern", standardGroupList, true);
         instance.getUsers().add(usr);
         assertEquals(usr, instance.getSingleUser(usr.getUserId()));
     }
@@ -354,7 +354,7 @@ public class BacklogTest {
         System.out.println("getSingleGroup");
         Backlog instance = Backlog.getInstance();
 
-        Group coffeeClub = new Group("Kahvikerho");
+        Group coffeeClub = new Group("Kahvikerho", true);
         // 2
         instance.getGroups().add(coffeeClub);
 

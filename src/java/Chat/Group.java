@@ -42,23 +42,25 @@ public class Group {
     
     private List<Integer> userIds;
     private List<Message> backlog;
+    
+    private boolean active;
 
     public Group() {
         users = new ArrayList<>();
         userIds = new ArrayList<>();
         this.backlog=new ArrayList<>();
-
     }
 
-    public Group(String name) {
+    public Group(String name, boolean active) {
         this.name = name;
         this.users = new ArrayList<>();
         this.userIds = new ArrayList<>();
         this.groupId = idCounter++;
         this.backlog=new ArrayList<>();
+        this.active = active;
     }
 
-    public Group(String name, List<User> users) {
+    public Group(String name, List<User> users, boolean active) {
         this.backlog=new ArrayList<>();
         this.name = name;
         this.users = users;
@@ -67,6 +69,7 @@ public class Group {
             userIds.add(u.getUserId());
         }
         this.groupId = idCounter++;
+        this.active = active;
     }
 
     // setters & getters  
@@ -112,4 +115,14 @@ public class Group {
     public void addToGroupBacklog(Message msg){
         backlog.add(msg);
     }
+    
+    @XmlElement
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
 }

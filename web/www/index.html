@@ -69,7 +69,7 @@
                         $("#broadcastchat-button").removeClass("active");
                         $(this).addClass("active");
                         messageCount = 0;
-                        $("#container").load("groups.html").fadeIn('500');
+                        $("#container").load("groups.html").hide().fadeIn('fast');
                     });
 
                     // private chats
@@ -80,7 +80,7 @@
                         $("#broadcastchat-button").removeClass("active");
                         $(this).addClass("active");
                         messageCount = 0;
-                        $("#container").load("contacts.html").fadeIn('500');
+                        $("#container").load("contacts.html").hide().fadeIn('fast');
                     });
 
                     // user logout
@@ -103,7 +103,7 @@
                         $("#contacts-button").removeClass("active");
                         $(this).addClass("active");
                         messageCount = 0;
-                        $("#container").load("chat.html").fadeIn('500');
+                        $("#container").load("chat.html").hide().fadeIn('fast');
                     });
                 });
             </script>

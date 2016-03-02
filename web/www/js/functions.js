@@ -54,11 +54,7 @@ function getQueryVariable(variable) {
 }
 
 function validateCredentials() {
-    // 1. validate & sanitize username
-    // 2. check if it matches to a userid via ajax call
-    // 3a -> MATCH FOUND -> forward to index.html with GET variables
-    // 3b -> MATCH NOT FOUND -> display alert
-
+    
     // clear possible error message
     $('#login-error').empty();
 
@@ -76,7 +72,9 @@ function validateCredentials() {
             success: function (xml) {
                 console.log('ajax success');
                 $(xml).find('user').each(function () {
-                    if ($(this).find('username').text() === username) {
+                    // check that username matches & user status is active
+                    if ($(this).find('username').text() === username &&
+                            $(this).find('active').text() === 'true') {
                         id = $(this).find('userId').text();
                     }
                 });
@@ -119,7 +117,8 @@ function listContacts(xml) {
     var $contactsList = $("#contactsList");
 
     $xml.find('user').each(function () {
-        if (parseInt($(this).find('userId').text()) !== loggedUser) {
+        if (parseInt($(this).find('userId').text()) !== loggedUser &&
+                ($(this).find('active').text() === 'true')) {
             $contactsList.append(
                     '<li><button value="' +
                     $(this).find('userId').text() +
@@ -163,13 +162,16 @@ function listGroups(xml) {
     var $contactsList = $("#contactsList");
 
     $xml.find('group').each(function () {
-        $contactsList.append('<li><button value="' +
+        if($(this).find('active').text() === 'true') {
+            $contactsList.append('<li><button value="' +
                 $(this).find('id').text() +
                 '" ' +
                 'class="group-chat-button">' +
                 $(this).find('name').text() +
                 '</button></li>'
                 );
+        }
+        
     });
 
     // group buttons' click event handler

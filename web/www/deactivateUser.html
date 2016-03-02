@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<!--
+The MIT License
+
+Copyright 2016 Oskar Gusgård, Aleksi Rasio, Joel Vainikka, Joona Vainikka.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<html>
+    <head>
+        <title>Deactivate user</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="js/jquery-2.2.0.js"></script>
+        <script type="text/javascript" src="js/functions.js"></script>
+    </head>
+    <body>
+        <div id="createUserWrapper">
+            <h4>Deactivate user</h4>
+            <form name="deactivateUserForm" method="GET" onsubmit="deactivateUser();" action="javascript:void(0);">
+                <p><label for="userid">Username</label><select id="userid"></select></p>
+                <p><input type="submit" name="deactivate-user" value="Deactivate" /></p>
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax({
+                    url: baseURL + '/users/',
+                    method: 'GET',
+                    dataType: 'xml',
+                    success: function (xml) {
+                        var userid, username;
+                        $(xml).find('user').each(function () {
+                            if ($(this).find('active').text() === 'true') {
+                                userid = parseInt($(this).find('userId').text());
+                                username = $(this).find('username').text();
+                                // add a new dropdown option for each group found
+                                $('#userid').append('<option value="' +
+                                        userid + '">' +
+                                        username + '</option>');
+                            }
+
+                        });
+                    }
+                });
+            });
+
+            function deactivateUser() {
+                var userid = $('#userid').val();
+
+                $.ajax({
+                    url: baseURL + "/users/" + userid,
+                    type: 'DELETE',
+                    contentType: 'application/xml',
+                    success: function () {
+                        alert('User deactivated successfully!');
+                        window.location.replace("deactivateUser.html");
+                    },
+                    fail: function () {
+                        alert('User deactivation failed!');
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>

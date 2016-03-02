@@ -23,11 +23,11 @@
  */
 package APIResources;
 
-import Chat.Group;
 import Chat.TestChat;
 import Chat.User;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -65,6 +65,20 @@ public class UserResource {
         }
 
         return Response.ok().entity(usr).build();
+    }
+
+    @Path("/{userid}")
+    @DELETE
+    @Produces({MediaType.TEXT_HTML})
+    public Response inactivateUserXML(@PathParam("userid") int userid) {
+        User usr = thischat.getBacklog().getSingleUser(userid);
+
+        if (usr == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        usr.setActive(false);
+        return Response.status(Response.Status.OK).build();
     }
 
     @Path("/add")
