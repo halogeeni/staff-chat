@@ -25,6 +25,7 @@ package APIResources;
 
 import Chat.Group;
 import Chat.TestChat;
+import Chat.User;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -73,6 +74,10 @@ public class GroupResource {
     @Consumes(MediaType.APPLICATION_XML)
     public void postGroupXML(Group group) {
         thischat.getBacklog().getGroups().add(group);
+        
+        for(User u:group.getUsers()){
+            u.getGroupIds().add(group.getGroupId());
+        }
     }
 
 }

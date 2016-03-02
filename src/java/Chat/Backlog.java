@@ -94,10 +94,16 @@ public class Backlog {
                 group.addToGroupBacklog(msg);
                 // then get all users from the group list
                 //for (User user : group.getUserIds())) {
+                
+                
                     for (int i :group.getUserIds()) {
+                   // for(int i=0;i<=group.getUserIds().size()-1;i++{
+                   //User user=users.get(group.getUserIds().get(i));
+                   
                     // notify respective users
                     users.get(i).update(msg);
-                }
+                    //user.update(msg);
+                    }
                 break;
             default:
                 // broadcast message

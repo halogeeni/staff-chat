@@ -23,6 +23,7 @@
  */
 package APIResources;
 
+import Chat.Group;
 import Chat.TestChat;
 import Chat.User;
 import java.util.List;
@@ -70,7 +71,21 @@ public class UserResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postUserXML(User user) {
+        
+        //add user to backlog userlist
         thischat.getBacklog().getUsers().add(user);
+        
+        //add user to group userlists
+        for(Integer i: user.getGroupIds()){
+            if(i!=null){
+           // thischat.getBacklog().getGroups().get(i).getUsers().add(user);
+            thischat.getBacklog().getSingleGroup(i).getUsers().add(user);
+            thischat.getBacklog().getSingleGroup(i).getUserIds().add(user.getUserId());
+            
+           // System.out.println(thischat.getBacklog().getGroups().get(i).getName());
+            }
+        }
+        
     }
 
 }
