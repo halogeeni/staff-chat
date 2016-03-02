@@ -59,9 +59,9 @@ THE SOFTWARE.
                             groupid = parseInt($(this).find('id').text());
                             groupname = $(this).find('name').text();
                             // add a new dropdown option for each group found
-                            $('#groupid').append(
-                                    '<option value="' + groupid + '">'
-                                    + groupname + '</option>');
+                            $('#groupid').append('<option value="' + 
+                                    groupid + '">' + 
+                                    groupname + '</option>');
                         });
                     }
                 });
@@ -76,8 +76,9 @@ THE SOFTWARE.
                         validateInput($('#lastname').val()) &&
                         validateInput($('#position').val()) &&
                         validateInput($('#username').val()) &&
-                        validateInput($('#password').val())) 
+                        validateInput($('#password').val()))
                 {
+                    
                     var xml = "<user><firstname></firstname><groupId></groupId><lastname></lastname><userId>-1</userId><username></username><position></position></user>";
 
                     var xmlDoc = $.parseXML(xml);

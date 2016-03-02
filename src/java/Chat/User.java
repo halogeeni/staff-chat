@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.commons.lang3.StringUtils;
 
 @XmlRootElement
 public class User implements Observer {
@@ -96,7 +97,7 @@ public class User implements Observer {
     }
 
     public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        this.firstname = StringUtils.substring(firstname, 0, 59);
     }
 
     @XmlElement
@@ -105,7 +106,7 @@ public class User implements Observer {
     }
 
     public void setLastname(String lastname) {
-        this.lastname = lastname;
+        this.lastname = StringUtils.substring(lastname, 0, 59);
     }
 
     @XmlElement
@@ -122,7 +123,7 @@ public class User implements Observer {
     }
     
     public void setPosition(String position) {
-        this.position = position;
+        this.position = StringUtils.substring(position, 0, 59);
     }
 
     public List<Group> getGroups() {

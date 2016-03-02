@@ -36,7 +36,7 @@ THE SOFTWARE.
     <body>
         <div id="createUserWrapper">
             <h4>Create group</h4>
-            <form name="createGroupForm" method="GET" onsubmit="addGroup();" action="createGroup.html">
+            <form name="createGroupForm" method="GET" onsubmit="addGroup();" action="javascript:void(0);">
                 <p><label for="groupname">Name</label><input type="text" name="groupname" id="groupname" /></p>
                 <p><input type="submit" name="createGroupButton" value="Create" /></p>
             </form>
@@ -64,10 +64,19 @@ THE SOFTWARE.
                     data: xmlDoc,
                     processData: false,
                     type: 'POST',
-                    contentType: 'application/xml'
+                    contentType: 'application/xml',
+                    
+                    success: function() {
+                        alert('Group created successfully!');
+                        $('#groupname').val('');
+                        $("#groupname").focus();
+                    },
+                    
+                    fail: function() {
+                        alert('Connection error - group creation failed!');
+                    }
                 });
             }
-
         </script>
     </body>
 </html>

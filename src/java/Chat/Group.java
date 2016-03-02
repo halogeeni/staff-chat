@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.commons.lang3.StringUtils;
 
 @XmlRootElement
 public class Group {
@@ -92,7 +93,7 @@ public class Group {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = StringUtils.substring(name, 0, 29);
     }
 
     public void setGroupId(int groupid) {
