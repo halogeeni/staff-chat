@@ -25,7 +25,10 @@
 // strict javascript enforcement
 "use strict";
 
-var baseURL = "http://localhost:8080/RESTfulWebApp/webresources";
+// the base URL variable, i.e. the server IP address
+// must be set up prior to deployment!
+// for example: localhost --> 192.168.10.41
+var baseURL = "http://localhost:8080/StaffChat/webresources";
 
 // development login flag, so that we are "logged in" as a specific user
 var loggedUser = login();
@@ -61,8 +64,6 @@ function validateCredentials() {
     var username = escapeHtml($('#username').val());
     var id;
 
-    console.log('username: ' + username);
-
     if (validateInput(username)) {
         // username is not empty or plain whitespace
         $.ajax({
@@ -70,7 +71,6 @@ function validateCredentials() {
             method: 'GET',
             dataType: 'xml',
             success: function (xml) {
-                console.log('ajax success');
                 $(xml).find('user').each(function () {
                     // check that username matches & user status is active
                     if ($(this).find('username').text() === username &&
@@ -78,7 +78,6 @@ function validateCredentials() {
                         id = $(this).find('userId').text();
                     }
                 });
-                console.log('userid: ' + id);
             },
             fail: function () {
                 $('#login-error').append('AJAX connection error!');

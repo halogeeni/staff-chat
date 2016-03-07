@@ -22,6 +22,9 @@
  * THE SOFTWARE.
  */
 
+// THIS IS REDUNDANT -
+// WAS USED IN DEVELOPMENT TO POPULATE THE CHAT INSTANCE
+
 package Chat;
 
 import java.util.ArrayList;

@@ -50,7 +50,6 @@ public class ChatServer {
         this.broadcastBacklog = new ArrayList<>();
     }
 
-    // synchronized is used to enforce thread safety
     public synchronized void register(Observer observer) throws ObserverException {
         if (observers.contains(observer)) {
             throw new ObserverException("Observer already registered");
@@ -63,7 +62,6 @@ public class ChatServer {
         }
     }
 
-    // synchronized is used to enforce thread safety
     public synchronized void unregister(Observer observer) throws ObserverException {
         if (observers.contains(observer)) {
             // notify observers on user logout
@@ -76,7 +74,6 @@ public class ChatServer {
         }
     }
 
-    // synchronized is used to enforce thread safety
     public synchronized void addMessage(Message msg) {
         // add entry to history
         backlog.add(msg);
@@ -92,10 +89,7 @@ public class ChatServer {
                 Group group = getSingleGroup(msg.getToGroupId());
                 group.addToGroupBacklog(msg);
                 // then get all users from the group list
-                //for (User user : group.getUserIds())) {
-
                 for (int i : group.getUserIds()) {
-
                     // notify respective users
                     users.get(i).update(msg);
                 }

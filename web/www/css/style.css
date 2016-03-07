@@ -38,7 +38,7 @@ body{
 }
 
 #container{
-    /* This is just incase needed */
+    /* placeholder */
 }
 
 ul {
@@ -57,10 +57,9 @@ ul {
     -webkit-box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
     -moz-box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
     box-shadow: inset 0px 0px 8px 4px rgba(0,0,0,0.1);
-    /* background-color: #fff; */
 }
 
-/* My message will always show right side */
+/* My message will always align to right side */
 .my-message{
     min-height: 20px;
     width: 50%;
@@ -74,7 +73,7 @@ ul {
     box-shadow: 1px 1px 1px #888888;
 }
 
-/* Other messages will show always left side */
+/* Others' messages will always align to left side */
 .others-message{
     min-height: 20px;
     width: 50%;
@@ -157,7 +156,6 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    /*overflow: hidden;*/
     background-color: #4A6B8A;
 }
 
