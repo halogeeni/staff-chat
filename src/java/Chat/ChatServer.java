@@ -29,7 +29,7 @@ import java.util.List;
 public class ChatServer {
 
     // singleton pattern
-    private static ChatServer backlogInstance = new ChatServer();
+    private static ChatServer instance = new ChatServer();
     // full backlog - contains ALL messages, broadcast, group & private
     private final List<Message> backlog;
     // broadcast message backlog
@@ -39,7 +39,7 @@ public class ChatServer {
     private final List<User> users;
 
     public static ChatServer getInstance() {
-        return backlogInstance;
+        return instance;
     }
 
     protected ChatServer() {

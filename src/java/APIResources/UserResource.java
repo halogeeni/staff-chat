@@ -40,16 +40,16 @@ import javax.ws.rs.core.Response;
 @Path("/users")
 public class UserResource {
 
-    private final ChatServer thischat;
+    private final ChatServer chatInstance;
 
     public UserResource() {
-        this.thischat = ChatServer.getInstance();
+        this.chatInstance = ChatServer.getInstance();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUsersXML() {
-        List<User> users = thischat.getUsers();
+        List<User> users = chatInstance.getUsers();
         GenericEntity<List<User>> list = new GenericEntity<List<User>>(users) {
         };
         return Response.ok(list).build();
@@ -59,7 +59,7 @@ public class UserResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getUserXML(@PathParam("userid") int userid) {
-        User usr = thischat.getSingleUser(userid);
+        User usr = chatInstance.getSingleUser(userid);
         if (usr == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -71,7 +71,7 @@ public class UserResource {
     @DELETE
     @Produces({MediaType.TEXT_HTML})
     public Response inactivateUserXML(@PathParam("userid") int userid) {
-        User usr = thischat.getSingleUser(userid);
+        User usr = chatInstance.getSingleUser(userid);
 
         if (usr == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -87,13 +87,13 @@ public class UserResource {
     public void postUserXML(User user) {
 
         // add user to the main 'user pool'
-        thischat.getUsers().add(user);
+        chatInstance.getUsers().add(user);
 
         for (Integer groupid : user.getGroupIds()) {
             if (groupid != null) {
-                thischat.getSingleGroup(groupid).getUsers().add(user);
+                chatInstance.getSingleGroup(groupid).getUsers().add(user);
                 // add user's id to group's collection of user ids
-                thischat.getSingleGroup(groupid).getUserIds().add(user.getUserId());
+                chatInstance.getSingleGroup(groupid).getUserIds().add(user.getUserId());
             }
         }
     }

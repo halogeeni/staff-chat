@@ -41,16 +41,16 @@ import javax.ws.rs.core.Response;
 @Path("/groups")
 public class GroupResource {
 
-    private final ChatServer thischat;
+    private final ChatServer chatInstance;
 
     public GroupResource() {
-        this.thischat = ChatServer.getInstance();
+        this.chatInstance = ChatServer.getInstance();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupsXML() {
-        List<Group> groups = thischat.getGroups();
+        List<Group> groups = chatInstance.getGroups();
         GenericEntity<List<Group>> list
                 = new GenericEntity<List<Group>>(groups) {
         };
@@ -61,7 +61,7 @@ public class GroupResource {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getGroupXML(@PathParam("groupid") int groupid) {
-        Group grp = thischat.getSingleGroup(groupid);
+        Group grp = chatInstance.getSingleGroup(groupid);
         if (grp == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -72,8 +72,8 @@ public class GroupResource {
     @Path("/{groupid}")
     @DELETE
     @Produces({MediaType.TEXT_HTML})
-    public Response inactivateUserXML(@PathParam("groupid") int groupid) {
-        Group grp = thischat.getSingleGroup(groupid);
+    public Response inactivateGroupXML(@PathParam("groupid") int groupid) {
+        Group grp = chatInstance.getSingleGroup(groupid);
 
         if (grp == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -87,7 +87,7 @@ public class GroupResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postGroupXML(Group group) {
-        thischat.getGroups().add(group);
+        chatInstance.getGroups().add(group);
 
         for (User u : group.getUsers()) {
             u.getGroupIds().add(group.getGroupId());
