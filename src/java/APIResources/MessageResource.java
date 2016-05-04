@@ -138,6 +138,10 @@ public class MessageResource {
     public Response getPrivateMessagesXML(@PathParam("userid") int userid,
             @PathParam("associateduserid") int associatedUserId) {
 
+        if(userid == associatedUserId) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        
         // get private messages with associated user
         List<Message> messages
                 = chatInstance.getSingleUser(userid).getPrivateMessages(associatedUserId);
