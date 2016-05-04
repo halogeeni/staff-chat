@@ -94,9 +94,12 @@ public class MessageResource {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     public void postMessageXML(Message msg) {
-        // escape HTML via Apache Commons library
-        msg.getBody().setText(StringEscapeUtils.escapeHtml4(msg.getBody().getText()));
-        chatInstance.addMessage(msg);
+        // trim excess whitespace & escape HTML via Apache Commons library
+        msg.getBody().setText(StringEscapeUtils.escapeHtml4(msg.getBody().getText().trim()));
+        // add message only if string length > 0
+        if(!msg.getBody().getText().isEmpty()) {
+            chatInstance.addMessage(msg);
+        }
     }
 
     // get a single message that matches the id given
