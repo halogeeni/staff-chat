@@ -161,7 +161,6 @@ public class User implements Observer {
                     }
                 }
             }
-
         }
         
         if(privateMessages.isEmpty()) {
